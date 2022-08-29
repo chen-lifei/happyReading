@@ -6,9 +6,9 @@
         </div>
         <div class="nav-list">
             <div class="nav-item"
-                v-for="(item, index) in navList"
+                v-for="(item, index) in state.navList"
                 :key="index"
-                :class="{ 'selected': currentNav.key === item.key }"
+                :class="{ 'selected': state.currentNav.key === item.key }"
                 @click="changeNav(item)">
                 <i class="iconfont" :class="item.icon"></i>
                 <div class="name">{{ item.name }}</div>
@@ -22,25 +22,27 @@
     import { useRouter } from 'vue-router';
 
     const { push } = useRouter();
-    const navList = [
-        { key: 'home', name: '首页', icon: 'icon-home' },
-        { key: 'library', name: '图书馆', icon: 'icon-bookcase' },
-        { key: 'bookcase', name: '个人书柜', icon: 'icon-book' },
-        { key: 'history', name: '观看历史', icon: 'icon-history' },
-    ];
-    let currentNav = reactive({}) as any;
+    const state = reactive({
+        currentNav: {} as any,
+        navList: [
+            { key: 'home', name: '首页', icon: 'icon-home' },
+            { key: 'library', name: '图书馆', icon: 'icon-bookcase' },
+            { key: 'bookcase', name: '个人书柜', icon: 'icon-book' },
+            { key: 'history', name: '观看历史', icon: 'icon-history' },
+        ],
+    });
 
     function toHome() {
         push('/home');
     }
 
     function changeNav(item) {
-        currentNav = item;
+        state.currentNav = item;
         push(`/${item.key}`);
     }
 
     onMounted(() => {
-        currentNav = navList[0];
+        state.currentNav = state.navList[0];
     })
 </script>
 

@@ -7,7 +7,7 @@
                 <span class="time">{{ date }}</span>
             </div>
         </div>
-        <div class="recommend-wrapper">
+        <!-- <div class="recommend-wrapper">
             <div class="name-wrapper">
                 <div class="name">每日推荐</div>
                 <div class="change-page">
@@ -38,47 +38,40 @@
                     <BookCard :bookInfo="item" displayType="list"></BookCard>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
-<script lang="ts">
-    // import { Vue, Component } from 'vue-property-decorator';
+<script lang="ts" setup>
+    import {  ref, reactive, onMounted } from 'vue';
     import BookCard from '@/components/BookCard.vue';
 
-    // @Component({
-    //     components: {
-    //         BookCard,
-    //     }
-    // })
-    export default class Home {
-        date = '';
-        currentPage: number = 1;
-        currentBookList: any = [];
-        bookList: any = [
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '灰姑娘', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        ];
+    let date:any = '';
+    let currentPage: number = 1;
+    let currentBookList: any = [];
+    let bookList: any = [
+        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '灰姑娘', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+    ];
 
-        prePage() {}
-        
-        nextPage() {
-            this.currentBookList = this.bookList.slice(4, 8);
-        }
+    function prePage() {}
+    
+    function nextPage() {
+        currentBookList = bookList.slice(4, 8);
+    }
 
-        mounted() {
-            let date = new Date();
-            this.date = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}  ${date.getHours()}: ${date.getMinutes()}`;
-            this.currentBookList = this.bookList.slice(0, 4);
-        }
-    };
+    onMounted(() => {
+        let date = new Date();
+        // date = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}  ${date.getHours()}: ${date.getMinutes()}`;
+        currentBookList = bookList.slice(0, 4);
+    });
 </script>
 
 <style lang="less" scoped>
