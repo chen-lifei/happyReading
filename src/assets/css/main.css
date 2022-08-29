@@ -1,0 +1,44 @@
+:root {
+  --backColor: #F6FCF2;
+  --hoverColor: #EDF7E6;
+  --activeColor: #D8E3D9;
+  --mainColor: #8CAB91;
+  --textColor: #7D8592;
+  --dimColor: #8A8B98;
+  --borderColor: #E4E6E8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#app {
+  position: relative;
+  width: auto;
+  height: 100vh;
+  min-width: 1080px;
+  background: var(--backColor);
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hidden-scrollbar::-moz-scrollbar {
+  display: none;
+}
+.hidden-scrollbar::-ms-scrollbar {
+  display: none;
+}
+
+.iconfont {
+  display: inline-block;
+}
