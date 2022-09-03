@@ -22,13 +22,6 @@
   background: var(--backColor);
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -41,4 +34,12 @@ a,
 
 .iconfont {
   display: inline-block;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: var(--activeColor);
 }

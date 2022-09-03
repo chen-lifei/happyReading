@@ -4,10 +4,10 @@
             <div class="sentence">Good Evening, yanyanhuahua! It is time to have a rest.</div>
             <div class="calendar-wrapper">
                 <i class="iconfont icon-calendar"></i>
-                <span class="time">{{ date }}</span>
+                <span class="time">{{ stateData.date }}</span>
             </div>
         </div>
-        <!-- <div class="recommend-wrapper">
+        <div class="recommend-wrapper">
             <div class="name-wrapper">
                 <div class="name">每日推荐</div>
                 <div class="change-page">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in currentBookList" :key="index">
+                <div class="book-item" v-for="(item, index) in stateData.currentBookList" :key="index">
                     <BookCard :bookInfo="item"></BookCard>
                 </div>
             </div>
@@ -34,11 +34,11 @@
                 </div>
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in bookList" :key="index">
+                <div class="book-item" v-for="(item, index) in stateData.bookList" :key="index">
                     <BookCard :bookInfo="item" displayType="list"></BookCard>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -46,31 +46,33 @@
     import {  ref, reactive, onMounted } from 'vue';
     import BookCard from '@/components/BookCard.vue';
 
-    let date:any = '';
-    let currentPage: number = 1;
-    let currentBookList: any = [];
-    let bookList: any = [
-        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '灰姑娘', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-    ];
+    const stateData = reactive({
+        date: '',
+        currentPage: 1,
+        currentBookList: [] as any,
+        bookList: [
+            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '灰姑娘', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        ]
+    });
 
     function prePage() {}
     
     function nextPage() {
-        currentBookList = bookList.slice(4, 8);
+        stateData.currentBookList = stateData.bookList.slice(4, 8);
     }
 
     onMounted(() => {
-        let date = new Date();
-        // date = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}  ${date.getHours()}: ${date.getMinutes()}`;
-        currentBookList = bookList.slice(0, 4);
+        let currentDate:any = new Date();
+        stateData.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}: ${currentDate.getMinutes()}`;
+        stateData.currentBookList = stateData.bookList.slice(0, 4);
     });
 </script>
 
@@ -193,12 +195,14 @@
             .book-wrapper {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-between;
+                width: calc(100% + 20px);
+                box-sizing: content-box;
 
                 .book-item {
-                    width: 48%;
+                    width: 50%;
                     height: 128px;
                     margin-bottom: 20px;
+                    border-right: 20px solid transparent;
                 }
             }
         }

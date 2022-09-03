@@ -1,6 +1,6 @@
 <template>
     <div class="select-bar">
-        <!-- <div class="top-nav">
+        <div class="top-nav">
             <span class="name">分类：</span>
             <span class="select-name">{{ isNavList ? selectTopNav : topNav }}</span>
             <i class="iconfont icon-arrowDown" @click="showDropdown = !showDropdown" v-if="isNavList"></i>
@@ -27,30 +27,46 @@
                     <span class="create-date" v-if="item.createDate">创建时间：{{ item.createDate }}</span>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-    export default class SelectNavbar {
-        // @Prop({ type: [Array, String], default: '' }) topNav: any;
-        // @Prop({ type: Array, default: [] }) navList: any;
+    import { reactive, toRefs, defineComponent, onMounted } from 'vue';
 
-        isNavList = false;
-        showDropdown = false;
-        selectTopNav = '青春';
+    export default defineComponent({
+        name: 'SelectNavbar',
+        props: {
+            topNav: {
+                type: [Array, String] as any,
+                default: ''
+            },
+            navList: {
+                type: Array as any,
+                default: []
+            }
+        },
+        setup(props) {
+            const state = reactive({
+                isNavList: false,
+                showDropdown: false,
+                selectTopNav: '青春',
+            });
 
-        mounted() {
-            // this.isNavList = Array.isArray(this.topNav);
-            
+            onMounted(() => {
+                state.isNavList = Array.isArray(props.topNav);
+                console.log(props.topNav);
+            });
+
+            function selectItem(item) {   
+            }
+
+            return {
+                selectItem,
+                ...toRefs(state),
+            }
         }
-
-        // currentSelect = this.topNav[0]
-        // currentNav = this.currentSelect.list
-
-        selectItem(item) {   
-        }
-    }
+    });
 </script>
 
 <style lang="less" scoped>

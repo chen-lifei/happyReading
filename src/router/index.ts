@@ -25,21 +25,21 @@ const router = createRouter({
             name: "Home",
             component: () => import("../views/Home.vue"),
         },
-        // {
-        //     path: "/library",
-        //     name: "LibraryView",
-        //     component: () => import("../views/LibraryView.vue"),
-        // },
-        // {
-        //     path: "/bookcase",
-        //     name: "BookcaseView",
-        //     component: () => import("../views/BookcaseView.vue"),
-        // },
-        // {
-        //     path: "/history",
-        //     name: "HistoryView",
-        //     component: () => import("../views/HistoryView.vue"),
-        // },
+        {
+            path: "/library",
+            name: "LibraryView",
+            component: () => import("../views/LibraryView.vue"),
+        },
+        {
+            path: "/bookcase",
+            name: "BookcaseView",
+            component: () => import("../views/BookcaseView.vue"),
+        },
+        {
+            path: "/history",
+            name: "HistoryView",
+            component: () => import("../views/HistoryView.vue"),
+        },
     ],
 });
 

@@ -1,7 +1,6 @@
 <template>
-    <div class="book-card">
-    <!-- <div class="book-card" :class="{ 'tile-card': displayType === 'tile', 'list-card': displayType === 'list' }"> -->
-        <!-- <template v-if="displayType === 'tile'">
+    <div class="book-card" :class="{ 'tile-card': displayType === 'tile', 'list-card': displayType === 'list' }">
+        <template v-if="displayType === 'tile'">
             <img src="@/assets/image/bookCover.png" :alt="bookInfo.name"/>
             <div class="bottom">
                 <div class="author">作者：{{ bookInfo.author }}</div>
@@ -28,18 +27,28 @@
                     <div class="number">88</div>
                 </div>
             </div>
-        </template> -->
+        </template>
     </div>
 </template>
 
 <script lang="ts">
-    // import { Vue, Component, Prop } from 'vue-property-decorator';
+    import { defineComponent } from 'vue';
 
-    // @Component
-    export default class BookCard {
-        // @Prop({ type: Object, default: {} }) readonly bookInfo: any;
-        // @Prop({ type: String, default: 'tile' }) readonly displayType: any;
-    }
+    export default defineComponent({
+        name: 'BookCard',
+        props: {
+            displayType: {
+                type: String,
+                default: 'tile'
+            },
+            bookInfo: {
+                type: Object,
+                default: () => {}
+            }
+        },
+        setup(props) {
+        }
+    })
 </script>
 
 <style lang="less" scoped>
@@ -99,7 +108,7 @@
             align-items: center;
             width: 100%;
             height: 100%;
-            padding: 0 2%;
+            padding: 0 4%;
             border-radius: 20px;
             background: #FFFFFF;
 
@@ -110,7 +119,7 @@
             }
 
             .info-wrapper {
-                width: 58%;
+                width: 52%;
                 .author {
                     font-size: 12px;
                     color: var(--textColor);
@@ -140,7 +149,7 @@
 
             .data-wrapper {
                 width: auto;
-                max-width: 20%;
+                max-width: 25%;
 
                 .name {
                     font-size: 14px;
