@@ -1,7 +1,7 @@
 <template>
     <div class="library-view">
         <SelectBar class="left-bar hidden-scrollbar" :topNav="topNav" :navList="navList"></SelectBar>
-        <div class="right-content">
+        <div class="right-content" v-if="false">
             <div class="filter-wrapper">
                 <div class="text">搜素结果：</div>
                 <div class="filter-bar">
@@ -28,6 +28,7 @@
                 </div>
             </div>
         </div>
+        <BookDetail class="book-detail" v-else></BookDetail>
     </div>
 </template>
 
@@ -35,12 +36,14 @@
     import { defineComponent, reactive, toRefs } from 'vue';
     import BookCard from '@/components/BookCard.vue';
     import SelectBar from '@/components/Navbar/SelectNavbar.vue';
+    import BookDetail from '@/components/BookDetail.vue';
 
     export default defineComponent({
         name: 'LibraryView',
         components: {
             BookCard,
-            SelectBar
+            SelectBar,
+            BookDetail,
         },
         setup(props, { emit, attrs, expose }) {
             const state = reactive({
@@ -181,6 +184,12 @@
                     border-right: 20px solid transparent;
                 }
             }
+        }
+
+        .book-detail {
+            margin: 0 30px 0 30px;
+            width: calc(100% - 250px);
+            height: calc(100% - 30px);
         }
     }
 </style>
