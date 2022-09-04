@@ -1,5 +1,5 @@
 <template>
-    <div class="book-card" :class="{ 'tile-card': displayType === 'tile', 'list-card': displayType === 'list' }">
+    <div class="book-card" :class="{ 'tile-card': displayType === 'tile', 'list-card flex-between': displayType === 'list' }">
         <template v-if="displayType === 'tile'">
             <img src="@/assets/image/bookCover.png" :alt="bookInfo.name"/>
             <div class="bottom">
@@ -81,17 +81,16 @@
                 border-radius: 20px;
 
                 .author {
-                    color: var(--textColor);
                     font-size: 12px;
                 }
 
                 .name {
                     margin: 8px 0;
+                    font-weight: bold;
                 }
 
                 .desc {
                     width: 100%;
-                    color: var(--textColor);
                     font-size: 14px;
                     text-overflow: ellipsis;
                     overflow: hidden;
@@ -103,9 +102,6 @@
         }
 
         &.list-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             width: 100%;
             height: 100%;
             padding: 0 4%;
@@ -122,16 +118,15 @@
                 width: 52%;
                 .author {
                     font-size: 12px;
-                    color: var(--textColor);
                 }
 
                 .name {
                     margin: 8px 0;
+                    font-weight: bold;
                 }
 
                 .desc {
                     font-size: 12px;
-                    color: var(--textColor);
                     text-overflow: ellipsis;
                     overflow: hidden;
                     display: -webkit-box;
@@ -143,7 +138,6 @@
             .line {
                 width: 1px;
                 height: 100%;
-                background: var(--textColor);
                 opacity: .2;
             }
 
@@ -161,7 +155,6 @@
                     display: inline-block;
                     .label {
                         font-size: 12px;
-                        color: var(--textColor);
                         margin-bottom: 5px;
                     }
                     .number {

@@ -7,22 +7,22 @@
                     <div class="button confirm"></div>
                     <div class="button cancel"></div>
                 </div>
-                <div class="filter-wrapper">
-                    <div class="read-button button-wrapper">
+                <div class="filter-wrapper flex">
+                    <div class="read-button button-wrapper flex">
                         <i class="iconfont icon-remove"></i>
                     </div>
-                    <div class="hot-button button-wrapper selected">
+                    <div class="hot-button button-wrapper flex selected">
                         <i class="iconfont icon-delete"></i>
                     </div>
-                    <div class="like-button button-wrapper">
+                    <div class="like-button button-wrapper flex">
                         <!-- icon-tile -->
                         <i class="iconfont icon-list"></i>
                     </div>
-                    <div class="filter-button button-wrapper selected">
+                    <div class="filter-button button-wrapper flex selected">
                         <i class="iconfont icon-up"></i>
                     </div>
                 </div>
-                <div class="create-folder">
+                <div class="create-folder flex">
                     <span class="icon">+</span>
                     <span class="text">新建文件夹</span>
                 </div>
@@ -147,15 +147,9 @@
 
                 .filter-wrapper {
                     position: relative;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
                     height: 48px;
 
                     .button-wrapper {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
                         width: 36px;
                         height: 36px;
                         border-radius: 10px;
@@ -186,8 +180,6 @@
                     position: absolute;
                     top: 0;
                     right: 0;
-                    display: flex;
-                    align-items: center;
                     height: 48px;
                     color: #FFFFFF;
                     border-radius: 16px;

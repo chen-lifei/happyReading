@@ -2,19 +2,19 @@
     <div class="library-view">
         <SelectBar class="left-bar hidden-scrollbar" :topNav="topNav" :navList="navList"></SelectBar>
         <div class="right-content" v-if="false">
-            <div class="filter-wrapper">
+            <div class="filter-wrapper flex">
                 <div class="text">搜素结果：</div>
                 <div class="filter-bar">
-                    <div class="read-button button-wrapper">
+                    <div class="read-button button-wrapper flex">
                         <i class="iconfont icon-read"></i>
                     </div>
-                    <div class="hot-button button-wrapper selected">
+                    <div class="hot-button button-wrapper flex selected">
                         <i class="iconfont icon-hot"></i>
                     </div>
-                    <div class="like-button button-wrapper">
+                    <div class="like-button button-wrapper flex">
                         <i class="iconfont icon-like"></i>
                     </div>
-                    <div class="filter-button button-wrapper selected">
+                    <div class="filter-button button-wrapper flex selected">
                         <i class="iconfont icon-up"></i>
                     </div>
                 </div>
@@ -110,9 +110,6 @@
 
             .filter-wrapper {
                 position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
                 height: 48px;
                 margin-right: 30px;
 
@@ -126,9 +123,6 @@
                     display: flex;
 
                     .button-wrapper {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
                         width: 36px;
                         height: 36px;
                         border-radius: 10px;

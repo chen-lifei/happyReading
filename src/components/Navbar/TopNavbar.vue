@@ -1,9 +1,9 @@
 <template>
-    <div class="top-navbar-wrapper">
+    <div class="top-navbar-wrapper flex-end">
         <div class="message-wrapper">
             <i class="iconfont icon-message"></i>
         </div>
-        <div class="user-wrapper">
+        <div class="user-wrapper flex">
             <img src="@/assets/image/myAvatar.jpg" alt="">
             <div class="name">言言花花</div>
             <i class="iconfont icon-arrowDown"></i>
@@ -16,9 +16,6 @@
 
 <style lang="less" scoped>
     .top-navbar-wrapper {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
         width: 100%;
         height: 72px;
         padding-right: 30px;
@@ -38,14 +35,11 @@
             }
 
             &:hover {
-                background: #8cab91;
+                background: var(--mainColor);
             }
         }
 
         .user-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 36px;
             border-radius: 10px;
             background: #FFFFFF;

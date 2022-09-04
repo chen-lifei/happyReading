@@ -1,14 +1,14 @@
 <template>
     <div class="navbar-wrapper">
-        <div class="logo-wrapper">
+        <div class="logo-wrapper flex">
             <img class="logo" src="@/assets/image/logo.svg" alt="logo" @click="toHome()">
             <div class="name">悦阅</div>
         </div>
         <div class="nav-list">
-            <div class="nav-item"
+            <div class="nav-item flex-start"
                 v-for="(item, index) in state.navList"
                 :key="index"
-                :class="{ 'selected': state.currentNav.key === item.key }"
+                :class="{ 'selected': state.currentNav === item.key }"
                 @click="changeNav(item)">
                 <i class="iconfont" :class="item.icon"></i>
                 <div class="name">{{ item.name }}</div>
@@ -18,12 +18,12 @@
 </template>
 
 <script lang="ts" setup>
-    import {  ref, reactive, onMounted } from 'vue';
+    import { reactive, onMounted } from 'vue';
     import { useRouter } from 'vue-router';
 
     const { push } = useRouter();
     const state = reactive({
-        currentNav: {} as any,
+        currentNav: '',
         navList: [
             { key: 'home', name: '首页', icon: 'icon-home' },
             { key: 'library', name: '图书馆', icon: 'icon-bookcase' },
@@ -37,12 +37,16 @@
     }
 
     function changeNav(item) {
-        state.currentNav = item;
+        state.currentNav = item.key;
         push(`/${item.key}`);
     }
 
     onMounted(() => {
-        state.currentNav = state.navList[0];
+        // const { currentRoute } = useRouter();
+        // let path = currentRoute.value.path;
+
+        state.currentNav = state.navList[0].key;
+        push(`/${state.currentNav}`);
     })
 </script>
 
@@ -53,8 +57,6 @@
         padding: 20px 10px;
 
         .logo-wrapper {
-            display: flex;
-            justify-content: center;
             margin-bottom: 30px;
 
             .logo {
@@ -78,8 +80,6 @@
             flex-wrap: wrap;
 
             .nav-item {
-                display: flex;
-                align-items: center;
                 position: relative;
                 width: 100%;
                 padding: 10px 5px;
@@ -90,11 +90,6 @@
                 .iconfont {
                     font-size: 20px;
                     margin-right: 16px;
-                    color: var(--textColor);
-                }
-
-                .name {
-                    color: var(--textColor);
                 }
 
                 &:hover,

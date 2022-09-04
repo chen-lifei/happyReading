@@ -3,14 +3,15 @@
   --hoverColor: #EDF7E6;
   --activeColor: #D8E3D9;
   --mainColor: #8CAB91;
-  --textColor: #7D8592;
-  --dimColor: #8A8B98;
+  --textColor: #737A74;
+  --dimColor: #BDBDBD;
   --borderColor: #E4E6E8;
 }
 
 * {
   margin: 0;
   padding: 0;
+  color: var(--textColor);
   box-sizing: border-box;
 }
 
@@ -43,4 +44,25 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: var(--activeColor);
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

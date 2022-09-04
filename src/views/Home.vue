@@ -1,6 +1,6 @@
 <template>
     <div class="home-wrapper">
-        <div class="top-wrapper">
+        <div class="top-wrapper flex-between">
             <div class="sentence">Good Evening, yanyanhuahua! It is time to have a rest.</div>
             <div class="calendar-wrapper">
                 <i class="iconfont icon-calendar"></i>
@@ -8,9 +8,9 @@
             </div>
         </div>
         <div class="recommend-wrapper">
-            <div class="name-wrapper">
+            <div class="name-wrapper flex-between">
                 <div class="name">每日推荐</div>
-                <div class="change-page">
+                <div class="change-page flex">
                     <div class="left" @click="prePage()">
                         <i class="iconfont icon-arrowLeft"></i>
                     </div>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="hot-wrapper">
-            <div class="name-wrapper">
+            <div class="name-wrapper flex-between">
                 <div class="name">最热推荐</div>
                 <div class="more">
                     <span>查看全部</span>
@@ -83,13 +83,8 @@
         padding-right: 30px;
         overflow: auto;
         .top-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
             .sentence {
                 width: 70%;
-                color: var(--textColor);
             }
 
             .calendar-wrapper {
@@ -109,9 +104,6 @@
         .recommend-wrapper,
         .hot-wrapper {
             .name-wrapper {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
                 margin: 20px 0;
 
                 .name {
@@ -124,9 +116,6 @@
             margin-bottom: 40px;
             .name-wrapper {
                 .change-page {
-                    display: flex;
-                    align-items: center;
-
                     .left,
                     .right {
                         display: inline-block;
@@ -176,7 +165,6 @@
                 span,
                 .iconfont {
                     font-size: 12px;
-                    color: var(--textColor);
                 }
 
                 .iconfont {

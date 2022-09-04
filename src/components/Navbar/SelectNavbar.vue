@@ -55,7 +55,6 @@
 
             onMounted(() => {
                 state.isNavList = Array.isArray(props.topNav);
-                console.log(props.topNav);
             });
 
             function selectItem(item) {   
@@ -157,7 +156,6 @@
 
                 .name {
                     margin-bottom: 8px;
-                    color: var(--textColor);
                     font-weight: bold;
                 }
 
