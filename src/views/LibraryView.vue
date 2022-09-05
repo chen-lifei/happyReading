@@ -1,7 +1,7 @@
 <template>
     <div class="library-view">
         <SelectBar class="left-bar hidden-scrollbar" :topNav="topNav" :navList="navList"></SelectBar>
-        <div class="right-content" v-if="false">
+        <div class="right-content" v-if="!showBookDetail">
             <div class="filter-wrapper flex">
                 <div class="text">搜素结果：</div>
                 <div class="filter-bar">
@@ -23,75 +23,64 @@
                 根据 <span class="strong">热度</span> <span class="strong">升序</span> 显示
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in bookList" :key="index">
+                <div class="book-item" v-for="(item, index) in bookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
                 </div>
             </div>
         </div>
-        <BookDetail class="book-detail" v-else></BookDetail>
+        <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent, reactive, toRefs } from 'vue';
+<script lang="ts" setup>
+    import { ref, reactive } from 'vue';
     import BookCard from '@/components/BookCard.vue';
     import SelectBar from '@/components/Navbar/SelectNavbar.vue';
     import BookDetail from '@/components/BookDetail.vue';
 
-    export default defineComponent({
-        name: 'LibraryView',
-        components: {
-            BookCard,
-            SelectBar,
-            BookDetail,
-        },
-        setup(props, { emit, attrs, expose }) {
-            const state = reactive({
-                bookList: [
-                    { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' }
-                ],
-                topNav: [
-                    { key: 'qingchun', name: '青春' },
-                    { key: 'story', name: '小说' },
-                    { key: 'wenxue', name: '文学' },
-                ],
-                navList: [
-                    { key: 'school', name: '校园', number: '3', clickNumber: 16 },
-                    { key: 'love', name: '爱情', number: '4', clickNumber: 16 },
-                    { key: 'panni', name: '叛逆', number: '5', clickNumber: 16 },
-                    { key: 'xuanyi', name: '悬疑惊悚', number: '6', clickNumber: 6 },
-                    { key: 'mohuan', name: '魔幻奇幻', number: '7', clickNumber: 10 },
+    const bookList = reactive([
+        { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' }
+    ]);
+    const topNav = reactive([
+        { key: 'qingchun', name: '青春' },
+        { key: 'story', name: '小说' },
+        { key: 'wenxue', name: '文学' },
+    ]);
+    const navList = reactive([
+        { key: 'school', name: '校园', number: '3', clickNumber: 16 },
+        { key: 'love', name: '爱情', number: '4', clickNumber: 16 },
+        { key: 'panni', name: '叛逆', number: '5', clickNumber: 16 },
+        { key: 'xuanyi', name: '悬疑惊悚', number: '6', clickNumber: 6 },
+        { key: 'mohuan', name: '魔幻奇幻', number: '7', clickNumber: 10 },
 
-                    // { key: 'yanqing', name: '言情', number: '6', clickNumber: 6 },
-                    // { key: 'modern', name: '现代', number: '6', clickNumber: 6 },
-                    // { key: 'urban', name: '都市', number: '6', clickNumber: 6 },
-                    // { key: 'historical', name: '历史', number: '6', clickNumber: 6 },
-                    // { key: 'classical', name: '古典', number: '6', clickNumber: 6 },
-                    // { key: 'wuxia', name: '武侠', number: '6', clickNumber: 6 },
-                    // { key: 'zuopinji', name: '作品集', number: '6', clickNumber: 6 },
-                    // { key: 'masterpiece', name: '世界名著', number: '6', clickNumber: 6 },
-                    // { key: 'xuanyi', name: '悬疑推理', number: '6', clickNumber: 6 },
-                    // { key: 'kongbu', name: '恐怖惊悚', number: '6', clickNumber: 6 },
+        // { key: 'yanqing', name: '言情', number: '6', clickNumber: 6 },
+        // { key: 'modern', name: '现代', number: '6', clickNumber: 6 },
+        // { key: 'urban', name: '都市', number: '6', clickNumber: 6 },
+        // { key: 'historical', name: '历史', number: '6', clickNumber: 6 },
+        // { key: 'classical', name: '古典', number: '6', clickNumber: 6 },
+        // { key: 'wuxia', name: '武侠', number: '6', clickNumber: 6 },
+        // { key: 'zuopinji', name: '作品集', number: '6', clickNumber: 6 },
+        // { key: 'masterpiece', name: '世界名著', number: '6', clickNumber: 6 },
+        // { key: 'xuanyi', name: '悬疑推理', number: '6', clickNumber: 6 },
+        // { key: 'kongbu', name: '恐怖惊悚', number: '6', clickNumber: 6 },
 
-                    // { key: 'wenji', name: '文集', number: '6', clickNumber: 6 },
-                    // { key: 'jishi', name: '纪实文学', number: '6', clickNumber: 6 },
-                    // { key: 'poem', name: '古诗词', number: '6', clickNumber: 6 },
-                    // { key: 'shige', name: '现当代诗歌', number: '6', clickNumber: 6 },
-                ]
-            });
+        // { key: 'wenji', name: '文集', number: '6', clickNumber: 6 },
+        // { key: 'jishi', name: '纪实文学', number: '6', clickNumber: 6 },
+        // { key: 'poem', name: '古诗词', number: '6', clickNumber: 6 },
+        // { key: 'shige', name: '现当代诗歌', number: '6', clickNumber: 6 },
+    ]);
+    let showBookDetail =  ref(false);
 
-            return {
-                ...toRefs(state),
-            }
-        },
-    })
+    function toggleBookDetail(isShow) {
+        showBookDetail.value = isShow;
+    }
 </script>
 
 <style lang="less" scoped>

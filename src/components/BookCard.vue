@@ -1,7 +1,7 @@
 <template>
     <div class="book-card" :class="{ 'tile-card': displayType === 'tile', 'list-card flex-between': displayType === 'list' }">
         <template v-if="displayType === 'tile'">
-            <img src="@/assets/image/bookCover.png" :alt="bookInfo.name"/>
+            <img src="@/assets/image/cover1.jpg" :alt="bookInfo.name"/>
             <div class="bottom">
                 <div class="author">作者：{{ bookInfo.author }}</div>
                 <div class="name">{{ bookInfo.name }}</div>
@@ -9,7 +9,7 @@
             </div>
         </template>
         <template v-else>
-            <img src="@/assets/image/bookCover2.png" :alt="bookInfo.name">
+            <img src="@/assets/image/cover2.jpg" :alt="bookInfo.name">
             <div class="info-wrapper">
                 <div class="author">作者：{{ bookInfo.author }}</div>
                 <div class="name">{{ bookInfo.name }}</div>

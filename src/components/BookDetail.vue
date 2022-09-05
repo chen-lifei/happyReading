@@ -1,13 +1,13 @@
 <template>
     <div class="book-detail-wrapper">
-        <div class="back">
+        <div class="back" @click="$emit('back')">
             <i class="iconfont icon-arrowLeft"></i>
             <span>返回</span>
         </div>
         <div class="book-detail">
             <div class="book-info flex-between">
                 <div class="left-wrapper flex-start">
-                    <img class="book-cover" src="@/assets/image/bookCover4.png" alt="">
+                    <img class="book-cover" src="@/assets/image/cover3.jpg" alt="">
                     <div class="center-wrapper">
                         <div class="info-wrapper">
                             <div class="name">{{ bookInfo.name }}</div>
@@ -30,9 +30,9 @@
                 <div class="reader">
                     <div class="text">他们也在读</div>
                     <div class="user-list">
-                        <img class="user user1" src="@/assets/image/bookCover4.png" alt="">
-                        <img class="user user2" src="@/assets/image/bookCover4.png" alt="">
-                        <img class="user user3" src="@/assets/image/bookCover4.png" alt="">
+                        <img class="user user1" src="@/assets/image/cover4.jpg" alt="">
+                        <img class="user user2" src="@/assets/image/cover4.jpg" alt="">
+                        <img class="user user3" src="@/assets/image/cover4.jpg" alt="">
                         <div class="user user-more">+6</div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="comment-list">
                     <div class="comment-item">
                         <div class="top-comment flex-start" v-for="(item, index) in commentList" :key="index">
-                            <img class="user-avatar" src="@/assets/image/bookCover4.png" alt="">
+                            <img class="user-avatar" src="@/assets/image/cover5.jpg" alt="">
                             <div class="comment-info">
                                 <div class="user-info flex-between">
                                     <div class="name">{{ item.userName }}</div>
@@ -83,7 +83,7 @@
                                 <div class="more-comment" v-if="item.innerComment.length && !openComment[Number(item.id)]" @click="openComment[Number(item.id)] = true">查看{{ item.innerComment.length }}条回复></div>
                                 <template v-if="item.innerComment.length && openComment[Number(item.id)]">
                                     <div class="inner-comment comment-item flex-start" v-for="(item, index) in commentList" :key="index">
-                                        <img class="user-avatar" src="@/assets/image/bookCover4.png" alt="">
+                                        <img class="user-avatar" src="@/assets/image/cover6.jpg" alt="">
                                         <div class="comment-info">
                                             <div class="user-info flex-between">
                                                 <div class="name">{{ item.userName }}</div>
