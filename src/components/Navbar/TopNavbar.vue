@@ -31,7 +31,7 @@
             cursor: pointer;
 
             .icon-message {
-                font-size: 20px;
+                font-size: 18px;
             }
 
             &:hover {

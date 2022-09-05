@@ -1,5 +1,5 @@
 <template>
-    <div class="home-wrapper">
+    <div class="home-wrapper" v-if="!stateData.showBookDetail">
         <div class="top-wrapper flex-between">
             <div class="sentence">Good Evening, yanyanhuahua! It is time to have a rest.</div>
             <div class="calendar-wrapper">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in stateData.currentBookList" :key="index">
+                <div class="book-item" v-for="(item, index) in stateData.currentBookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in stateData.bookList" :key="index">
+                <div class="book-item" v-for="(item, index) in stateData.bookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item" displayType="list">
                         <div class="data-wrapper">
                             <div class="name">作品数据</div>
@@ -52,15 +52,18 @@
             </div>
         </div>
     </div>
+    <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
 </template>
 
 <script lang="ts" setup>
     import {  ref, reactive, onMounted } from 'vue';
     import BookCard from '@/components/BookCard.vue';
+    import BookDetail from '@/components/BookDetail.vue';
 
     const stateData = reactive({
         date: '',
         currentPage: 1,
+        showBookDetail: false,
         currentBookList: [] as any,
         bookList: [
             { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
@@ -79,6 +82,10 @@
     
     function nextPage() {
         stateData.currentBookList = stateData.bookList.slice(4, 8);
+    }
+
+    function toggleBookDetail(isShow) {
+        stateData.showBookDetail = isShow;
     }
 
     onMounted(() => {
@@ -235,5 +242,10 @@
                 }
             }
         }
+    }
+    .book-detail {
+        width: 100%;
+        height: calc(100% - 30px);
+        padding-right: 30px;
     }
 </style>

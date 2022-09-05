@@ -112,7 +112,7 @@
 </template>
 
 <script lang="ts">
-    import { ref, reactive, toRefs, defineComponent, onMounted, type Ref, toRef } from 'vue';
+    import { ref, reactive, toRefs, defineComponent, onMounted, type Ref } from 'vue';
 
     interface chapterItem {
         id: Number | String,
@@ -141,7 +141,13 @@
 
     export default defineComponent({
         name: 'BookDetail',
-        setup() {
+        props: {
+            id: {
+                type: [String, Number],
+                default: ''
+            }
+        },
+        setup(props) {
             const HIDDEN_STYLE = `height:0 !important;visibility:hidden !important;overflow:hidden !important;z-index:-999 !important;`;
             const CONTEXT_STYLE = [
                 'letter-spacing',
@@ -295,7 +301,6 @@
             cursor: pointer;
 
             .iconfont {
-                font-size: 14px;
                 margin-right: 8px;
             }
 
@@ -489,15 +494,15 @@
 
                             &.unread {
                                 color: #bcbcc2;
-                                background: rgba(188, 188, 194, 0.25);
+                                background: rgba(188, 188, 194, 0.1);
                             }
                             &.reading {
                                 color: #ffbd21;
-                                background: rgba(255, 189, 33, 0.25);
+                                background: rgba(255, 189, 33, 0.1);
                             }
                             &.read {
                                 color: #00d097;
-                                background: rgba(0, 208, 151, 0.25);
+                                background: rgba(0, 208, 151, 0.1);
                             }
                         }
                     }

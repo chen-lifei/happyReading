@@ -120,6 +120,10 @@
                         border: 1px solid transparent;
                         cursor: pointer;
 
+                        .iconfont {
+                            font-size: 14px;
+                        }
+
                         &:hover,
                         &.selected {
                             border-color: var(--mainColor);

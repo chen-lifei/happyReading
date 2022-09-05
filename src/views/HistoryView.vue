@@ -1,7 +1,7 @@
 <template>
     <div class="history-view">
-        <div class="book-wrapper">
-            <div class="book-item" v-for="(item, index) in state.bookList" :key="index">
+        <div class="book-wrapper" v-if="!state.showBookDetail">
+            <div class="book-item" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
                 <BookCard :bookInfo="item" displayType="list">
                     <div class="data-wrapper">
                         <div class="tag-list">
@@ -15,11 +15,13 @@
                 </BookCard>
             </div>
         </div>
+        <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
 </template>
 
 <script lang="ts" setup>
     import BookCard from '@/components/BookCard.vue';
+    import BookDetail from '@/components/BookDetail.vue';
     import { reactive } from 'vue';
 
     const state = reactive({
@@ -36,8 +38,13 @@
             { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
             { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
             { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        ]
+        ],
+        showBookDetail: false,
     });
+
+    function toggleBookDetail(isShow) {
+        state.showBookDetail = isShow;
+    }
 </script>
 
 <style lang="less" scoped>
@@ -92,5 +99,9 @@
             }
         }
 
+        .book-detail {
+            width: 100%;
+            height: calc(100% - 30px);
+        }
     }
 </style>

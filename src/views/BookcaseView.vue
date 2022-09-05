@@ -1,7 +1,7 @@
 <template>
     <div class="bookcase-view">
         <SelectBar class="left-bar hidden-scrollbar" topNav="书柜文件夹" :navList="state.navList"></SelectBar>
-        <div class="right-content">
+        <div class="right-content" v-if="!state.showBookDetail">
             <div class="top-wrapper">
                 <div class="operation-wrapper">
                     <div class="button confirm"></div>
@@ -28,11 +28,12 @@
                 </div>
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in state.bookList" :key="index">
+                <div class="book-item" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
                 </div>
             </div>
         </div>
+        <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
 </template>
 
@@ -40,6 +41,7 @@
     import { reactive } from "vue";
     import BookCard from '@/components/BookCard.vue';
     import SelectBar from '@/components/Navbar/SelectNavbar.vue';
+    import BookDetail from '@/components/BookDetail.vue';
 
     const state = reactive({
         bookList: [
@@ -58,8 +60,13 @@
             { id: 6, name: '学习相关', number: '5', createDate: '2022/04/23' },
             { id: 7, name: '科普读物', number: '6', createDate: '2022/02/28' },
             { id: 11, name: '诗歌', number: '7', createDate: '2021/05/07' }
-        ]
+        ],
+        showBookDetail: false,
     });
+
+    function toggleBookDetail(isShow) {
+        state.showBookDetail = isShow;
+    }
 </script>
 
 <style lang="less" scoped>
@@ -145,6 +152,10 @@
                         border: 1px solid transparent;
                         cursor: pointer;
 
+                        .iconfont {
+                            font-size: 14px;
+                        }
+
                         &:hover,
                         &.selected {
                             border-color: var(--mainColor);
@@ -198,6 +209,12 @@
                     border-right: 20px solid transparent;
                 }
             }
+        }
+
+        .book-detail {
+            margin: 0 30px 0 30px;
+            width: calc(100% - 250px);
+            height: calc(100% - 30px);
         }
     }
 </style>
