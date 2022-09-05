@@ -61,7 +61,6 @@
             }
 
             .iconfont {
-                font-size: 12px;
                 transform: scale(0.9);
                 cursor: pointer;
             }

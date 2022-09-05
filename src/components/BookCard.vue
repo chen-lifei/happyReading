@@ -139,6 +139,7 @@
                 width: 1px;
                 height: 100%;
                 opacity: .2;
+                background: var(--textColor);
             }
 
             .data-wrapper {
@@ -147,6 +148,7 @@
 
                 .name {
                     font-size: 14px;
+                    font-weight: bold;
                     margin-bottom: 14px;
                 }
 

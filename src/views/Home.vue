@@ -130,7 +130,6 @@
                             position: absolute;
                             top: 3px;
                             left: 4px;
-                            font-size: 12px;
                             transform: scale(0.8);
                         }
                     }

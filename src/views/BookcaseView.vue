@@ -119,7 +119,7 @@
                                 height: 40px;
                                 line-height: 40px;
                                 text-align: center;
-                                color: #071327;
+                                color: var(--stressColor);
                                 font-weight: bold;
                                 border-radius: 24px;
                                 background: var(--hoverColor);
@@ -136,7 +136,7 @@
                             height: 40px;
                             line-height: 40px;
                             text-align: center;
-                            color: #071327;
+                            color: var(--stressColor);
                             font-weight: bold;
                             border-radius: 24px;
                             background: var(--hoverColor);
@@ -157,10 +157,6 @@
                         background: #FFFFFF;
                         border: 1px solid transparent;
                         cursor: pointer;
-
-                        .iconfont {
-                            color: #0B172A;
-                        }
 
                         &:hover,
                         &.selected {
@@ -190,10 +186,12 @@
 
                     .icon {
                         font-size: 20px;
+                        color: var(--stressColor);
                     }
 
                     .text {
                         margin-left: 10px;
+                        color: var(--stressColor);
                     }
                 }
             }

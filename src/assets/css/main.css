@@ -4,6 +4,7 @@
   --activeColor: #D8E3D9;
   --mainColor: #8CAB91;
   --textColor: #737A74;
+  --stressColor: #0B172A;
   --dimColor: #BDBDBD;
   --borderColor: #E4E6E8;
 }
@@ -36,6 +37,7 @@
 
 .iconfont {
   display: inline-block;
+  font-size: 12px;
 }
 
 ::-webkit-scrollbar {

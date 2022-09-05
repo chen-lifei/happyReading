@@ -86,7 +86,6 @@
             }
 
             .iconfont {
-                font-size: 12px;
                 font-weight: bold;
                 margin-left: 20px;
                 cursor: pointer;

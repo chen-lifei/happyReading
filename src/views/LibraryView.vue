@@ -131,10 +131,6 @@
                         border: 1px solid transparent;
                         cursor: pointer;
 
-                        .iconfont {
-                            color: #0B172A;
-                        }
-
                         &:hover,
                         &.selected {
                             border-color: var(--mainColor);
