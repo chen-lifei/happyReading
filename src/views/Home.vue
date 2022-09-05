@@ -35,7 +35,19 @@
             </div>
             <div class="book-wrapper">
                 <div class="book-item" v-for="(item, index) in stateData.bookList" :key="index">
-                    <BookCard :bookInfo="item" displayType="list"></BookCard>
+                    <BookCard :bookInfo="item" displayType="list">
+                        <div class="data-wrapper">
+                            <div class="name">作品数据</div>
+                            <div class="read-wrapper">
+                                <div class="label">阅读数</div>
+                                <div class="number">66</div>
+                            </div>
+                            <div class="favorite-wrapper">
+                                <div class="label">收藏数</div>
+                                <div class="number">88</div>
+                            </div>
+                        </div>
+                    </BookCard>
                 </div>
             </div>
         </div>
@@ -71,7 +83,7 @@
 
     onMounted(() => {
         let currentDate:any = new Date();
-        stateData.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}: ${currentDate.getMinutes()}`;
+        stateData.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}:${currentDate.getMinutes()}`;
         stateData.currentBookList = stateData.bookList.slice(0, 4);
     });
 </script>
@@ -184,12 +196,42 @@
                 flex-wrap: wrap;
                 width: calc(100% + 20px);
                 box-sizing: content-box;
+                padding-bottom: 10px;
 
                 .book-item {
                     width: 50%;
                     height: 128px;
                     margin-bottom: 20px;
                     border-right: 20px solid transparent;
+
+                    .book-card {
+                        .data-wrapper {
+                            width: auto;
+                            max-width: 25%;
+
+                            .name {
+                                font-size: 14px;
+                                font-weight: bold;
+                                margin-bottom: 14px;
+                            }
+
+                            .read-wrapper,
+                            .favorite-wrapper {
+                                display: inline-block;
+                                .label {
+                                    font-size: 12px;
+                                    margin-bottom: 5px;
+                                }
+                                .number {
+                                    font-size: 14px;
+                                }
+                            }
+
+                            .read-wrapper {
+                                margin-right: 20px;
+                            }
+                        }
+                    }
                 }
             }
         }

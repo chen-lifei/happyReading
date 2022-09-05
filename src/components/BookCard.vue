@@ -16,17 +16,7 @@
                 <div class="desc">{{ bookInfo.desc }}</div>
             </div>
             <div class="line"></div>
-            <div class="data-wrapper">
-                <div class="name">作品数据</div>
-                <div class="read-wrapper">
-                    <div class="label">阅读数</div>
-                    <div class="number">66</div>
-                </div>
-                <div class="favorite-wrapper">
-                    <div class="label">收藏数</div>
-                    <div class="number">88</div>
-                </div>
-            </div>
+            <slot></slot>
         </template>
     </div>
 </template>
@@ -140,33 +130,6 @@
                 height: 100%;
                 opacity: .2;
                 background: var(--textColor);
-            }
-
-            .data-wrapper {
-                width: auto;
-                max-width: 25%;
-
-                .name {
-                    font-size: 14px;
-                    font-weight: bold;
-                    margin-bottom: 14px;
-                }
-
-                .read-wrapper,
-                .favorite-wrapper {
-                    display: inline-block;
-                    .label {
-                        font-size: 12px;
-                        margin-bottom: 5px;
-                    }
-                    .number {
-                        font-size: 14px;
-                    }
-                }
-
-                .read-wrapper {
-                    margin-right: 20px;
-                }
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="bookcase-view">
-        <SelectBar class="left-bar hidden-scrollbar" topNav="书柜文件夹" :navList="navList"></SelectBar>
+        <SelectBar class="left-bar hidden-scrollbar" topNav="书柜文件夹" :navList="state.navList"></SelectBar>
         <div class="right-content">
             <div class="top-wrapper">
                 <div class="operation-wrapper">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in bookList" :key="index">
+                <div class="book-item" v-for="(item, index) in state.bookList" :key="index">
                     <BookCard :bookInfo="item"></BookCard>
                 </div>
             </div>
@@ -36,42 +36,29 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { toRefs, reactive, defineComponent } from "vue";
+<script lang="ts" setup>
+    import { reactive } from "vue";
     import BookCard from '@/components/BookCard.vue';
     import SelectBar from '@/components/Navbar/SelectNavbar.vue';
 
-    export default defineComponent({
-        name: 'Bookcase',
-        components: {
-            BookCard,
-            SelectBar
-        },
-        setup() {
-            const state = reactive({
-                bookList: [
-                    { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-                    { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' }
-                ],
-                navList: [
-                    { id: 2, name: '推荐', number: '3', createDate: '2022/04/23' },
-                    { id: 4, name: '文学相关', number: '4', createDate: '2022/04/23' },
-                    { id: 6, name: '学习相关', number: '5', createDate: '2022/04/23' },
-                    { id: 7, name: '科普读物', number: '6', createDate: '2022/02/28' },
-                    { id: 11, name: '诗歌', number: '7', createDate: '2021/05/07' }
-                ]
-            });
-
-            return {
-                ...toRefs(state),
-            }
-        }
+    const state = reactive({
+        bookList: [
+            { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
+            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' }
+        ],
+        navList: [
+            { id: 2, name: '推荐', number: '3', createDate: '2022/04/23' },
+            { id: 4, name: '文学相关', number: '4', createDate: '2022/04/23' },
+            { id: 6, name: '学习相关', number: '5', createDate: '2022/04/23' },
+            { id: 7, name: '科普读物', number: '6', createDate: '2022/02/28' },
+            { id: 11, name: '诗歌', number: '7', createDate: '2021/05/07' }
+        ]
     });
 </script>
 

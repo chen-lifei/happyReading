@@ -341,7 +341,7 @@
                         padding: 30px 20px;
                         margin-bottom: 20px;
                         border-radius: 16px;
-                        background: #f6fcf2;
+                        background: var(--backColor);
 
                         .name {
                             font-size: 20px;
@@ -427,7 +427,7 @@
                     padding: 0 15px;
                     color: var(--mainColor);
                     border-radius: 8px;
-                    background: #F5FAF1;
+                    background: var(--backColor);
                     cursor: pointer;
                     &.catalog {
                         margin-right: 10px;
@@ -458,7 +458,7 @@
                         width: 100%;
                         padding: 10px;
                         border-radius: 6px;
-                        background: #F5FAF1;
+                        background: var(--backColor);
                         cursor: pointer;
 
                         .chapter {
@@ -517,7 +517,7 @@
                         resize: none;
                         outline: none;
                         border: 1px solid transparent;
-                        background: #F6FCF2;
+                        background: var(--backColor);
                         &:focus {
                             border-color: var(--mainColor);
                         }
