@@ -39,9 +39,16 @@
   display: inline-block;
   font-size: 12px;
 }
+.svg-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  font-size: 30px;
+}
 
 ::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;

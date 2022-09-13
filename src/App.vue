@@ -1,17 +1,28 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import LeftNavbar from './components/Navbar/LeftNavbar.vue';
-import TopNavbar from './components/Navbar/TopNavbar.vue';
+    import router from '@/router';
+    import { RouterView } from 'vue-router'
+    import { ref } from 'vue';
+    import LeftNavbar from '@/components/Navbar/LeftNavbar.vue';
+    import TopNavbar from '@/components/Navbar/TopNavbar.vue';
+
+    let hiddenNav = ref(true);
+
+    router.beforeEach(async (to, from) => {
+        hiddenNav.value = !!to.meta.hiddenNav as boolean;
+    });
 </script>
 
 <template>
-    <LeftNavbar class="left-navbar" />
-    <div class="right-wrapper">
-        <TopNavbar class="top-navbar" />
-        <div class="main-wrapper">
-            <RouterView />
+    <RouterView v-if="hiddenNav" />
+    <template v-else>
+        <LeftNavbar class="left-navbar" />
+        <div class="right-wrapper">
+            <TopNavbar class="top-navbar" />
+            <div class="main-wrapper">
+                <RouterView />
+            </div>
         </div>
-    </div>
+    </template>
 </template>
 
 <style scoped lang="less">

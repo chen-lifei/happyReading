@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3528419 */
-  src: url('iconfont.woff2?t=1662709503151') format('woff2'),
-       url('iconfont.woff?t=1662709503151') format('woff'),
-       url('iconfont.ttf?t=1662709503151') format('truetype');
+  src: url('iconfont.woff2?t=1662708668880') format('woff2'),
+       url('iconfont.woff?t=1662708668880') format('woff'),
+       url('iconfont.ttf?t=1662708668880') format('truetype');
 }
 
 .iconfont {
@@ -13,11 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-qq:before {
+.icon-QQ1:before {
   content: "\e60b";
 }
 
-.icon-wechat:before {
+.icon-weixin:before {
   content: "\e609";
 }
 

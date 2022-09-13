@@ -33,7 +33,10 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+
+    // "mock/**/*.ts",
+    // "vite.config.ts"
   ],
   "exclude": [
     "node_modules"

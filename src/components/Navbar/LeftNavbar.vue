@@ -42,11 +42,8 @@
     }
 
     onMounted(() => {
-        // const { currentRoute } = useRouter();
-        // let path = currentRoute.value.path;
-
-        state.currentNav = state.navList[0].key;
-        push(`/${state.currentNav}`);
+        const pathName = window.location.pathname.slice(1);
+        state.currentNav = pathName;
     })
 </script>
 
