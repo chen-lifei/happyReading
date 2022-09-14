@@ -42,7 +42,8 @@
     }
 
     onMounted(() => {
-        const pathName = window.location.pathname.slice(1);
+        let pathName = window.location.pathname.split('/')[1];
+        if (!pathName) pathName = state.navList[0].key;
         state.currentNav = pathName;
     })
 </script>
