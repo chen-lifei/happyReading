@@ -3,15 +3,30 @@
         <div class="message-wrapper">
             <i class="iconfont icon-message"></i>
         </div>
-        <div class="user-wrapper flex">
-            <img src="@/assets/image/myAvatar.jpg" alt="">
-            <div class="name">言言花花</div>
+        <div class="user-wrapper flex" v-if="userInfo">
+            <img :src="userInfo.avatar" alt="">
+            <div class="name">{{ userInfo.name }}</div>
             <i class="iconfont icon-arrowDown"></i>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+    import { ref, onMounted } from 'vue';
+    import { useStore } from 'vuex';
+    import { key } from '@/store';
+
+    const store = useStore(key);
+
+    let userInfo = ref({} as any);
+    
+    onMounted(() => {
+        if (store.state.userInfo) {
+            let info: any = store.state.userInfo;
+            info.avatar = 'http://localhost:3000' + info.avatar;
+            userInfo.value = store.state.userInfo;
+        }
+    });
 </script>
 
 <style lang="less" scoped>

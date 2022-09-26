@@ -1,28 +1,32 @@
-import axios from "axios";
-import type {
-    LoginParams,
-    LoginResultModel,
-    GetUserInfoModel,
-} from "./model/userModel";
-
-type ErrorMessageMode = "none" | "modal" | "message" | undefined;
+import rAxios from "@/utils/axios";
+import type { LoginParams, RegisterParams } from "./model/userModel";
 
 enum Api {
-    Login = "/login",
-    Logout = "/logout",
-    GetUserInfo = "/getUserInfo",
-    GetPermCode = "/getPermCode",
-    TestRetry = "/testRetry",
+    Register = "/users/register",
+    Login = "/users/login",
+    Logout = "/users/logout",
+    GetUserInfo = "/users/:id",
 }
 
 /**
  * @description: user login api
  */
 export function loginApi(params: LoginParams) {
-    return axios({
+    return rAxios({
         method: "POST",
         url: Api.Login,
-        params,
+        data: params,
+    });
+}
+
+/**
+ * @description: user register api
+ */
+export function registerApi(params: RegisterParams) {
+    return rAxios({
+        method: "POST",
+        url: Api.Register,
+        data: params,
     });
 }
 
@@ -30,7 +34,7 @@ export function loginApi(params: LoginParams) {
  * @description: getUserInfo
  */
 export function getUserInfo() {
-    return axios({
+    return rAxios({
         method: "GET",
         url: Api.GetUserInfo,
     });
@@ -42,17 +46,4 @@ export function getUserInfo() {
 
 // export function doLogout() {
 //     return defHttp.get({ url: Api.Logout });
-// }
-
-// export function testRetry() {
-//     return defHttp.get(
-//         { url: Api.TestRetry },
-//         {
-//             retryRequest: {
-//                 isOpenRetry: true,
-//                 count: 5,
-//                 waitTime: 1000,
-//             },
-//         }
-//     );
 // }

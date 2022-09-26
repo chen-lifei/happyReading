@@ -6,43 +6,119 @@
             <img class="banner" src="@/assets/image/reading2.svg" alt="">
         </div>
         <div class="right-wrapper">
-            <div class="name">{{ isLogin ? '登录' : '注册' }}</div>
+            <div class="name">{{ state.isLogin ? '登录' : '注册' }}</div>
             <div class="quick-method-wrapper">
                 <div class="wechat quick-btn flex">
                     <svg class="svg-icon" aria-hidden="true">
                         <use xlink:href="#icon-wechat"></use>
                     </svg>
-                    <span>{{ isLogin ? '微信登录' : '微信注册' }}</span>
+                    <span>{{ state.isLogin ? '微信登录' : '微信注册' }}</span>
                 </div>
                 <div class="qq quick-btn flex">
                     <svg class="svg-icon" aria-hidden="true">
                         <use xlink:href="#icon-qq"></use>
                     </svg>
-                    <span>{{ isLogin ? 'QQ登录' : 'QQ注册' }}</span>
+                    <span>{{ state.isLogin ? 'QQ登录' : 'QQ注册' }}</span>
                 </div>
             </div>
             <div class="split">-或者-</div>
             <div class="form-area">
-                <input type="text" v-if="!isLogin" class="form-item account" placeholder="请输入用户名">
-                <input type="text" class="form-item email" placeholder="请输入邮箱">
-                <input type="password" class="form-item password" placeholder="请输入密码">
+                <input type="text" v-if="!state.isLogin" v-model="state.username" class="form-item" :class="{ 'error': state.username.length && !usernameCorrect }" placeholder="请输入用户名">
+                <input type="text" class="form-item" :class="{ 'error': !state.accountCorrect && state.account.length  }" v-model="state.account" placeholder="请输入手机号或邮箱" @blur="checkAccount">
+                <input type="password" class="form-item" :class="{ 'error': state.password.length && !passwordCorrect  }" v-model="state.password" placeholder="请输入密码">
             </div>
-            <div class="submit-btn">{{ isLogin ? '登录账号' : '创建账号' }}</div>
+            <div class="submit-btn" @click="clickSubmitBtn()">{{ state.isLogin ? '登录账号' : '创建账号' }}</div>
             <div class="tip-wrapper flex">
-                <span @click="changeType">{{ isLogin ? '注册' : '登录' }}</span>
-                <span class="forget" v-if="!isLogin">忘记密码</span>
+                <span @click="changeType">{{ state.isLogin ? '注册' : '登录' }}</span>
+                <span class="forget" v-if="!state.isLogin">忘记密码</span>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-    import { ref, reactive, onMounted } from 'vue';
+    import { ref, reactive, onMounted, computed } from 'vue';
+    import { loginApi, registerApi } from '@/api/user';
+    import { validatePhone, validateEmail } from '@/utils/validate';
+    import { useRouter } from 'vue-router';
+    import { useStore } from 'vuex';
+    import { key } from '@/store';
 
-    let isLogin = ref(true);
+    let state = reactive({
+        isLogin: true,
+        username: '',
+        account: '',
+        password: '',
+        nameCorrect: false,
+        accountCorrect: false,
+        passwordCorrect: false,
+    });
+
+    const store = useStore(key);
+    
+    const { push } = useRouter();
+
+    const usernameCorrect = computed(() => {
+        return state.username.length && state.username.length <= 6;
+    });
+
+    const passwordCorrect = computed(() => {
+        return state.password.length >= 6 && state.password.length <= 12;
+    });
 
     function changeType() {
-        isLogin.value = !isLogin.value;
+        state.isLogin = !state.isLogin;
+        state.account = '';
+        state.password = '';
+    }
+
+    function checkAccount() {
+        state.accountCorrect =  validatePhone(state.account) || validateEmail(state.account);
+    }
+
+    function clickSubmitBtn() {
+        if (!state.accountCorrect) {
+            return window.alert('请输入正确的账号');
+        }
+        if (!passwordCorrect) {
+            return window.alert('密码需大于6位且小于12位');
+        }
+        
+        
+        if (state.isLogin) {
+            // 登录
+            loginApi({
+                account: state.account,
+                password: state.password
+            }).then(res => {
+                let { data } = res;
+                console.log(data);
+                if (data.status == 1) {
+                    push('/home');
+                    store.commit('SET_USERINFO', data.result);
+                } else {
+                    window.alert('账号或密码输入错误，登录失败');
+                }
+            })
+        } else {
+            if (!usernameCorrect) {
+                return window.alert('用户名不能大于6位且不能为空');
+            }
+
+            // 注册
+            registerApi({
+                name: state.username,
+                account: state.account,
+                password: state.password
+            }).then(res => {
+                let { data } = res;
+                if (data.status == 1) {
+                    window.alert('注册成功，请登录');
+                } else {
+                    window.alert('注册失败，请稍后重试');
+                }
+            });
+        }
     }
 
     onMounted(() => {
@@ -142,6 +218,10 @@
 
                     &::placeholder {
                         color: var(--dimColor);
+                    }
+
+                    &.error {
+                        border-bottom-color: red;
                     }
                 }
             }

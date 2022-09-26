@@ -10,7 +10,7 @@ const router = createRouter({
         {
             path: "/login",
             name: "Login",
-            meta: { hiddenNav: true },
+            meta: { hiddenNav: true, ignoreAuth: true },
             // route level code-splittings
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.

@@ -4,11 +4,32 @@
     import { ref } from 'vue';
     import LeftNavbar from '@/components/Navbar/LeftNavbar.vue';
     import TopNavbar from '@/components/Navbar/TopNavbar.vue';
+    import { useStore } from 'vuex';
+    import { key } from '@/store';
+
+    const store = useStore(key);
 
     let hiddenNav = ref(true);
 
-    router.beforeEach(async (to, from) => {
+    router.beforeEach(async (to, from, next) => {
         hiddenNav.value = !!to.meta.hiddenNav as boolean;
+
+        if (!store.state.userInfo['id']) {
+            if (to.meta.ignoreAuth) {
+                next();
+                return;
+            }
+
+            // 跳转到登录页
+            const redirectData: { path: string; replace: boolean; } = {
+                path: '/login',
+                replace: true,
+            };
+            next(redirectData);
+            return;
+        }
+
+        next();
     });
 </script>
 

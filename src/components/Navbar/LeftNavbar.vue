@@ -43,7 +43,8 @@
 
     onMounted(() => {
         let pathName = window.location.pathname.split('/')[1];
-        if (!pathName) pathName = state.navList[0].key;
+        
+        if (!pathName || !['home', 'library', 'bookcase', 'history'].includes(pathName)) pathName = state.navList[0].key;
         state.currentNav = pathName;
     })
 </script>

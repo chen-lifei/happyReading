@@ -1,17 +1,25 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+// import Vue from 'vue'
+// import Vuex from 'vuex'
 
-Vue.use(Vuex)
+import type { InjectionKey } from "vue";
+import { createStore, Store } from "vuex";
 
-export default new Vuex.Store({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+export interface state {
+    userInfo: object
+}
+
+export default createStore({
+    state: {
+        userInfo: {},
+    },
+    getters: {},
+    mutations: {
+        SET_USERINFO(state, val) {
+            state.userInfo = val;
+        }
+    },
+    actions: {},
+    modules: {},
+});
+
+export const key:InjectionKey<Store<state>> = Symbol();
