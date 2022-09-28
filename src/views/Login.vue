@@ -206,6 +206,7 @@
                 margin: 30px 0;
             }
             .form-area {
+                width: 100%;
                 .form-item {
                     width: 100%;
                     height: 38px;

@@ -2,27 +2,28 @@
     <div class="select-bar">
         <div class="top-nav">
             <span class="name">分类：</span>
-            <span class="select-name">{{ isNavList ? selectTopNav : topNav }}</span>
-            <i class="iconfont icon-arrowDown" @click="showDropdown = !showDropdown" v-if="isNavList"></i>
+            <span class="select-name">{{ isNavList ? (selectTopNav.cname || selectTopNav.name) : topNav }}</span>
+            <i class="iconfont icon-arrowDown" @click.stop="showDropdown = !showDropdown" v-if="isNavList"></i>
             <div class="line"></div>
-            <div class="dropdown-wrapper hidden-scrollbar" v-if="showDropdown">
+            <div class="dropdown-wrapper hidden-scrollbar" ref="dropdownRef" v-if="showDropdown">
                 <div class="dropdown-item"
                     v-for="(item, index) in topNav"
                     :key="index"
-                    :class="{ 'selected': item.key === 'qingchun' }">
-                    {{ item.name }}
+                    @click="selectNav(item)"
+                    :class="{ 'selected': item.id === selectTopNav.id }">
+                    {{ item.cname || item.name }}
                 </div>
             </div>
         </div>
         <div class="second-nav">
             <div class="nav-item"
-                v-for="(item, index) in navList"
+                v-for="(item, index) in currentNavList"
                 :key="index"
-                :class="{ 'selected': item.key === 'school' }"
+                :class="{ 'selected': item.id === currentItem.id }"
                 @click="selectItem(item)">
-                <div class="name">{{ item.name }}</div>
+                <div class="name">{{ item.cname || item.name }}</div>
                 <div class="desc">
-                    <span class="number" v-if="item.number">数量：{{ item.number }}本</span>
+                    <span class="number" v-if="item.number || 1">数量：{{ item.number || 1 }}本</span>
                     <span class="click-number" v-if="item.clickNumber">点击量：{{ item.clickNumber }}</span>
                     <span class="create-date" v-if="item.createDate">创建时间：{{ item.createDate }}</span>
                 </div>
@@ -32,7 +33,7 @@
 </template>
 
 <script lang="ts">
-    import { reactive, toRefs, defineComponent, onMounted } from 'vue';
+    import { reactive, ref, unref, watch, toRefs, defineComponent, onMounted } from 'vue';
 
     export default defineComponent({
         name: 'SelectNavbar',
@@ -46,21 +47,56 @@
                 default: []
             }
         },
-        setup(props) {
+        emits: ['selectItem'],
+        setup(props, { emit }) {
             const state = reactive({
                 isNavList: false,
                 showDropdown: false,
-                selectTopNav: '青春',
+                selectTopNav: {} as any,
+                currentNavList: [] as any,
+                currentItem: {} as any
             });
+
+            watch(
+                () => unref(props.topNav),
+                (topNav) => {
+                    state.isNavList = Array.isArray(topNav);
+                
+                    if (state.isNavList) {
+                        selectNav(topNav[0]);
+                    } else {
+                        state.currentNavList = props.navList;
+                    }
+                },
+                {
+                    immediate: true,
+                },
+            );
 
             onMounted(() => {
-                state.isNavList = Array.isArray(props.topNav);
+                document.addEventListener('click', (event) => {
+                    if (state.showDropdown) {
+                        state.showDropdown = false;
+                    }
+                });
             });
 
-            function selectItem(item) {   
+            function selectNav(item) {
+                if (!item) return;
+                
+                state.selectTopNav = item;
+                state.currentNavList = item.list;
+                selectItem(item.list[0])
+            }
+
+            function selectItem(item) {
+                state.currentItem = item;
+                state.showDropdown = false;
+                emit('selectItem', item);
             }
 
             return {
+                selectNav,
                 selectItem,
                 ...toRefs(state),
             }
@@ -87,9 +123,10 @@
 
             .iconfont {
                 font-weight: bold;
-                margin-left: 20px;
+                margin-left: 16px;
                 cursor: pointer;
                 transform: scale(.8);
+                padding: 4px;
             }
 
             .line {
