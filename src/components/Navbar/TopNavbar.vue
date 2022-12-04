@@ -21,10 +21,10 @@
     let userInfo = ref({} as any);
     
     onMounted(() => {
-        if (store.state.userInfo) {
-            let info: any = store.state.userInfo;
+        if (store.state.user) {
+            let info: any = store.state.user;
             info.avatar = 'http://localhost:3000' + info.avatar;
-            userInfo.value = store.state.userInfo;
+            userInfo.value = store.state.user;
         }
     });
 </script>

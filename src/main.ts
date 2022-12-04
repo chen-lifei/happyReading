@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import App from "@/App.vue";
 import router from "@/router";
 import store, { key } from '@/store'
+import './permission'
 
 import "@/iconfont/iconfont.css";
 import "@/iconfont/iconfont.js";

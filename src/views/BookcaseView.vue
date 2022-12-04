@@ -89,14 +89,14 @@
 
                 .operation-wrapper {
                     position: absolute;
-                    top: 0;
+                    top: 2px;
                     left: 0;
 
                     .button {
                         position: relative;
                         display: inline-block;
                         width: 76px;
-                        height: 48px;
+                        height: 36px;
                         background: #FFFFFF;
                         border-radius: 24px;
                         cursor: pointer;
@@ -110,11 +110,11 @@
                                 top: 4px;
                                 left: 4px;
                                 width: 68px;
-                                height: 40px;
-                                line-height: 40px;
+                                height: 28px;
+                                line-height: 28px;
                                 text-align: center;
                                 color: var(--stressColor);
-                                font-weight: bold;
+                                font-size: 14px;
                                 border-radius: 24px;
                                 background: var(--hoverColor);
                                 z-index: 6;
@@ -127,11 +127,11 @@
                             top: 4px;
                             left: 4px;
                             width: 68px;
-                            height: 40px;
-                            line-height: 40px;
+                            height: 28px;
+                            line-height: 28px;
                             text-align: center;
                             color: var(--stressColor);
-                            font-weight: bold;
+                            font-size: 14px;
                             border-radius: 24px;
                             background: var(--hoverColor);
                             z-index: 6;
@@ -141,7 +141,7 @@
 
                 .filter-wrapper {
                     position: relative;
-                    height: 48px;
+                    height: 40px;
 
                     .button-wrapper {
                         width: 36px;
@@ -174,12 +174,12 @@
                     position: absolute;
                     top: 0;
                     right: 0;
-                    height: 48px;
+                    height: 40px;
                     color: #FFFFFF;
                     border-radius: 16px;
                     padding: 0 24px;
-                    background: var(--mainColor);
-                    box-shadow: 2px 6px 8px var(--activeColor);
+                    background: var(--activeColor);
+                    box-shadow: 2px 6px 8px var(--borderColor);
                     cursor: pointer;
 
                     .icon {

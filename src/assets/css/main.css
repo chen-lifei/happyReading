@@ -20,7 +20,7 @@
   position: relative;
   width: auto;
   height: 100vh;
-  min-width: 1080px;
+  min-width: 760px;
   user-select: none;
   background: var(--backColor);
 }

@@ -65,7 +65,9 @@
                     if (state.isNavList) {
                         selectNav(topNav[0]);
                     } else {
-                        state.currentNavList = props.navList;
+                        let navList = props.navList;
+                        state.currentNavList = navList;
+                        if (navList.length) selectItem(navList[0]);
                     }
                 },
                 {

@@ -14,20 +14,20 @@
     router.beforeEach(async (to, from, next) => {
         hiddenNav.value = !!to.meta.hiddenNav as boolean;
 
-        if (!store.state.userInfo['id']) {
-            if (to.meta.ignoreAuth) {
-                next();
-                return;
-            }
+        // if (!store.state.userInfo['id']) {
+        //     if (to.meta.ignoreAuth) {
+        //         next();
+        //         return;
+        //     }
 
-            // 跳转到登录页
-            const redirectData: { path: string; replace: boolean; } = {
-                path: '/login',
-                replace: true,
-            };
-            next(redirectData);
-            return;
-        }
+        //     // 跳转到登录页
+        //     const redirectData: { path: string; replace: boolean; } = {
+        //         path: '/login',
+        //         replace: true,
+        //     };
+        //     next(redirectData);
+        //     return;
+        // }
 
         next();
     });

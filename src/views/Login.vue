@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, reactive, onMounted, computed } from 'vue';
+    import { reactive, onMounted, computed } from 'vue';
     import { loginApi, registerApi } from '@/api/user';
     import { validatePhone, validateEmail } from '@/utils/validate';
     import { useRouter } from 'vue-router';
@@ -87,19 +87,14 @@
         
         if (state.isLogin) {
             // 登录
-            loginApi({
+            store.dispatch('login', {
                 account: state.account,
                 password: state.password
-            }).then(res => {
-                let { data } = res;
-                console.log(data);
-                if (data.status == 1) {
-                    push('/home');
-                    store.commit('SET_USERINFO', data.result);
-                } else {
-                    window.alert('账号或密码输入错误，登录失败');
-                }
-            })
+            }).then(() => {
+                push('/');
+            }).catch(() => {
+                window.alert('账号或密码输入错误，登录失败');
+            });
         } else {
             if (!usernameCorrect) {
                 return window.alert('用户名不能大于6位且不能为空');
