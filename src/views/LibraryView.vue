@@ -23,7 +23,7 @@
                 根据 <span class="strong">热度</span> <span class="strong">升序</span> 显示
             </div>
             <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in bookList" :key="index" @click="toggleBookDetail(true)">
+                <div class="book-item" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
                 </div>
             </div>
@@ -38,24 +38,17 @@
     import BookDetail from '@/components/BookDetail.vue';
     
     import { ref, reactive, onMounted } from 'vue';
-    import { getBookCategory } from '@/api/book';
+    import { getBookCategory, getBookList } from '@/api/book';
 
     const state = reactive({
+        total: 30,
+        pageSize: 10,
+        currentPage: 1,
         topNav: [],
         navList: [],
-        categoryData: []
+        bookList: [],
+        categoryData: [],
     });
-
-    const bookList = reactive([
-        { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' }
-    ]);
     
     let showBookDetail =  ref(false);
 
@@ -77,8 +70,25 @@
         });
     }
 
-    function selectItem(item) {
-        console.log('library', item);
+    function getList(data) {
+        getBookList({
+            category: data.category,
+            type: data.type,
+            page: 1,
+            pageSize: 10
+        }).then(res => {
+            let { data } = res;
+            if (data.status == 1) {
+                let { result } = data;
+                state.bookList = result.list;
+                console.log(result);
+            } else {
+            }
+        });
+    }
+
+    function selectItem(data) {
+        getList(data);
     }
 
     onMounted(() => {
@@ -166,6 +176,7 @@
 
                 .book-item {
                     width: 33%;
+                    height: 280px;
                     margin-bottom: 20px;
                     border-right: 20px solid transparent;
                 }

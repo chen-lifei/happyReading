@@ -1,19 +1,19 @@
 <template>
     <div class="book-card" :class="{ 'tile-card': displayType === 'tile', 'list-card flex-between': displayType === 'list' }">
         <template v-if="displayType === 'tile'">
-            <img src="@/assets/image/cover1.jpg" :alt="bookInfo.name"/>
+            <img :src="`http://127.0.0.1:3000/${bookInfo.cover}`" :alt="bookInfo.name"/>
             <div class="bottom">
-                <div class="author">作者：{{ bookInfo.author }}</div>
+                <div class="author">作者：{{ bookInfo.writer }}</div>
                 <div class="name">{{ bookInfo.name }}</div>
-                <div class="desc">{{ bookInfo.desc }}</div>
+                <div class="desc">{{ bookInfo.introduction }}</div>
             </div>
         </template>
         <template v-else>
-            <img src="@/assets/image/cover2.jpg" :alt="bookInfo.name">
+            <img :src="`http://127.0.0.1:3000/${bookInfo.cover}`" :alt="bookInfo.name">
             <div class="info-wrapper">
-                <div class="author">作者：{{ bookInfo.author }}</div>
+                <div class="author">作者：{{ bookInfo.writer }}</div>
                 <div class="name">{{ bookInfo.name }}</div>
-                <div class="desc">{{ bookInfo.desc }}</div>
+                <div class="desc">{{ bookInfo.introduction }}</div>
             </div>
             <div class="line"></div>
             <slot></slot>

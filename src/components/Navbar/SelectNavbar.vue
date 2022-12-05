@@ -88,13 +88,14 @@
                 
                 state.selectTopNav = item;
                 state.currentNavList = item.list;
-                selectItem(item.list[0])
+                selectItem(item.list[0]);
             }
 
             function selectItem(item) {
                 state.currentItem = item;
                 state.showDropdown = false;
-                emit('selectItem', item);
+                
+                emit('selectItem', { category: state.selectTopNav && state.selectTopNav.id, type: item && item.id });
             }
 
             return {
