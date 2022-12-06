@@ -30,7 +30,7 @@
             <div class="submit-btn" @click="clickSubmitBtn()">{{ state.isLogin ? '登录账号' : '创建账号' }}</div>
             <div class="tip-wrapper flex">
                 <span @click="changeType">{{ state.isLogin ? '注册' : '登录' }}</span>
-                <span class="forget" v-if="!state.isLogin">忘记密码</span>
+                <span class="forget" v-if="state.isLogin">忘记密码</span>
             </div>
         </div>
     </div>

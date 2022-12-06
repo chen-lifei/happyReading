@@ -72,6 +72,7 @@
                         width: auto;
                         max-width: 25%;
                         height: 88px;
+                        padding-left: 4%;
 
                         .tag-list {
                             display: flex;

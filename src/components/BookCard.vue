@@ -77,11 +77,12 @@
                 .name {
                     margin: 8px 0;
                     font-weight: bold;
+                    font-size: 14px;
                 }
 
                 .desc {
                     width: 100%;
-                    font-size: 14px;
+                    font-size: 12px;
                     text-overflow: ellipsis;
                     overflow: hidden;
                     display: -webkit-box;
@@ -105,7 +106,9 @@
             }
 
             .info-wrapper {
-                width: 52%;
+                width: 50%;
+                padding: 0 4%;
+                flex: 1;
                 .author {
                     font-size: 12px;
                 }

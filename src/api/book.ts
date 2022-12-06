@@ -6,14 +6,14 @@ enum Api {
     GetBookList = "/books/bookList",
 }
 
-export function getBookCategory() {
+export function fetchBookCategory() {
     return rAxios({
         method: 'GET',
         url: Api.GetBookCategory
     });
 }
 
-export function getBookList(data) {
+export function fetchBookList(data) {
     return rAxios({
         method: 'POST',
         url: Api.GetBookList,

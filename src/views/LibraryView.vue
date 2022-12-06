@@ -38,7 +38,7 @@
     import BookDetail from '@/components/BookDetail.vue';
     
     import { ref, reactive, onMounted } from 'vue';
-    import { getBookCategory, getBookList } from '@/api/book';
+    import { fetchBookCategory, fetchBookList } from '@/api/book';
 
     const state = reactive({
         total: 30,
@@ -57,7 +57,7 @@
     }
 
     function getBookData() {
-        getBookCategory().then(res => {
+        fetchBookCategory().then(res => {
             let { data } = res;
             if (data.status == 1) {
                 let categoryData = data.result;
@@ -71,7 +71,7 @@
     }
 
     function getList(data) {
-        getBookList({
+        fetchBookList({
             category: data.category,
             type: data.type,
             page: 1,
@@ -81,8 +81,6 @@
             if (data.status == 1) {
                 let { result } = data;
                 state.bookList = result.list;
-                console.log(result);
-            } else {
             }
         });
     }

@@ -420,7 +420,6 @@
 
             .book-desc {
                 line-height: 1.5;
-                font-size: 18px;
             }
 
             .tab-wrapper {

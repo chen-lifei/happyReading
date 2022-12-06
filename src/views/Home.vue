@@ -38,14 +38,8 @@
                     <BookCard :bookInfo="item" displayType="list">
                         <div class="data-wrapper">
                             <div class="name">作品数据</div>
-                            <div class="read-wrapper">
-                                <div class="label">阅读数</div>
-                                <div class="number">66</div>
-                            </div>
-                            <div class="favorite-wrapper">
-                                <div class="label">收藏数</div>
-                                <div class="number">88</div>
-                            </div>
+                            <div class="data">阅读数: 66</div>
+                            <div class="data">收藏数: 88</div>
                         </div>
                     </BookCard>
                 </div>
@@ -56,6 +50,8 @@
 </template>
 
 <script lang="ts" setup>
+    import { fetchBookList } from '@/api/book';
+
     import {  ref, reactive, onMounted } from 'vue';
     import BookCard from '@/components/BookCard.vue';
     import BookDetail from '@/components/BookDetail.vue';
@@ -65,33 +61,40 @@
         currentPage: 1,
         showBookDetail: false,
         currentBookList: [] as any,
-        bookList: [
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '爱丽丝梦游仙境', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '白雪公主', author: '安徒生', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '灰姑娘', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-        ]
+        bookList: []
     });
 
-    function prePage() {}
+    function prePage() {
+    }
     
     function nextPage() {
-        stateData.currentBookList = stateData.bookList.slice(4, 8);
+        let page = stateData.currentPage;
+        stateData.currentPage++;
+        stateData.currentBookList = stateData.bookList.slice(page * 4, page * 4 + 4);
     }
 
     function toggleBookDetail(isShow) {
         stateData.showBookDetail = isShow;
     }
 
+    function getBookList() {
+        fetchBookList({
+            page: 1,
+            pageSize: 30
+        }).then(res => {
+            let { data } = res;
+            if (data.status == 1) {
+                let bookList = data.result.list;
+                stateData.bookList = bookList;
+                stateData.currentBookList = bookList.slice(0, 4);
+            }
+        })
+    }
+
     onMounted(() => {
         let currentDate:any = new Date();
         stateData.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}:${currentDate.getMinutes()}`;
-        stateData.currentBookList = stateData.bookList.slice(0, 4);
+        getBookList();
     });
 </script>
 
@@ -215,27 +218,15 @@
                         .data-wrapper {
                             width: auto;
                             max-width: 25%;
-
+                            padding-left: 4%;
                             .name {
                                 font-size: 14px;
                                 font-weight: bold;
                                 margin-bottom: 14px;
                             }
-
-                            .read-wrapper,
-                            .favorite-wrapper {
-                                display: inline-block;
-                                .label {
-                                    font-size: 12px;
-                                    margin-bottom: 5px;
-                                }
-                                .number {
-                                    font-size: 14px;
-                                }
-                            }
-
-                            .read-wrapper {
-                                margin-right: 20px;
+                            .data {
+                                font-size: 12px;
+                                margin-bottom: 5px;
                             }
                         }
                     }
