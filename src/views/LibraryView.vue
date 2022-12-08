@@ -174,7 +174,6 @@
 
                 .book-item {
                     width: 33%;
-                    height: 280px;
                     margin-bottom: 20px;
                     border-right: 20px solid transparent;
                 }

@@ -48,8 +48,8 @@
         &.tile-card {
             position: relative;
             width: 100%;
-            height: 100%;
-            padding-top: 116%;
+            height: 280px;
+            transition: all .4s ease;
             img {
                 position: absolute;
                 top: 0;
@@ -133,6 +133,18 @@
                 height: 100%;
                 opacity: .2;
                 background: var(--textColor);
+            }
+        }
+
+        @media screen and (max-width: 1200px) {
+            &.tile-card {
+                height: 240px;
+            }
+        }
+
+        @media screen and (max-width: 1100px) {
+            &.tile-card {
+                height: 220px;
             }
         }
     }
