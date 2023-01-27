@@ -1,36 +1,37 @@
 <template>
     <div class="login-view">
-        <div class="left-wrapper">
-            <img class="logo" src="@/assets/image/logo.svg" alt="">
-            <div class="text">请尽情徜徉在知识的海洋吧！知识就像海洋，只有意志坚定的人才能到达彼岸！</div>
-            <img class="banner" src="@/assets/image/reading2.svg" alt="">
-        </div>
-        <div class="right-wrapper">
-            <div class="name">{{ state.isLogin ? '登录' : '注册' }}</div>
-            <div class="quick-method-wrapper">
-                <div class="wechat quick-btn flex">
-                    <svg class="svg-icon" aria-hidden="true">
-                        <use xlink:href="#icon-wechat"></use>
-                    </svg>
-                    <span>{{ state.isLogin ? '微信登录' : '微信注册' }}</span>
-                </div>
-                <div class="qq quick-btn flex">
-                    <svg class="svg-icon" aria-hidden="true">
-                        <use xlink:href="#icon-qq"></use>
-                    </svg>
-                    <span>{{ state.isLogin ? 'QQ登录' : 'QQ注册' }}</span>
-                </div>
+        <div class="inner-wrapper">
+            <div class="logo-wrapper">
+                <img src="@/assets/image/logo.svg" alt="悦阅" />
+                悦阅
             </div>
-            <div class="split">-或者-</div>
+            <h2>欢迎来到悦阅！</h2>
+            <div class="tip">请先登录账号~</div>
             <div class="form-area">
                 <input type="text" v-if="!state.isLogin" v-model="state.username" class="form-item" :class="{ 'error': state.username.length && !usernameCorrect }" placeholder="请输入用户名">
                 <input type="text" class="form-item" :class="{ 'error': !state.accountCorrect && state.account.length  }" v-model="state.account" placeholder="请输入手机号或邮箱" @blur="checkAccount">
                 <input type="password" class="form-item" :class="{ 'error': state.password.length && !passwordCorrect  }" v-model="state.password" placeholder="请输入密码">
             </div>
+            <div class="tip-wrapper flex-between">
+                <div class="remember flex">
+                    <input type="checkbox">记住我
+                </div>
+                <div class="forget" v-if="state.isLogin">忘记密码?</div>
+            </div>
             <div class="submit-btn" @click="clickSubmitBtn()">{{ state.isLogin ? '登录账号' : '创建账号' }}</div>
-            <div class="tip-wrapper flex">
-                <span @click="changeType">{{ state.isLogin ? '注册' : '登录' }}</span>
-                <span class="forget" v-if="state.isLogin">忘记密码</span>
+            <div class="change-type" @click="changeType">{{ state.isLogin ? '注册' : '登录' }}账号</div>
+            <div class="split-wrapper">
+                <div class="line"></div>
+                <div class="text">或者</div>
+                <div class="line"></div>
+            </div>
+            <div class="quick-method flex">
+                <svg class="svg-icon" aria-hidden="true">
+                    <use xlink:href="#icon-wechat"></use>
+                </svg>
+                <svg class="svg-icon" aria-hidden="true">
+                    <use xlink:href="#icon-qq"></use>
+                </svg>
             </div>
         </div>
     </div>
@@ -123,127 +124,120 @@
 <style lang="less" scoped>
     .login-view {
         display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
-        background: var(--mainColor);
 
-        .left-wrapper {
-            position: relative;
-            width: 35%;
+        .inner-wrapper {
+            width: 440px;
+            padding: 40px 30px;
+            color: #33303C;
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 10px 0 rgba(140, 171, 145, .5);
 
-            .logo {
-                position: absolute;
-                left: 20px;
-                top: 20px;
-                width: 60px;
-                height: 60px;
-            }
-
-            .text {
-                position: absolute;
-                top: 120px;
-                left: 28px;
-                width: calc(100% - 60px);
-                word-spacing: 10px;
-                font-size: 20px;
-                line-height: 2;
-                color: #FFFFFF;
-            }
-
-            .banner {
-                position: absolute;
-                top: 30%;
-                left: 30%;
-                width: 90%;
-            }
-        }
-
-        .right-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 0 16%;
-            width: 65%;
-            background: #FFFFFF;
-            border-radius: 30px 0 0 30px;
-
-            .name {
-                font-size: 30px;
-                font-weight: bold;
-                margin-bottom: 40px;
-                color: var(--stressColor);
-            }
-
-            .quick-method-wrapper {
+            .logo-wrapper {
                 display: flex;
-
-                .quick-btn {
-                    height: 48px;
-                    padding: 0 12px;
-                    border: 1px solid var(--activeColor);
-                    border-radius: 5px;
-                    cursor: pointer;
-
-                    .svg-icon {
-                        margin-right: 10px;
-                    }
-
-                    &.wechat {
-                        margin-right: 20px;
-                    }
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+                font-size: 20px;
+                color: #000000;
+                img {
+                    margin-right: 14px;
                 }
             }
 
-            .split {
-                width: 100%;
-                text-align: center;
-                margin: 30px 0;
+            h2 {
+                font-size: 26px;
+                color: #000000;
             }
+
+            .tip {
+                color: #A8A6B0;
+                margin: 4px 0 20px 0;
+            }
+
             .form-area {
                 width: 100%;
                 .form-item {
                     width: 100%;
                     height: 38px;
                     font-size: 16px;
-                    padding: 10px 0;
-                    margin-bottom: 30px;
+                    padding: 10px;
+                    margin-bottom: 20px;
                     outline: none;
-                    border: 1px solid transparent;
-                    border-bottom-color: var(--activeColor);
+                    border-radius: 4px;
+                    border: 1px solid var(--activeColor);
 
                     &::placeholder {
                         color: var(--dimColor);
                     }
 
                     &.error {
-                        border-bottom-color: red;
+                        border-color: red;
                     }
                 }
-            }
-            .submit-btn {
-                width: 100%;
-                height: 48px;
-                line-height: 48px;
-                border-radius: 8px;
-                color: #FFFFFF;
-                margin: 20px 0;
-                text-align: center;
-                background: var(--mainColor);
-                cursor: pointer;
             }
 
             .tip-wrapper {
-                width: 100%;
-                span {
-                    cursor: pointer;
-                    &:hover {
-                        text-decoration: underline;
-                        color: var(--mainColor);
+                .remember {
+                    color: #A8A6B0;
+                    input {
+                        cursor: pointer;
+                        margin-right: 6px;
                     }
                 }
                 .forget {
-                    margin-left: 20px;
+                    color: var(--mainColor);
+                    &:hover {
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .submit-btn {
+                margin: 14px 0;
+                padding: 8px 0;
+                color: #FFFFFF;
+                border-radius: 4px;
+                text-align: center;
+                background: var(--mainColor);
+                cursor: pointer;
+                &:hover {
+                    box-shadow: 0 4px 10px 0 rgba(140, 171, 145, .5);
+                }
+            }
+
+            .change-type {
+                text-align: center;
+                color: var(--mainColor);
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+
+            .split-wrapper {
+                display: flex;
+                align-items: center;
+                margin: 15px 0;
+                .line {
+                    flex: 1;
+                    height: 1px;
+                    background: #E6EBE4;
+                }
+                .text {
+                    padding: 0 10px;
+                    font-size: 14px;
+                }
+            }
+
+            .quick-method {
+                .svg-icon:first-of-type {
+                    margin-right: 2px;
                 }
             }
         }
