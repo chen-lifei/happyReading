@@ -9,6 +9,8 @@ export default defineConfig({
     // server: {
     //     port: 3008,
     // },
+    // 将根路径换成相对路径
+    base: "./",
     plugins: [vue()],
     resolve: {
         alias: {

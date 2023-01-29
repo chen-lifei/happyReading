@@ -6,7 +6,7 @@ import "./permission";
 
 // Element
 import ElementPlus from "element-plus";
-import "element-plus/dist/index.css";
+import "@/assets/css/element.css";
 // tailwind
 import "tailwindcss/tailwind.css";
 // iconfont
