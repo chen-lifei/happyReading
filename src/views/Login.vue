@@ -1,20 +1,34 @@
 <template>
     <div class="login-view">
         <div class="main-wrapper">
-            <img class="top-img" src="@/assets/image/login/top.svg" />
-            <img class="bottom-img" src="@/assets/image/login/bottom.svg" />
+            <div class="logo">
+                <img src="@/assets/image/logo.svg" alt="悦阅" />
+                悦阅
+            </div>
             <div class="inner-wrapper">
-                <div class="logo-wrapper">
-                    <img src="@/assets/image/logo.svg" alt="悦阅" />
-                    悦阅
-                </div>
-                <h2>欢迎来到悦阅！</h2>
-                <div class="tip">请先{{ state.isLogin ? "登录" : "注册" }}账号~</div>
-                <div class="form-area">
-                    <input type="text" v-if="!state.isLogin" v-model="state.username" class="form-item" :class="{ 'error': state.username.length && !usernameCorrect }" placeholder="请输入用户名">
-                    <input type="text" class="form-item" :class="{ 'error': !state.accountCorrect && state.account.length  }" v-model="state.account" placeholder="请输入手机号或邮箱" @blur="checkAccount">
-                    <input type="password" class="form-item" :class="{ 'error': state.password.length && !passwordCorrect  }" v-model="state.password" placeholder="请输入密码">
-                </div>
+                <div class="tip1">{{ state.isLogin ? "登录账号" : "注册账号" }}</div>
+                <div class="tip2">请输入{{ state.isLogin ? "账号&密码" : "用户名&账号&密码" }}</div>
+                <el-form label-position="top">
+                    <el-form-item v-if="!state.isLogin" label="用户名">
+                        <el-input
+                            v-model="state.username"
+                            :class="{ 'error': state.username.length && !usernameCorrect }"
+                            placeholder="请输入用户名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="账号">
+                        <el-input
+                            v-model="state.account"
+                            :class="{ 'error': !state.accountCorrect && state.account.length }"
+                            placeholder="请输入手机号或邮箱"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码">
+                        <el-input
+                            show-password
+                            v-model="state.password"
+                            :class="{ 'error': !state.accountCorrect && state.account.length }"
+                            placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                </el-form>
                 <div class="tip-wrapper flex-between" v-if="state.isLogin">
                     <div class="remember flex">
                         <el-checkbox v-model="state.remember" label="记住我" />
@@ -29,12 +43,15 @@
                     <div class="line"></div>
                 </div>
                 <div class="quick-method flex">
-                    <svg class="svg-icon" aria-hidden="true">
-                        <use xlink:href="#icon-wechat"></use>
-                    </svg>
-                    <svg class="svg-icon" aria-hidden="true">
-                        <use xlink:href="#icon-qq"></use>
-                    </svg>
+                    <div class="icon-wrapper">
+                        <i class="iconfont icon-qq"></i>
+                    </div>
+                    <div class="icon-wrapper">
+                        <i class="iconfont icon-wechat"></i>
+                    </div>
+                    <div class="icon-wrapper">
+                        <i class="iconfont icon-weibo"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,69 +149,56 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        background: #FFFFFF;
 
         .main-wrapper {
-            position: relative;
-
-            .top-img {
-                position: absolute;
-                left: -60px;
-                top: -60px;
-                inline-size: 240px;
-            }
-
-            .bottom-img {
-                position: absolute;
-                right: -60px;
-                bottom: -60px;
-                inline-size: 240px;
+            .logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 30px;
+                font-size: 18px;
+                color: #000000;
+                img {
+                    width: 38px;
+                    height: 38px;
+                    margin-right: 10px;
+                }
             }
         }
 
         .inner-wrapper {
             position: relative;
-            width: 440px;
-            padding: 40px 30px;
+            width: 450px;
+            padding: 40px;
             color: #33303C;
             border-radius: 8px;
             background-color: #FFFFFF;
-            box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-            z-index: 2;
+            box-shadow: 0 0 30px rgba(8, 21, 66, 0.05);
 
-            .logo-wrapper {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 30px;
-                font-size: 20px;
-                color: #000000;
-                img {
-                    margin-right: 14px;
+            .tip1 {
+                color: #2B2B2B;
+                font-size: 24px;
+                font-weight: 700;
+                text-align: center;
+                letter-spacing: 2px;
+            }
+
+            .tip2 {
+                font-size: 14px;
+                color: #898989;
+                text-align: center;
+                margin: 10px 0 25px 0;
+            }
+
+            :deep(.el-form) {
+                label {
+                    color: #2B2B2B;
                 }
-            }
-
-            h2 {
-                font-size: 26px;
-                color: #000000;
-            }
-
-            .tip {
-                color: #A8A6B0;
-                margin: 4px 0 20px 0;
-            }
-
-            .form-area {
-                width: 100%;
-                .form-item {
-                    width: 100%;
-                    height: 38px;
-                    font-size: 16px;
-                    padding: 10px;
-                    margin-bottom: 20px;
-                    outline: none;
-                    border-radius: 4px;
-                    border: 1px solid var(--activeColor);
+                input {
+                    height: 20px;
+                    padding: 10px 8px;
+                    border-radius: 10px;
+                    box-sizing: content-box;
 
                     &::placeholder {
                         color: var(--dimColor);
@@ -215,6 +219,7 @@
                     }
                 }
                 .forget {
+                    font-size: 14px;
                     color: var(--mainColor);
                     &:hover {
                         cursor: pointer;
@@ -227,7 +232,7 @@
                 margin: 20px 0;
                 padding: 8px 0;
                 color: #FFFFFF;
-                border-radius: 4px;
+                border-radius: 8px;
                 text-align: center;
                 background: var(--mainColor);
                 cursor: pointer;
@@ -253,7 +258,7 @@
                 .line {
                     flex: 1;
                     height: 1px;
-                    background: #E6EBE4;
+                    background: rgba(70, 92, 90, 0.1);
                 }
                 .text {
                     padding: 0 10px;
@@ -262,11 +267,30 @@
             }
 
             .quick-method {
-                .svg-icon {
-                    font-size: 34px;
+                .icon-wrapper {
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    text-align: center;
+                    border-radius: 50%;
+                    margin-right: 15px;
+                    background: rgba(140, 171, 145, .1);
+                    border: 1px solid rgba(140, 171, 145, .3);
+                    transition: all .4s ease;
                     cursor: pointer;
-                    &:first-of-type {
-                        margin-right: 6px;
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+                    i {
+                        font-size: 16px;
+                        color: var(--mainColor);
+                        transition: all .4s ease;
+                    }
+                    &:hover {
+                        background: var(--mainColor);
+                        i {
+                            color: #FFFFFF;
+                        }
                     }
                 }
             }

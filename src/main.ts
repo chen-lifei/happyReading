@@ -8,7 +8,7 @@ import "./permission";
 import ElementPlus from "element-plus";
 import "@/assets/css/element.css";
 // tailwind
-import "tailwindcss/tailwind.css";
+// import "tailwindcss/tailwind.css";
 // iconfont
 import "@/iconfont/iconfont.css";
 import "@/iconfont/iconfont.js";
