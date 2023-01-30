@@ -6,51 +6,61 @@
                 悦阅
             </div>
             <div class="inner-wrapper">
-                <div class="tip1">{{ state.isLogin ? "登录账号" : "注册账号" }}</div>
-                <div class="tip2">请输入{{ state.isLogin ? "账号&密码" : "用户名&账号&密码" }}</div>
-                <el-form label-position="top">
-                    <el-form-item v-if="!state.isLogin" label="用户名">
-                        <el-input
-                            v-model="state.username"
-                            :class="{ 'error': state.username.length && !usernameCorrect }"
-                            placeholder="请输入用户名"></el-input>
-                    </el-form-item>
-                    <el-form-item label="账号">
-                        <el-input
-                            v-model="state.account"
-                            :class="{ 'error': !state.accountCorrect && state.account.length }"
-                            placeholder="请输入手机号或邮箱"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码">
-                        <el-input
-                            show-password
-                            v-model="state.password"
-                            :class="{ 'error': !state.accountCorrect && state.account.length }"
-                            placeholder="请输入密码"></el-input>
-                    </el-form-item>
-                </el-form>
-                <div class="tip-wrapper flex-between" v-if="state.isLogin">
-                    <div class="remember flex">
-                        <el-checkbox v-model="state.remember" label="记住我" />
+                <div class="reset-wrapper" v-if="resetData.show">
+                    <div class="tip1">重置密码</div>
+                    <div class="tip2">请输入手机号或邮箱</div>
+                    <el-input v-model="resetData.account"></el-input>
+                    <div class="send-wrapper">
+                        <el-button type="primary">发送</el-button>
                     </div>
-                    <div class="forget">忘记密码?</div>
                 </div>
-                <div class="submit-btn" @click="clickSubmitBtn()">{{ state.isLogin ? "登录" : "注册" }}</div>
-                <div class="change-type" @click="changeType">{{ state.isLogin ? "注册" : "登录" }}账号</div>
-                <div class="split-wrapper">
-                    <div class="line"></div>
-                    <div class="text">或者</div>
-                    <div class="line"></div>
-                </div>
-                <div class="quick-method flex">
-                    <div class="icon-wrapper">
-                        <i class="iconfont icon-qq"></i>
+                <div class="sign-wrapper" v-else>
+                    <div class="tip1">{{ state.isLogin ? "登录账号" : "注册账号" }}</div>
+                    <div class="tip2">请输入{{ state.isLogin ? "账号&密码" : "用户名&账号&密码" }}</div>
+                    <el-form label-position="top">
+                        <el-form-item v-if="!state.isLogin" label="用户名">
+                            <el-input
+                                v-model="state.username"
+                                :class="{ 'error': state.username.length && !usernameCorrect }"
+                                placeholder="请输入用户名"></el-input>
+                        </el-form-item>
+                        <el-form-item label="账号">
+                            <el-input
+                                v-model="state.account"
+                                :class="{ 'error': !state.accountCorrect && state.account.length }"
+                                placeholder="请输入手机号或邮箱"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码">
+                            <el-input
+                                show-password
+                                v-model="state.password"
+                                :class="{ 'error': !state.accountCorrect && state.account.length }"
+                                placeholder="请输入密码"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div class="tip-wrapper flex-between" v-if="state.isLogin">
+                        <div class="remember flex">
+                            <el-checkbox v-model="state.remember" label="记住我" />
+                        </div>
+                        <div class="forget" @click="resetData.show = true">忘记密码?</div>
                     </div>
-                    <div class="icon-wrapper">
-                        <i class="iconfont icon-wechat"></i>
+                    <div class="submit-btn" @click="clickSubmitBtn()">{{ state.isLogin ? "登录" : "注册" }}</div>
+                    <div class="change-type" @click="changeType">{{ state.isLogin ? "注册" : "登录" }}账号</div>
+                    <div class="split-wrapper">
+                        <div class="line"></div>
+                        <div class="text">或者</div>
+                        <div class="line"></div>
                     </div>
-                    <div class="icon-wrapper">
-                        <i class="iconfont icon-weibo"></i>
+                    <div class="quick-method flex">
+                        <div class="icon-wrapper">
+                            <i class="iconfont icon-qq"></i>
+                        </div>
+                        <div class="icon-wrapper">
+                            <i class="iconfont icon-wechat"></i>
+                        </div>
+                        <div class="icon-wrapper">
+                            <i class="iconfont icon-weibo"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,22 +69,29 @@
 </template>
 
 <script lang="ts" setup>
-    import { reactive, onMounted, computed } from 'vue';
-    import { loginApi, registerApi } from '@/api/user';
-    import { validatePhone, validateEmail } from '@/utils/validate';
-    import { useRouter } from 'vue-router';
-    import { useStore } from 'vuex';
-    import { key } from '@/store';
+    import { reactive, onMounted, computed } from "vue";
+    import { loginApi, registerApi } from "@/api/user";
+    import { validatePhone, validateEmail } from "@/utils/validate";
+    import { useRouter } from "vue-router";
+    import { useStore } from "vuex";
+    import { key } from "@/store";
 
     let state = reactive({
         isLogin: true,
         remember: false,
-        username: '',
-        account: '',
-        password: '',
+        username: "",
+        account: "",
+        password: "",
         nameCorrect: false,
         accountCorrect: false,
         passwordCorrect: false,
+        showReset: false,
+    });
+
+    let resetData = reactive({
+        show: false,
+        account: "",
+        verifyCode: "",
     });
 
     const store = useStore(key);
@@ -91,8 +108,8 @@
 
     function changeType() {
         state.isLogin = !state.isLogin;
-        state.account = '';
-        state.password = '';
+        state.account = "";
+        state.password = "";
     }
 
     function checkAccount() {
@@ -101,25 +118,25 @@
 
     function clickSubmitBtn() {
         if (!state.accountCorrect) {
-            return window.alert('请输入正确的账号');
+            return window.alert("请输入正确的账号");
         }
         if (!passwordCorrect) {
-            return window.alert('密码需大于6位且小于12位');
+            return window.alert("密码需大于6位且小于12位");
         }
 
         if (state.isLogin) {
             // 登录
-            store.dispatch('login', {
+            store.dispatch("login", {
                 account: state.account,
                 password: state.password
             }).then(() => {
                 push('/');
             }).catch(() => {
-                window.alert('账号或密码输入错误，登录失败');
+                window.alert("账号或密码输入错误，登录失败");
             });
         } else {
             if (!usernameCorrect) {
-                return window.alert('用户名不能大于6位且不能为空');
+                return window.alert("用户名不能大于6位且不能为空");
             }
 
             // 注册
@@ -130,9 +147,9 @@
             }).then(res => {
                 let { data } = res;
                 if (data.status == 1) {
-                    window.alert('注册成功，请登录');
+                    window.alert("注册成功，请登录");
                 } else {
-                    window.alert('注册失败，请稍后重试');
+                    window.alert("注册失败，请稍后重试");
                 }
             });
         }
@@ -149,6 +166,7 @@
         justify-content: center;
         width: 100%;
         height: 100%;
+        background: linear-gradient(to right top, var(--backColor), var(--activeColor));
 
         .main-wrapper {
             .logo {
@@ -190,23 +208,28 @@
                 margin: 10px 0 25px 0;
             }
 
-            :deep(.el-form) {
-                label {
-                    color: #2B2B2B;
-                }
+            :deep(.el-input) {
                 input {
                     height: 20px;
                     padding: 10px 8px;
                     border-radius: 10px;
                     box-sizing: content-box;
-
+    
                     &::placeholder {
                         color: var(--dimColor);
                     }
-
+    
                     &.error {
                         border-color: red;
                     }
+                }
+            }
+        }
+        
+        .sign-wrapper {
+            :deep(.el-form) {
+                label {
+                    color: #2B2B2B;
                 }
             }
 
@@ -227,7 +250,7 @@
                     }
                 }
             }
-
+    
             .submit-btn {
                 margin: 20px 0;
                 padding: 8px 0;
@@ -240,7 +263,7 @@
                     background: var(--mainHoverColor);
                 }
             }
-
+    
             .change-type {
                 font-size: 14px;
                 text-align: center;
@@ -250,7 +273,7 @@
                     text-decoration: underline;
                 }
             }
-
+    
             .split-wrapper {
                 display: flex;
                 align-items: center;
@@ -265,7 +288,7 @@
                     font-size: 14px;
                 }
             }
-
+    
             .quick-method {
                 .icon-wrapper {
                     width: 40px;
@@ -292,6 +315,16 @@
                             color: #FFFFFF;
                         }
                     }
+                }
+            }
+        }
+
+        .reset-wrapper {
+            .send-wrapper {
+                text-align: right;
+                margin: 10px 0;
+                span {
+                    color: #FFFFFF;
                 }
             }
         }
