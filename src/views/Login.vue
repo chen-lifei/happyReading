@@ -13,6 +13,43 @@
                     <div class="send-wrapper">
                         <el-button type="primary">发送</el-button>
                     </div>
+                    <div class="resend">
+                        未收到验证码?<span>重新发送</span>
+                    </div>
+                    <div class="code-wrapper">
+                        <el-form label-position="top">
+                            <el-form-item label="验证码" class="code">
+                                <el-row :gutter="20">
+                                    <el-col :span="6">
+                                        <el-input v-model="resetData.verifyCode" maxlength="1"></el-input>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-input></el-input>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-input></el-input>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-input></el-input>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                            <el-form-item label="新的密码">
+                                <el-input
+                                    show-password
+                                    v-model="resetData.password1"
+                                    placeholder="请输入密码"></el-input>
+                            </el-form-item>
+                            <el-form-item label="重新输入">
+                                <el-input
+                                    show-password
+                                    v-model="resetData.password2"
+                                    placeholder="请重新输入密码"></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                    <el-button type="primary">确定</el-button>
+                    <div class="change-type" @click="changeType">返回登录</div>
                 </div>
                 <div class="sign-wrapper" v-else>
                     <div class="tip1">{{ state.isLogin ? "登录账号" : "注册账号" }}</div>
@@ -44,7 +81,7 @@
                         </div>
                         <div class="forget" @click="resetData.show = true">忘记密码?</div>
                     </div>
-                    <div class="submit-btn" @click="clickSubmitBtn()">{{ state.isLogin ? "登录" : "注册" }}</div>
+                    <el-button type="primary" @click="clickSubmitBtn">{{ state.isLogin ? "登录" : "注册" }}</el-button>
                     <div class="change-type" @click="changeType">{{ state.isLogin ? "注册" : "登录" }}账号</div>
                     <div class="split-wrapper">
                         <div class="line"></div>
@@ -92,6 +129,8 @@
         show: false,
         account: "",
         verifyCode: "",
+        password1: "",
+        password2: "",
     });
 
     const store = useStore(key);
@@ -107,9 +146,13 @@
     });
 
     function changeType() {
-        state.isLogin = !state.isLogin;
-        state.account = "";
-        state.password = "";
+        if (resetData.show) {
+            resetData.show = false;
+        } else {
+            state.isLogin = !state.isLogin;
+            state.account = "";
+            state.password = "";
+        }
     }
 
     function checkAccount() {
@@ -166,7 +209,7 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to right top, var(--backColor), var(--activeColor));
+        background: linear-gradient(to left, #e6f6da, #ebf0e8, #ffffff);
 
         .main-wrapper {
             .logo {
@@ -187,11 +230,11 @@
         .inner-wrapper {
             position: relative;
             width: 450px;
-            padding: 40px;
+            padding: 40px 30px;
             color: #33303C;
-            border-radius: 8px;
+            border-radius: 16px;
             background-color: #FFFFFF;
-            box-shadow: 0 0 30px rgba(8, 21, 66, 0.05);
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
             .tip1 {
                 color: #2B2B2B;
@@ -210,8 +253,7 @@
 
             :deep(.el-input) {
                 input {
-                    height: 20px;
-                    padding: 10px 8px;
+                    padding: 5px 8px;
                     border-radius: 10px;
                     box-sizing: content-box;
     
@@ -222,6 +264,24 @@
                     &.error {
                         border-color: red;
                     }
+                }
+            }
+
+            :deep(.el-button) {
+                width: 100%;
+                margin: 20px 0;
+                height: 42px;
+                border-radius: 8px;
+                font-weight: 600;
+            }
+
+            .change-type {
+                font-size: 14px;
+                text-align: center;
+                color: var(--mainColor);
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
                 }
             }
         }
@@ -248,29 +308,6 @@
                         cursor: pointer;
                         text-decoration: underline;
                     }
-                }
-            }
-    
-            .submit-btn {
-                margin: 20px 0;
-                padding: 8px 0;
-                color: #FFFFFF;
-                border-radius: 8px;
-                text-align: center;
-                background: var(--mainColor);
-                cursor: pointer;
-                &:hover {
-                    background: var(--mainHoverColor);
-                }
-            }
-    
-            .change-type {
-                font-size: 14px;
-                text-align: center;
-                color: var(--mainColor);
-                &:hover {
-                    cursor: pointer;
-                    text-decoration: underline;
                 }
             }
     
@@ -322,9 +359,35 @@
         .reset-wrapper {
             .send-wrapper {
                 text-align: right;
-                margin: 10px 0;
+                margin: 20px 0;
+                button {
+                    width: 88px;
+                    margin: 0;
+                }
+            }
+
+            .resend {
+                font-size: 14px;
                 span {
-                    color: #FFFFFF;
+                    padding-left: 4px;
+                    color: var(--el-color-danger);
+                    text-decoration: underline;
+                    cursor: pointer;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+
+            .code-wrapper {
+                margin: 20px 0;
+
+                .code {
+                    :deep(.el-input) {
+                        input {
+                            text-align: center;
+                        }
+                    }
                 }
             }
         }
