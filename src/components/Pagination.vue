@@ -55,7 +55,7 @@
     });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .pagination-wrapper {
         margin-top: 20px;
 

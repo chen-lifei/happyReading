@@ -207,7 +207,7 @@
     });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .login-view {
         display: flex;
         align-items: center;

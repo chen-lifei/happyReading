@@ -69,7 +69,7 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .bookcase-view {
         display: flex;
         width: 100%;

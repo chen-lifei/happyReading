@@ -107,7 +107,7 @@
     });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .select-bar {
         width: 220px;
         border-radius: 20px;

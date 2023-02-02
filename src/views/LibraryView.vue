@@ -94,7 +94,7 @@
     });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .library-view {
         display: flex;
         width: 100%;

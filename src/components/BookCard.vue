@@ -41,7 +41,7 @@
     })
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .book-card {
         cursor: pointer;
 

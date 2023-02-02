@@ -49,7 +49,7 @@
     })
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .navbar-wrapper {
         border-radius: 20px;
         background: #FFFFFF;

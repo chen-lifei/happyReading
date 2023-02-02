@@ -46,7 +46,7 @@
     </template>
 </template>
 
-<style scoped lang="less">
+<style scoped lang="scss">
     .left-navbar {
         position: absolute;
         top: 30px;

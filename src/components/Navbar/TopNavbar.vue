@@ -29,7 +29,7 @@
     });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
     .top-navbar-wrapper {
         width: 100%;
         height: 72px;
