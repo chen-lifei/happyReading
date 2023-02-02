@@ -4,10 +4,10 @@
     import { ref } from 'vue';
     import LeftNavbar from '@/components/Navbar/LeftNavbar.vue';
     import TopNavbar from '@/components/Navbar/TopNavbar.vue';
-    import { useStore } from 'vuex';
-    import { key } from '@/store';
+    // import { useStore } from 'vuex';
+    // import { key } from '@/store';
 
-    const store = useStore(key);
+    // const store = useStore(key);
 
     let hiddenNav = ref(true);
 

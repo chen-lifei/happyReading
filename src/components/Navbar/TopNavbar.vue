@@ -13,19 +13,19 @@
 
 <script lang="ts" setup>
     import { ref, onMounted } from 'vue';
-    import { useStore } from 'vuex';
-    import { key } from '@/store';
+    // import { useStore } from 'vuex';
+    // import { key } from '@/store';
 
-    const store = useStore(key);
+    // const store = useStore(key);
 
     let userInfo = ref({} as any);
     
     onMounted(() => {
-        if (store.state.user) {
-            let info: any = store.state.user;
-            info.avatar = 'http://localhost:3000' + info.avatar;
-            userInfo.value = store.state.user;
-        }
+        // if (store.state.user) {
+        //     let info: any = store.state.user;
+        //     info.avatar = 'http://localhost:3000' + info.avatar;
+        //     userInfo.value = store.state.user;
+        // }
     });
 </script>
 

@@ -1,23 +1,22 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "@/App.vue";
 import router from "@/router";
-import store, { key } from "@/store";
 import "./permission";
 
-// Element
-import ElementPlus from "element-plus";
-import "@/assets/css/element.css";
+// ElementPlus
+import "@/assets/css/index.scss";
+import "element-plus/theme-chalk/src/message.scss"
 // tailwind
 // import "tailwindcss/tailwind.css";
 // iconfont
 import "@/iconfont/iconfont.css";
 import "@/iconfont/iconfont.js";
-import "@/assets/css/main.css";
 
+const pinia = createPinia();
 const app = createApp(App);
 
-app.use(store, key);
-app.use(ElementPlus);
+app.use(pinia);
 app.use(router);
 
 app.mount("#app");

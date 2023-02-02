@@ -1,0 +1,27 @@
+$--colors: (
+    "primary": (
+        "base": #8CAB91,
+    ),
+    "success": (
+        "base": #409EFF,
+    ),
+    "warning": (
+        "base": #f2711c,
+    ),
+    "danger": (
+        "base": #db2828,
+    ),
+    "error": (
+        "base": #db2828,
+    ),
+    "info": (
+        "base": grey,
+    ),
+);
+
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+    $colors: $--colors,
+    $button-padding-horizontal: ("default": 50px)
+);
+
+@use "./dark.scss";

@@ -110,8 +110,9 @@
     import { loginApi, registerApi } from "@/api/user";
     import { validatePhone, validateEmail } from "@/utils/validate";
     import { useRouter } from "vue-router";
-    import { useStore } from "vuex";
-    import { key } from "@/store";
+    // import { useStore } from "vuex";
+    // import { key } from "@/store";
+    import { ElMessage } from 'element-plus';
 
     let state = reactive({
         isLogin: true,
@@ -133,7 +134,7 @@
         password2: "",
     });
 
-    const store = useStore(key);
+    // const store = useStore(key);
     
     const { push } = useRouter();
 
@@ -169,14 +170,14 @@
 
         if (state.isLogin) {
             // 登录
-            store.dispatch("login", {
-                account: state.account,
-                password: state.password
-            }).then(() => {
-                push('/');
-            }).catch(() => {
-                window.alert("账号或密码输入错误，登录失败");
-            });
+            // store.dispatch("login", {
+            //     account: state.account,
+            //     password: state.password
+            // }).then(() => {
+            //     push('/');
+            // }).catch(() => {
+            //     window.alert("账号或密码输入错误，登录失败");
+            // });
         } else {
             if (!usernameCorrect) {
                 return window.alert("用户名不能大于6位且不能为空");
@@ -196,6 +197,10 @@
                 }
             });
         }
+    }
+
+    function toast() {
+        ElMessage.success('Hello');
     }
 
     onMounted(() => {

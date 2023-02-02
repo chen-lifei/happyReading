@@ -1,0 +1,92 @@
+@use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
+
+:root {
+    --backColor: #f6fcf2;
+    --hoverColor: #edf7e6;
+    --activeColor: #d8e3d9;
+    --mainColor: #8cab91;
+    --textColor: #737a74;
+    --stressColor: #0b172a;
+    --dimColor: #bdbdbd;
+    --borderColor: #e4e6e8;
+    --mainHoverColor: #98b59c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: auto hidden;
+}
+
+#app {
+    position: relative;
+    width: auto;
+    height: 100vh;
+    /* min-width: 1080px; */
+    user-select: none;
+    background: var(--backColor);
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hidden-scrollbar::-moz-scrollbar {
+    display: none;
+}
+.hidden-scrollbar::-ms-scrollbar {
+    display: none;
+}
+
+.iconfont {
+    display: inline-block;
+    font-size: 12px;
+}
+.svg-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    font-size: 30px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--activeColor);
+}
+
+/* input:-webkit-autofill {
+    -webkit-box-shadow: inset 0 0 0 1000px #fff !important;
+    box-shadow: inset 0 0 0 1000px #fff !important;
+  } */
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flex-start {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.flex-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
