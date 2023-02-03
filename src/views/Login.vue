@@ -65,7 +65,8 @@
                             <el-input
                                 v-model="state.account"
                                 :class="{ 'error': !state.accountCorrect && state.account.length }"
-                                placeholder="请输入手机号或邮箱"></el-input>
+                                placeholder="请输入手机号或邮箱"
+                                @blur="checkAccount"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
                             <el-input
@@ -107,11 +108,10 @@
 
 <script lang="ts" setup>
     import { reactive, onMounted, computed } from "vue";
-    import { loginApi, registerApi } from "@/api/user";
+    import { registerApi } from "@/api/user";
     import { validatePhone, validateEmail } from "@/utils/validate";
+    import { useUserStore } from "@/stores/user";
     import { useRouter } from "vue-router";
-    // import { useStore } from "vuex";
-    // import { key } from "@/store";
     import { ElMessage } from 'element-plus';
 
     let state = reactive({
@@ -132,10 +132,7 @@
         verifyCode: "",
         password1: "",
         password2: "",
-    });
-
-    // const store = useStore(key);
-    
+    });    
     const { push } = useRouter();
 
     const usernameCorrect = computed(() => {
@@ -145,6 +142,8 @@
     const passwordCorrect = computed(() => {
         return state.password.length >= 6 && state.password.length <= 12;
     });
+
+    const user = useUserStore();
 
     function changeType() {
         if (resetData.show) {
@@ -162,25 +161,22 @@
 
     function clickSubmitBtn() {
         if (!state.accountCorrect) {
-            return window.alert("请输入正确的账号");
+            return ElMessage.error("请输入正确的账号~");
         }
         if (!passwordCorrect) {
-            return window.alert("密码需大于6位且小于12位");
+            return ElMessage.error("密码需大于6位且小于12位~");
         }
 
         if (state.isLogin) {
             // 登录
-            // store.dispatch("login", {
-            //     account: state.account,
-            //     password: state.password
-            // }).then(() => {
-            //     push('/');
-            // }).catch(() => {
-            //     window.alert("账号或密码输入错误，登录失败");
-            // });
+            user.login(state.account, state.password).then(() => {
+                push('/');
+            }).catch(err => {
+                ElMessage.error(err || "注册成功，请登录~");
+            });
         } else {
             if (!usernameCorrect) {
-                return window.alert("用户名不能大于6位且不能为空");
+                return ElMessage.error("用户名不能大于6位且不能为空~");
             }
 
             // 注册
@@ -191,16 +187,12 @@
             }).then(res => {
                 let { data } = res;
                 if (data.status == 1) {
-                    window.alert("注册成功，请登录");
+                    ElMessage.success("注册成功，请登录~");
                 } else {
-                    window.alert("注册失败，请稍后重试");
+                    ElMessage.success("注册失败，请稍后重试~");
                 }
             });
         }
-    }
-
-    function toast() {
-        ElMessage.success('Hello');
     }
 
     onMounted(() => {

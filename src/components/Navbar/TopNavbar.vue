@@ -13,19 +13,18 @@
 
 <script lang="ts" setup>
     import { ref, onMounted } from 'vue';
-    // import { useStore } from 'vuex';
-    // import { key } from '@/store';
+    import { useUserStore } from '@/stores/user';
 
-    // const store = useStore(key);
+    const user = useUserStore();
 
     let userInfo = ref({} as any);
     
     onMounted(() => {
-        // if (store.state.user) {
-        //     let info: any = store.state.user;
-        //     info.avatar = 'http://localhost:3000' + info.avatar;
-        //     userInfo.value = store.state.user;
-        // }
+        if (user.userInfo) {
+            let info: any = user.userInfo;
+            info.avatar = 'http://localhost:3000' + info.avatar;
+            userInfo.value = info;
+        }
     });
 </script>
 
@@ -50,7 +49,7 @@
             }
 
             &:hover {
-                background: var(--mainColor);
+                background: var(--activeColor);
             }
         }
 

@@ -1,21 +1,22 @@
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
 
 :root {
-    --backColor: #f6fcf2;
-    --hoverColor: #edf7e6;
-    --activeColor: #d8e3d9;
-    --mainColor: #8cab91;
-    --textColor: #737a74;
-    --stressColor: #0b172a;
-    --dimColor: #bdbdbd;
-    --borderColor: #e4e6e8;
-    --mainHoverColor: #98b59c;
+    --mainColor: #8CAB91;
+    --hoverColor: #F3FAF1;
+    --backColor: #E6F6E4;
+    --activeColor: #CDE5CC;
+    --textColor: #666666;
+    --stressColor: #474747;
+    --dimColor: #E5E5E5;
+    --borderColor: #DCE6DC;
+    --mainHoverColor: #98B59C;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: var(--textColor);
 }
 
 body {
