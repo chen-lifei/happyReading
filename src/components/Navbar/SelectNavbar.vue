@@ -43,7 +43,7 @@
                 default: ''
             },
             navList: {
-                type: Array as any,
+                type: Array<object>,
                 default: []
             }
         },

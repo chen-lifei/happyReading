@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRow: typeof import('element-plus/es')['ElRow']
     LeftNavbar: typeof import('./components/Navbar/LeftNavbar.vue')['default']
     Pagination: typeof import('./components/Pagination.vue')['default']

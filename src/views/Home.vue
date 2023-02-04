@@ -53,6 +53,7 @@
     import { fetchBookList } from '@/api/book';
 
     import {  ref, reactive, onMounted } from 'vue';
+
     import BookCard from '@/components/BookCard.vue';
     import BookDetail from '@/components/BookDetail.vue';
 

@@ -36,7 +36,7 @@
                 default: () => {}
             }
         },
-        setup(props) {
+        setup() {
         }
     })
 </script>

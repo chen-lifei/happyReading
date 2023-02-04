@@ -147,7 +147,7 @@
                 default: ''
             }
         },
-        setup(props) {
+        setup() {
             const HIDDEN_STYLE = `height:0 !important;visibility:hidden !important;overflow:hidden !important;z-index:-999 !important;`;
             const CONTEXT_STYLE = [
                 'letter-spacing',
