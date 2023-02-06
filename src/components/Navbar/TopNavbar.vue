@@ -3,7 +3,7 @@
         <div class="message-wrapper">
             <i class="iconfont icon-message"></i>
         </div>
-        <div class="user-wrapper flex" v-if="userInfo">
+        <div class="user-wrapper flex">
             <img :src="userInfo.avatar" alt="">
             <div class="name">{{ userInfo.name }}</div>
             <i class="iconfont icon-arrowDown"></i>
@@ -12,19 +12,19 @@
 </template>
 
 <script lang="ts" setup>
+    import { validURL } from "@/utils/validate";
+
     import { ref, onMounted } from 'vue';
     import { useUserStore } from '@/stores/user';
 
     const user = useUserStore();
 
     let userInfo = ref({} as any);
-    
+
     onMounted(() => {
-        if (user.userInfo) {
-            let info: any = user.userInfo;
-            info.avatar = 'http://localhost:3000' + info.avatar;
-            userInfo.value = info;
-        }
+        let info = user.getInfo();
+        info.avatar = validURL(info.avatar) ? info.avatar : `http://localhost:3000${info.avatar}`;
+        userInfo.value = info;
     });
 </script>
 

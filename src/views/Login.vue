@@ -59,21 +59,26 @@
                             <el-input
                                 v-model="state.username"
                                 :class="{ 'error': state.username.length && !usernameCorrect }"
-                                placeholder="请输入用户名"></el-input>
+                                placeholder="请输入用户名"
+                                @keyup.enter="handleEnter('account')"></el-input>
                         </el-form-item>
                         <el-form-item label="账号">
                             <el-input
+                                ref="accountInput"
                                 v-model="state.account"
                                 :class="{ 'error': !state.accountCorrect && state.account.length }"
                                 placeholder="请输入手机号或邮箱"
-                                @blur="checkAccount"></el-input>
+                                @blur="checkAccount"
+                                @keyup.enter="handleEnter('password')"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
                             <el-input
+                                ref="passwordInput"
                                 show-password
                                 v-model="state.password"
                                 :class="{ 'error': !state.accountCorrect && state.account.length }"
-                                placeholder="请输入密码"></el-input>
+                                placeholder="请输入密码"
+                                @keyup.enter="clickSubmitBtn"></el-input>
                         </el-form-item>
                     </el-form>
                     <div class="tip-wrapper flex-between" v-if="state.isLogin">
@@ -107,7 +112,7 @@
 </template>
 
 <script lang="ts" setup>
-    import { reactive, onMounted, computed } from "vue";
+    import { reactive, onMounted, computed, ref } from "vue";
     import { registerApi } from "@/api/user";
     import { validatePhone, validateEmail } from "@/utils/validate";
     import { useUserStore } from "@/stores/user";
@@ -132,18 +137,18 @@
         verifyCode: "",
         password1: "",
         password2: "",
-    });    
+    });
+    
     const { push } = useRouter();
-
+    const user = useUserStore();
+    const accountInput = ref<HTMLInputElement | null>(null);
+    const passwordInput = ref<HTMLInputElement | null>(null);
     const usernameCorrect = computed(() => {
         return state.username.length && state.username.length <= 6;
     });
-
     const passwordCorrect = computed(() => {
         return state.password.length >= 6 && state.password.length <= 12;
     });
-
-    const user = useUserStore();
 
     function changeType() {
         if (resetData.show) {
@@ -192,6 +197,14 @@
                     ElMessage.success("注册失败，请稍后重试~");
                 }
             });
+        }
+    }
+
+    function handleEnter(type) {
+        if (type == "account") {
+            accountInput.value?.focus();
+        } else {
+            passwordInput.value?.focus();
         }
     }
 

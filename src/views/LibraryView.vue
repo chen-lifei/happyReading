@@ -36,6 +36,7 @@
     import BookCard from '@/components/BookCard.vue';
     import SelectBar from '@/components/Navbar/SelectNavbar.vue';
     import BookDetail from '@/components/BookDetail.vue';
+    import { ElMessage } from 'element-plus';
     
     import { ref, reactive, onMounted } from 'vue';
     import { fetchBookCategory, fetchBookList } from '@/api/book';
@@ -65,7 +66,7 @@
                 state.topNav = categoryData;
                 state.navList = categoryData[0].list;
             } else {
-                window.alert('获取书籍分类失败');
+                ElMessage.error("获取书籍分类失败~");
             }
         });
     }

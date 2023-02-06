@@ -1,12 +1,12 @@
-import { setToken } from "@/utils/auth";
+import { setToken, getToken } from "@/utils/auth";
 import { loginApi } from "@/api/user";
 import { defineStore, acceptHMRUpdate } from "pinia";
 
-// function apiLogin(a: string, p: string) {
-//     if (a === "ed" && p === "ed") return Promise.resolve({ isAdmin: true });
-//     if (p === "ed") return Promise.resolve({ isAdmin: false });
-//     return Promise.reject(new Error("invalid credentials"));
-// }
+interface userItem {
+    token: Number | string,
+    avatar: string,
+    name: string
+}
 
 export const useUserStore = defineStore({
     id: "user",
@@ -20,6 +20,14 @@ export const useUserStore = defineStore({
     }),
 
     actions: {
+        getInfo(): userItem {
+            let info = JSON.parse(getToken());
+            this.$patch({
+                userInfo: info
+            });
+            return info;
+        },
+
         logout() {
             this.$patch({
                 userInfo: {
@@ -31,35 +39,42 @@ export const useUserStore = defineStore({
             });
         },
 
-        /**
-         * Attempt to login a user
-         */
         async login(account: string, password: string) {
-            return new Promise((resolve, reject) => {
-                loginApi({
-                    account,
-                    password
-                }).then(res => {
-                    let { data } = res;
-                    
-                    if (data.status == 1) {
-                        this.$patch({
-                            userInfo: {
-                                token: "99",
-                                avatar: "",
-                                name: account,
-                            },
-                            ...data.result
-                        });
-                        setToken(account);
-                        resolve(true);
-                    } else {
-                        reject();
-                    }
-                }).catch(err => {
-                    reject(err);
-                });
+            let info = {
+                name: account,
+                avatar: "https://img1.baidu.com/it/u=2741160338,2445069712&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
+            }
+            this.$patch({
+                userInfo: info
             });
+            setToken(JSON.stringify(info));
+            return Promise.resolve(true);
+
+            // return new Promise((resolve, reject) => {
+            //     loginApi({
+            //         account,
+            //         password
+            //     }).then(res => {
+            //         let { data } = res;
+
+            //         if (data.status == 1) {
+            //             this.$patch({
+            //                 userInfo: {
+            //                     token: "",
+            //                     avatar: "",
+            //                     name: account,
+            //                 },
+            //                 ...data.result
+            //             });
+            //             setToken(account);
+            //             resolve(true);
+            //         } else {
+            //             reject();
+            //         }
+            //     }).catch(err => {
+            //         reject(err);
+            //     });
+            // });
         },
     },
 });

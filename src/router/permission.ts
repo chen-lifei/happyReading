@@ -11,12 +11,12 @@ router.beforeEach(async (to, from, next) => {
     // 用户是否登录过
     const hasToken = getToken();
     const user = useUserStore();
-    console.log(hasToken, user);
 
     if (hasToken) {
         if (to.path === "/login") {
             next({ path: "/" });
         } else {
+            let useInfo = user.getInfo();
             next();
         }
     } else {

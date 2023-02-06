@@ -2,14 +2,11 @@
     import { ref } from "vue";
     import router from "@/router";
     import { RouterView } from "vue-router";
-    import { useUserStore } from '@/stores/user';
 
     import LeftNavbar from "@/components/Navbar/LeftNavbar.vue";
     import TopNavbar from "@/components/Navbar/TopNavbar.vue";
 
     let hiddenNav = ref(true);
-
-    const user = useUserStore();
 
     router.beforeEach(async (to, from, next) => {
         hiddenNav.value = !!to.meta.hiddenNav as boolean;
