@@ -114,7 +114,7 @@
                 height: 40px;
                 line-height: 40px;
                 border-radius: 10px;
-                background: #FFFFFF;
+                background: var(--whiteColor);
                 padding: 0 16px;
 
                 .iconfont {
@@ -146,7 +146,7 @@
                         width: 20px;
                         height: 20px;
                         border-radius: 50%;
-                        background: #FFFFFF;
+                        background: var(--whiteColor);
                         cursor: pointer;
 
                         .iconfont {

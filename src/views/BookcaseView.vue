@@ -97,7 +97,7 @@
                         display: inline-block;
                         width: 76px;
                         height: 36px;
-                        background: #FFFFFF;
+                        background: var(--whiteColor);
                         border-radius: 24px;
                         cursor: pointer;
 
@@ -148,7 +148,7 @@
                         height: 36px;
                         border-radius: 10px;
                         margin-right: 10px;
-                        background: #FFFFFF;
+                        background: var(--whiteColor);
                         border: 1px solid transparent;
                         cursor: pointer;
 
@@ -175,7 +175,7 @@
                     top: 0;
                     right: 0;
                     height: 40px;
-                    color: #FFFFFF;
+                    color: var(--whiteColor);
                     border-radius: 16px;
                     padding: 0 24px;
                     background: var(--activeColor);

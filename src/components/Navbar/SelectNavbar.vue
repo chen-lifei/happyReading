@@ -112,7 +112,7 @@
         width: 220px;
         border-radius: 20px;
         padding: 20px 10px;
-        background: #FFFFFF;
+        background: var(--whiteColor);
         overflow: auto;
 
         .top-nav {
@@ -150,7 +150,7 @@
                 max-height: 400px;
                 padding: 15px 10px;
                 overflow: hidden scroll;
-                background: #FFFFFF;
+                background: var(--whiteColor);
                 border: 1px solid var(--mainColor);
                 box-shadow: 0 5px 15px 0 var(--activeColor);
                 z-index: 2;

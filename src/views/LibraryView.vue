@@ -128,7 +128,7 @@
                         height: 36px;
                         border-radius: 10px;
                         margin-right: 10px;
-                        background: #FFFFFF;
+                        background: var(--whiteColor);
                         border: 1px solid transparent;
                         cursor: pointer;
 

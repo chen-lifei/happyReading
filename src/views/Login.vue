@@ -219,7 +219,7 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to left, #e6f6da, #ebf0e8, #ffffff);
+        background: linear-gradient(to left, #e6f6da, #ebf0e8, var(--whiteColor));
 
         .main-wrapper {
             .logo {
@@ -243,7 +243,7 @@
             padding: 40px 30px;
             color: #33303C;
             border-radius: 16px;
-            background-color: #FFFFFF;
+            background-color: var(--whiteColor);
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
             .tip1 {
@@ -359,7 +359,7 @@
                     &:hover {
                         background: var(--mainColor);
                         i {
-                            color: #FFFFFF;
+                            color: var(--whiteColor);
                         }
                     }
                 }

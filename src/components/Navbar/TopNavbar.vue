@@ -40,7 +40,7 @@
             line-height: 36px;
             border-radius: 10px;
             margin-right: 20px;
-            background: #FFFFFF;
+            background: var(--whiteColor);
             text-align: center;
             cursor: pointer;
 
@@ -50,13 +50,17 @@
 
             &:hover {
                 background: var(--activeColor);
+
+                .icon-message {
+                    color: var(--whiteColor);
+                }
             }
         }
 
         .user-wrapper {
             height: 36px;
             border-radius: 10px;
-            background: #FFFFFF;
+            background: var(--whiteColor);
             padding: 0 8px;
 
             img {

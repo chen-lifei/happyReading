@@ -67,7 +67,7 @@
                 width: 100%;
                 padding: 5% 8%;
                 border-top-color: transparent;
-                background: #FFFFFF;
+                background: var(--whiteColor);
                 border-radius: 20px;
 
                 .author {
@@ -97,7 +97,7 @@
             height: 100%;
             padding: 0 4%;
             border-radius: 20px;
-            background: #FFFFFF;
+            background: var(--whiteColor);
 
             img {
                 width: 80px;

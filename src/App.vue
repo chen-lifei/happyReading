@@ -29,16 +29,12 @@
 
 <style scoped lang="scss">
     .left-navbar {
-        position: absolute;
-        top: 30px;
-        left: 30px;
-        width: 180px;
-        height: calc(100% - 60px);
+        height: 100%;
     }
     .right-wrapper {
-        width: calc(100% - 240px);
-        height: 100vh;
-        margin-left: 240px;
+        flex: 1;
+        height: 100%;
+        padding-left: 30px;
         overflow: hidden;
 
         .main-wrapper {

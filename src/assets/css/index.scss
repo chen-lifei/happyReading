@@ -3,13 +3,15 @@
 :root {
     --mainColor: #8CAB91;
     --hoverColor: #F3FAF1;
-    --backColor: #E6F6E4;
+    --backColor: #EFF9F4;
+    // --backColor: #E6F6E4;
     --activeColor: #CDE5CC;
     --textColor: #666666;
     --stressColor: #474747;
     --dimColor: #E5E5E5;
     --borderColor: #DCE6DC;
     --mainHoverColor: #98B59C;
+    --whiteColor: #FFFFFF;
 }
 
 * {
@@ -27,7 +29,7 @@ body {
 }
 
 #app {
-    position: relative;
+    display: flex;
     width: auto;
     height: 100vh;
     /* min-width: 1080px; */
@@ -56,13 +58,15 @@ body {
     font-size: 30px;
 }
 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(104, 134, 70, 0.1);
+}
 ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 6px;
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: var(--activeColor);
+    background-color: #EBF2EB;
 }
 
 /* input:-webkit-autofill {

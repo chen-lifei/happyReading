@@ -317,7 +317,7 @@
             min-width: 640px;
             height: calc(100% - 42px);
             border-radius: 10px;
-            background: #FFFFFF;
+            background: var(--whiteColor);
             padding: 30px;
             overflow: hidden auto;
 
@@ -365,7 +365,7 @@
                             height: 40px;
                             line-height: 40px;
                             text-align: center;
-                            color: #FFFFFF;
+                            color: var(--whiteColor);
                             border-radius: 14px;
                             background: var(--mainColor);
                             box-shadow: 0 4px 10px 0 rgba(140, 171, 145, .5);
@@ -394,11 +394,11 @@
                             width: 24px;
                             height: 24px;
                             font-size: 12px;
-                            color: #FFFFFF;
+                            color: var(--whiteColor);
                             text-align: center;
                             line-height: 24px;
                             border-radius: 50%;
-                            border: 2px solid #FFFFFF;
+                            border: 2px solid var(--whiteColor);
                             image-rendering: -webkit-optimize-contrast;
                         }
                         .user1 {
@@ -438,7 +438,7 @@
                     }
                     &:hover,
                     &.select {
-                        color: #FFFFFF;
+                        color: var(--whiteColor);
                         background: var(--mainColor);
                     }
                 }
@@ -454,7 +454,7 @@
                     width: 20%;
                     height: 108px;
                     margin-bottom: 20px;
-                    border-right: 20px solid #FFFFFF;
+                    border-right: 20px solid var(--whiteColor);
                     box-sizing: border-box;
 
                     .catalog {
