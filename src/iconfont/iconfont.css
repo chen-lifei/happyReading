@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3528419 */
-  src: url('iconfont.ttf?t=1675061705195') format('truetype');
+  src: url('iconfont.ttf?t=1675737414607') format('truetype');
 }
 
 .iconfont {
@@ -9,6 +9,66 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-comment:before {
+  content: "\e609";
+}
+
+.icon-classification:before {
+  content: "\e61f";
+}
+
+.icon-calendar:before {
+  content: "\e620";
+}
+
+.icon-download:before {
+  content: "\e622";
+}
+
+.icon-educate:before {
+  content: "\e623";
+}
+
+.icon-folder:before {
+  content: "\e624";
+}
+
+.icon-home:before {
+  content: "\e625";
+}
+
+.icon-user:before {
+  content: "\e626";
+}
+
+.icon-picture:before {
+  content: "\e627";
+}
+
+.icon-mailList:before {
+  content: "\e628";
+}
+
+.icon-notebook:before {
+  content: "\e62a";
+}
+
+.icon-plus:before {
+  content: "\e62b";
+}
+
+.icon-staff:before {
+  content: "\e62c";
+}
+
+.icon-upload:before {
+  content: "\e630";
+}
+
+.icon-reduce:before {
+  content: "\e631";
 }
 
 .icon-wechat:before {
@@ -21,22 +81,6 @@
 
 .icon-qq:before {
   content: "\e629";
-}
-
-.icon-remove:before {
-  content: "\e860";
-}
-
-.icon-tile:before {
-  content: "\e657";
-}
-
-.icon-list:before {
-  content: "\e658";
-}
-
-.icon-delete:before {
-  content: "\e64c";
 }
 
 .icon-arrowUp:before {
@@ -91,7 +135,7 @@
   content: "\e60f";
 }
 
-.icon-dustbin:before {
+.icon-delete:before {
   content: "\e610";
 }
 
@@ -135,16 +179,8 @@
   content: "\e61b";
 }
 
-.icon-user:before {
-  content: "\e604";
-}
-
 .icon-search:before {
   content: "\e636";
-}
-
-.icon-calendar:before {
-  content: "\e63e";
 }
 
 .icon-bookcase:before {
@@ -157,9 +193,5 @@
 
 .icon-message:before {
   content: "\e64b";
-}
-
-.icon-home:before {
-  content: "\e603";
 }
 

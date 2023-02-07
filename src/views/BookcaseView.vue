@@ -9,14 +9,14 @@
                 </div>
                 <div class="filter-wrapper flex">
                     <div class="read-button button-wrapper flex">
-                        <i class="iconfont icon-remove"></i>
+                        <i class="iconfont icon-notebook"></i>
                     </div>
                     <div class="hot-button button-wrapper flex selected">
                         <i class="iconfont icon-delete"></i>
                     </div>
                     <div class="like-button button-wrapper flex">
                         <!-- icon-tile -->
-                        <i class="iconfont icon-list"></i>
+                        <i class="iconfont icon-lineChart"></i>
                     </div>
                     <div class="filter-button button-wrapper flex selected">
                         <i class="iconfont icon-up"></i>
