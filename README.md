@@ -1,7 +1,7 @@
 # happy-reading
 
 项目使用的技术栈：`vue3`,`vite3`,`TypeScript`,`pinia`,`vue-router`
-项目使用的 ui 框架：`element-plus`,`tailwindcss`
+项目使用的 ui 框架：`element-plus`
 
 ## Customize configuration
 

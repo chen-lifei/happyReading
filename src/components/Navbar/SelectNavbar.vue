@@ -200,7 +200,7 @@
 
                 .desc {
                     font-size: 12px;
-                    color: var(--dimColor);
+                    color: var(--textColor);
 
                     .number {
                         margin-right: 6px;

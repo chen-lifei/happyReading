@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar-wrapper">
+    <div class="navbar-wrapper layout-menu menu-vertical menu bg-menu-theme col-12 col-md-12 col-lg-12 col-xl-8 mb-4">
         <div class="logo-wrapper">
             <img class="logo" src="@/assets/image/logo.svg" alt="logo" @click="toHome()">
             <div class="name">悦阅</div>
@@ -29,7 +29,7 @@
         currentNav: '',
         navList: [
             { key: 'home', name: '首页', icon: 'icon-home' },
-            { key: 'library', name: '图书馆', icon: 'icon-bookcase' },
+            { key: 'library', name: '图书馆', icon: 'icon-notebook' },
             { key: 'bookcase', name: '个人书柜', icon: 'icon-book' },
             { key: 'history', name: '观看历史', icon: 'icon-history' },
         ],

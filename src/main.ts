@@ -5,8 +5,6 @@ import App from "@/App.vue";
 import router from "@/router";
 import "@/router/permission";
 
-// tailwind
-// import "tailwindcss/tailwind.css";
 // iconfont
 import "@/iconfont/iconfont.css";
 import "@/iconfont/iconfont.js";
