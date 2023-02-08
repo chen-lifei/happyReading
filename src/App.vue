@@ -17,7 +17,7 @@
 <template>
     <RouterView v-if="hiddenNav" />
     <template v-else>
-        <LeftNavbar class="left-navbar" />
+        <LeftNavbar class="left-navbar hidden-xs-only" />
         <div class="right-wrapper">
             <TopNavbar class="top-navbar" />
             <div class="main-wrapper">

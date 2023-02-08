@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar-wrapper layout-menu menu-vertical menu bg-menu-theme col-12 col-md-12 col-lg-12 col-xl-8 mb-4">
+    <div class="navbar-wrapper">
         <div class="logo-wrapper">
             <img class="logo" src="@/assets/image/logo.svg" alt="logo" @click="toHome()">
             <div class="name">悦阅</div>

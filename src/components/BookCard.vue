@@ -1,7 +1,7 @@
 <template>
     <div class="book-card" :class="{ 'tile-card': displayType === 'tile', 'list-card flex-between': displayType === 'list' }">
         <template v-if="displayType === 'tile'">
-            <img :src="`http://127.0.0.1:3000/${bookInfo.cover}`" :alt="bookInfo.name"/>
+            <img :src="`http://127.0.0.1:3000${bookInfo.cover}`" :alt="bookInfo.name"/>
             <div class="bottom">
                 <div class="author">作者：{{ bookInfo.writer }}</div>
                 <div class="name">{{ bookInfo.name }}</div>

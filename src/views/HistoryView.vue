@@ -1,7 +1,7 @@
 <template>
     <div class="history-view">
-        <div class="book-wrapper" v-if="!state.showBookDetail">
-            <div class="book-item" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
+        <el-row class="book-wrapper" :gutter="20" v-if="!state.showBookDetail">
+            <el-col class="book-item" :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
                 <BookCard :bookInfo="item" displayType="list">
                     <div class="data-wrapper">
                         <div class="tag-list">
@@ -13,8 +13,8 @@
                         <div class="time">2022/08/05 08:05</div>
                     </div>
                 </BookCard>
-            </div>
-        </div>
+            </el-col>
+        </el-row>
         <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
 </template>
@@ -62,10 +62,8 @@
             box-sizing: content-box;
 
             .book-item {
-                width: 50%;
                 height: 128px;
                 margin-bottom: 20px;
-                border-right: 20px solid transparent;
     
                 .book-card {
                     .data-wrapper {

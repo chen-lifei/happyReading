@@ -1,10 +1,10 @@
 <template>
-    <div class="home-wrapper" v-if="!stateData.showBookDetail">
+    <div class="home-wrapper" v-if="!state.showBookDetail">
         <div class="top-wrapper flex-between">
             <div class="sentence">Good Evening, yanyanhuahua! It is time to have a rest.</div>
             <div class="calendar-wrapper">
                 <i class="iconfont icon-calendar"></i>
-                <span class="time">{{ stateData.date }}</span>
+                <span class="time">{{ state.date }}</span>
             </div>
         </div>
         <div class="recommend-wrapper">
@@ -19,11 +19,11 @@
                     </div>
                 </div>
             </div>
-            <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in stateData.currentBookList" :key="index" @click="toggleBookDetail(true)">
+            <el-row class="book-wrapper" :gutter="20">
+                <el-col class="book-item" :xs="12" :sm="12" :md="8" :lg="6" :xl="6" v-for="(item, index) in state.currentBookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
-                </div>
-            </div>
+                </el-col>
+            </el-row>
         </div>
         <div class="hot-wrapper">
             <div class="name-wrapper flex-between">
@@ -33,8 +33,8 @@
                     <i class="iconfont icon-arrowRight"></i>
                 </div>
             </div>
-            <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in stateData.bookList" :key="index" @click="toggleBookDetail(true)">
+            <el-row class="book-wrapper" :gutter="20">
+                <el-col class="book-item" :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item" displayType="list">
                         <div class="data-wrapper">
                             <div class="name">作品数据</div>
@@ -42,8 +42,8 @@
                             <div class="data">收藏数: 88</div>
                         </div>
                     </BookCard>
-                </div>
-            </div>
+                </el-col>
+            </el-row>
         </div>
     </div>
     <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
@@ -57,7 +57,7 @@
     import BookCard from '@/components/BookCard.vue';
     import BookDetail from '@/components/BookDetail.vue';
 
-    const stateData = reactive({
+    const state = reactive({
         date: '',
         currentPage: 1,
         showBookDetail: false,
@@ -69,13 +69,13 @@
     }
     
     function nextPage() {
-        let page = stateData.currentPage;
-        stateData.currentPage++;
-        stateData.currentBookList = stateData.bookList.slice(page * 4, page * 4 + 4);
+        let page = state.currentPage;
+        state.currentPage++;
+        state.currentBookList = state.bookList.slice(page * 4, page * 4 + 4);
     }
 
     function toggleBookDetail(isShow) {
-        stateData.showBookDetail = isShow;
+        state.showBookDetail = isShow;
     }
 
     function getBookList() {
@@ -86,15 +86,15 @@
             let { data } = res;
             if (data.status == 1) {
                 let bookList = data.result.list;
-                stateData.bookList = bookList;
-                stateData.currentBookList = bookList.slice(0, 4);
+                state.bookList = bookList;
+                state.currentBookList = bookList.slice(0, 4);
             }
         })
     }
 
     onMounted(() => {
         let currentDate:any = new Date();
-        stateData.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+        state.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}:${currentDate.getMinutes()}`;
         getBookList();
     });
 </script>
@@ -166,17 +166,7 @@
             .book-wrapper {
                 display: flex;
                 flex-wrap: nowrap;
-                width: 100%;
                 overflow: hidden;
-
-                .book-item {
-                    width: 25%;
-                    margin-right: 25px;
-
-                    &:nth-child(4n) {
-                        margin-right: 0;
-                    }
-                }
             }
         }
 
@@ -203,17 +193,10 @@
             }
 
             .book-wrapper {
-                display: flex;
-                flex-wrap: wrap;
-                width: calc(100% + 20px);
-                box-sizing: content-box;
-                padding-bottom: 10px;
 
                 .book-item {
-                    width: 50%;
                     height: 128px;
                     margin-bottom: 20px;
-                    border-right: 20px solid transparent;
 
                     .book-card {
                         .data-wrapper {

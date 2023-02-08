@@ -27,11 +27,11 @@
                     <span class="text">新建文件夹</span>
                 </div>
             </div>
-            <div class="book-wrapper">
-                <div class="book-item" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
+            <el-row class="book-wrapper" :gutter="20">
+                <el-col class="book-item" :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
-                </div>
-            </div>
+                </el-col>
+            </el-row>
         </div>
         <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
@@ -199,14 +199,10 @@
                 flex-wrap: wrap;
                 width: 100%;
                 height: calc(100% - 78px);
-                padding-bottom: 10px;
                 overflow: auto;
-                box-sizing: content-box;
 
                 .book-item {
-                    width: 33%;
                     margin-bottom: 20px;
-                    border-right: 20px solid transparent;
                 }
             }
         }
