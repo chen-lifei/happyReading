@@ -102,11 +102,11 @@
         height: 100%;
 
         .left-bar {
-            height: calc(100% - 30px);
+            height: calc(100% - 20px);
         }
         
         .right-content {
-            margin-left: 30px;
+            margin-left: 20px;
             width: calc(100% - 250px);
 
             .filter-wrapper {
@@ -155,7 +155,7 @@
                 height: 40px;
                 line-height: 40px;
                 border-radius: 12px;
-                margin: 15px 30px 20px 0;
+                margin: 15px 20px 20px 0;
                 text-align: center;
                 background: var(--activeColor);
 

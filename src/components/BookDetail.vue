@@ -366,7 +366,7 @@
                             line-height: 40px;
                             text-align: center;
                             color: var(--whiteColor);
-                            border-radius: 14px;
+                            border-radius: 10px;
                             background: var(--mainColor);
                             box-shadow: 0 4px 10px 0 rgba(140, 171, 145, .5);
                             cursor: pointer;
@@ -466,7 +466,7 @@
                         cursor: pointer;
 
                         .chapter {
-                            color: var(--dimColor);
+                            color: var(--textColor);
                             font-size: 12px;
                             margin-bottom: 4px;
                         }
@@ -478,6 +478,7 @@
                             -webkit-line-clamp: 2;
                             overflow: hidden;
                             text-overflow: ellipsis;
+                            color: var(--stressColor);
                         }
 
                         .tag {

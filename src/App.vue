@@ -34,7 +34,7 @@
     .right-wrapper {
         flex: 1;
         height: 100%;
-        padding-left: 30px;
+        padding-left: 20px;
         overflow: hidden;
 
         .main-wrapper {

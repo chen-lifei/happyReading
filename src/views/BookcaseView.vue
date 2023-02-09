@@ -76,11 +76,11 @@
         height: 100%;
 
         .left-bar {
-            height: calc(100% - 30px);
+            height: calc(100% - 20px);
         }
         
         .right-content {
-            margin-left: 30px;
+            margin-left: 20px;
             width: calc(100% - 250px);
 
             .top-wrapper {

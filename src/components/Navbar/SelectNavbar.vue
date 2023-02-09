@@ -3,18 +3,23 @@
         <div class="top-nav">
             <span class="name">分类：</span>
             <span class="select-name">{{ isNavList ? (selectTopNav.cname || selectTopNav.name) : topNav }}</span>
-            <i class="iconfont icon-arrowDown" @click.stop="showDropdown = !showDropdown" v-if="isNavList"></i>
+            <el-dropdown  v-if="isNavList" trigger="click" class="dropdown-wrapper" @command="selectNav" :teleported="false">
+                <i class="iconfont icon-arrowDown" v-if="isNavList"></i>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item
+                            v-for="(item, index) in topNav"
+                            :key="index"
+                            :command="item"
+                            :class="{ 'selected': item.id === selectTopNav.id }">
+                            {{ item.cname || item.name }}
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
             <div class="line"></div>
-            <div class="dropdown-wrapper hidden-scrollbar" ref="dropdownRef" v-if="showDropdown">
-                <div class="dropdown-item"
-                    v-for="(item, index) in topNav"
-                    :key="index"
-                    @click="selectNav(item)"
-                    :class="{ 'selected': item.id === selectTopNav.id }">
-                    {{ item.cname || item.name }}
-                </div>
-            </div>
         </div>
+
         <div class="second-nav">
             <div class="nav-item"
                 v-for="(item, index) in currentNavList"
@@ -51,7 +56,6 @@
         setup(props, { emit }) {
             const state = reactive({
                 isNavList: false,
-                showDropdown: false,
                 selectTopNav: {} as any,
                 currentNavList: [] as any,
                 currentItem: {} as any
@@ -76,11 +80,6 @@
             );
 
             onMounted(() => {
-                document.addEventListener('click', (event) => {
-                    if (state.showDropdown) {
-                        state.showDropdown = false;
-                    }
-                });
             });
 
             function selectNav(item) {
@@ -88,12 +87,11 @@
                 
                 state.selectTopNav = item;
                 state.currentNavList = item.list;
-                selectItem(item.list[0]);
+                if (item.list) selectItem(item.list[0]);
             }
 
             function selectItem(item) {
                 state.currentItem = item;
-                state.showDropdown = false;
                 
                 emit('selectItem', { category: state.selectTopNav && state.selectTopNav.id, type: item && item.id });
             }
@@ -110,6 +108,7 @@
 <style lang="scss" scoped>
     .select-bar {
         width: 220px;
+        min-width: 220px;
         border-radius: 20px;
         padding: 20px 10px;
         background: var(--whiteColor);
@@ -117,16 +116,18 @@
 
         .top-nav {
             position: relative;
-            padding-bottom: 20px;
+            width: 100%;
+            padding: 0 0 15px 8px;
 
             .name,
             .select-name {
+                color: var(--stressColor);
                 font-weight: bold;
             }
 
             .iconfont {
                 font-weight: bold;
-                margin-left: 16px;
+                margin-left: 8px;
                 cursor: pointer;
                 transform: scale(.8);
                 padding: 4px;
@@ -141,45 +142,10 @@
                 background: var(--borderColor);
             }
 
-            .dropdown-wrapper {
-                position: absolute;
-                top: 30px;
-                width: 100%;
-                height: auto;
-                border-radius: 6px;
-                max-height: 400px;
-                padding: 15px 10px;
-                overflow: hidden scroll;
-                background: var(--whiteColor);
-                border: 1px solid var(--mainColor);
-                box-shadow: 0 5px 15px 0 var(--activeColor);
-                z-index: 2;
-
-                .dropdown-item {
-                    position: relative;
-                    height: 40px;
-                    line-height: 40px;
-                    padding-left: 20px;
-                    border-radius: 5px;
-                    cursor: pointer;
-
-                    &:hover,
-                    &.selected {
-                        background: var(--hoverColor);
-                    }
-
-                    &.selected {
-                        &::after {
-                            content: '';
-                            position: absolute;
-                            top: 0;
-                            right: -10px;
-                            height: 100%;
-                            width: 4px;
-                            border-radius: 6px;
-                            background: var(--mainColor);
-                        }
-                    }
+            :deep(.el-dropdown-menu) {
+                li.selected {
+                    color: var(--mainColor);
+                    background-color: var(--hoverColor) !important;
                 }
             }
         }
@@ -190,12 +156,16 @@
             .nav-item {
                 position: relative;
                 padding: 8px 20px;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
+                color: var(--textColor);
+                border-radius: 10px;
+                transition: all .4s ease;
                 cursor: pointer;
 
                 .name {
                     margin-bottom: 8px;
                     font-weight: bold;
+                    transition: all .4s ease;
                 }
 
                 .desc {
@@ -207,9 +177,11 @@
                     }
                 }
 
-                &:hover,
+                &:hover {
+                    background: var(--hoverColor);
+                }
+
                 &.selected {
-                    border-radius: 10px;
                     background: var(--hoverColor);
 
                     .name {
@@ -225,7 +197,7 @@
                         right: -10px;
                         height: 100%;
                         width: 4px;
-                        border-radius: 6px;
+                        border-radius: 6px 0 0 6px;
                         background: var(--mainColor);
                     }
                 }
