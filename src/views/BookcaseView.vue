@@ -8,18 +8,25 @@
                     <div class="button cancel"></div>
                 </div>
                 <div class="filter-wrapper flex">
-                    <div class="read-button button-wrapper flex">
-                        <i class="iconfont icon-notebook"></i>
+                    <div class="button-wrapper flex">
+                        <el-tooltip content="最近阅读" placement="top" effect="light">
+                            <i class="iconfont icon-clock"></i>
+                        </el-tooltip>
                     </div>
-                    <div class="hot-button button-wrapper flex selected">
-                        <i class="iconfont icon-delete"></i>
+                    <div class="button-wrapper flex selected">
+                        <el-tooltip content="热度" placement="top" effect="light">
+                            <i class="iconfont icon-hot"></i>
+                        </el-tooltip>
                     </div>
-                    <div class="like-button button-wrapper flex">
-                        <!-- icon-tile -->
-                        <i class="iconfont icon-lineChart"></i>
+                    <div class="button-wrapper flex">
+                        <el-tooltip content="收藏量" placement="top" effect="light">
+                            <i class="iconfont icon-like"></i>
+                        </el-tooltip>
                     </div>
-                    <div class="filter-button button-wrapper flex selected">
-                        <i class="iconfont icon-up"></i>
+                    <div class="button-wrapper flex selected">
+                        <el-tooltip content="升序" placement="top" effect="light">
+                            <i class="iconfont icon-up"></i>
+                        </el-tooltip>
                     </div>
                 </div>
                 <div class="create-folder flex">
@@ -27,11 +34,13 @@
                     <span class="text">新建文件夹</span>
                 </div>
             </div>
-            <el-row class="book-wrapper" :gutter="20">
-                <el-col class="book-item" :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
-                    <BookCard :bookInfo="item"></BookCard>
-                </el-col>
-            </el-row>
+            <div class="book-wrapper">
+                <el-row :gutter="20">
+                    <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
+                        <BookCard :bookInfo="item"></BookCard>
+                    </el-col>
+                </el-row>
+            </div>
         </div>
         <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
@@ -150,17 +159,19 @@
                         margin-right: 10px;
                         background: var(--whiteColor);
                         border: 1px solid transparent;
+                        overflow: hidden;
                         cursor: pointer;
 
                         .iconfont {
+                            padding: 8px;
                             font-size: 14px;
                         }
 
                         &:hover,
                         &.selected {
-                            border-color: var(--mainColor);
+                            background: var(--activeColor);
                             .iconfont {
-                                color: var(--mainColor);
+                                color: var(--whiteColor);
                             }
                         }
 
@@ -176,7 +187,7 @@
                     right: 0;
                     height: 40px;
                     color: var(--whiteColor);
-                    border-radius: 16px;
+                    border-radius: 10px;
                     padding: 0 24px;
                     background: var(--activeColor);
                     box-shadow: 2px 6px 8px var(--borderColor);
@@ -195,13 +206,15 @@
             }
 
             .book-wrapper {
-                display: flex;
-                flex-wrap: wrap;
                 width: 100%;
                 height: calc(100% - 78px);
                 overflow: auto;
 
-                .book-item {
+                :deep(.el-row) {
+                    width: 100%;
+                }
+
+                .book-card {
                     margin-bottom: 20px;
                 }
             }

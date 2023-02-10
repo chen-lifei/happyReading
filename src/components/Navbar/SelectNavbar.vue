@@ -71,6 +71,7 @@
                     } else {
                         let navList = props.navList;
                         state.currentNavList = navList;
+                        
                         if (navList.length) selectItem(navList[0]);
                     }
                 },

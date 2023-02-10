@@ -2,31 +2,35 @@
     <div class="library-view">
         <SelectBar class="left-bar hidden-scrollbar" :topNav="state.topNav" @selectItem="selectItem"></SelectBar>
         <div class="right-content" v-if="!showBookDetail">
-            <div class="filter-wrapper flex">
-                <div class="text">搜素结果：</div>
-                <div class="filter-bar">
-                    <div class="read-button button-wrapper flex">
+            <div class="filter-bar flex">
+                <div class="button-wrapper flex">
+                    <el-tooltip content="阅读量" placement="top" effect="light">
                         <i class="iconfont icon-read"></i>
-                    </div>
-                    <div class="hot-button button-wrapper flex selected">
+                    </el-tooltip>
+                </div>
+                <div class="button-wrapper flex selected">
+                    <el-tooltip content="热度" placement="top" effect="light">
                         <i class="iconfont icon-hot"></i>
-                    </div>
-                    <div class="like-button button-wrapper flex">
+                    </el-tooltip>
+                </div>
+                <div class="button-wrapper flex">
+                    <el-tooltip content="收藏量" placement="top" effect="light">
                         <i class="iconfont icon-like"></i>
-                    </div>
-                    <div class="filter-button button-wrapper flex selected">
+                    </el-tooltip>
+                </div>
+                <div class="button-wrapper flex selected">
+                    <el-tooltip content="升序" placement="top" effect="light">
                         <i class="iconfont icon-up"></i>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
-            <div class="explain-wrapper">
-                根据 <span class="strong">热度</span> <span class="strong">升序</span> 显示
+            <div class="book-wrapper">
+                <el-row :gutter="20">
+                    <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
+                        <BookCard :bookInfo="item"></BookCard>
+                    </el-col>
+                </el-row>
             </div>
-            <el-row class="book-wrapper" :gutter="20">
-                <el-col class="book-item" :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
-                    <BookCard :bookInfo="item"></BookCard>
-                </el-col>
-            </el-row>
         </div>
         <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
@@ -109,69 +113,48 @@
             margin-left: 20px;
             width: calc(100% - 250px);
 
-            .filter-wrapper {
-                position: relative;
-                height: 48px;
-                margin-right: 30px;
+            .filter-bar {
+                margin-bottom: 20px;
 
-                .text {
-                    position: absolute;
-                    left: 0;
-                    font-weight: bold;
-                }
+                .button-wrapper {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 10px;
+                    margin-right: 10px;
+                    background: var(--whiteColor);
+                    border: 1px solid transparent;
+                    overflow: hidden;
+                    cursor: pointer;
 
-                .filter-bar {
-                    display: flex;
+                    .iconfont {
+                        padding: 8px;
+                        font-size: 14px;
+                    }
 
-                    .button-wrapper {
-                        width: 36px;
-                        height: 36px;
-                        border-radius: 10px;
-                        margin-right: 10px;
-                        background: var(--whiteColor);
-                        border: 1px solid transparent;
-                        cursor: pointer;
-
+                    &:hover,
+                    &.selected {
+                        background: var(--activeColor);
                         .iconfont {
-                            font-size: 14px;
+                            color: var(--whiteColor);
                         }
+                    }
 
-                        &:hover,
-                        &.selected {
-                            border-color: var(--mainColor);
-                            .iconfont {
-                                color: var(--mainColor);
-                            }
-                        }
-
-                        &:last-child {
-                            margin-right: 0;
-                        }
+                    &:last-child {
+                        margin-right: 0;
                     }
                 }
             }
 
-            .explain-wrapper {
-                height: 40px;
-                line-height: 40px;
-                border-radius: 12px;
-                margin: 15px 20px 20px 0;
-                text-align: center;
-                background: var(--activeColor);
-
-                .strong {
-                    color: var(--mainColor);
-                }
-            }
-
             .book-wrapper {
-                display: flex;
-                flex-wrap: wrap;
                 width: 100%;
                 height: calc(100% - 78px);
                 overflow: auto;
 
-                .book-item {
+                :deep(.el-row) {
+                    width: 100%;
+                }
+
+                .book-card {
                     margin-bottom: 20px;
                 }
             }
