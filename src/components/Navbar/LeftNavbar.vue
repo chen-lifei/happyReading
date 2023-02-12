@@ -20,36 +20,53 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-    import { reactive, onMounted } from 'vue';
+<script lang="ts">
+    import { reactive, onMounted, defineComponent } from 'vue';
     import { useRouter } from 'vue-router';
 
-    const { push } = useRouter();
-    const state = reactive({
-        currentNav: '',
-        navList: [
-            { key: 'home', name: '首页', icon: 'icon-home' },
-            { key: 'library', name: '图书馆', icon: 'icon-notebook' },
-            { key: 'bookcase', name: '个人书柜', icon: 'icon-book' },
-            { key: 'history', name: '观看历史', icon: 'icon-history' },
-        ],
-    });
-
-    function toHome() {
-        push('/home');
-    }
-
-    function changeNav(item) {
-        state.currentNav = item.key;
-        push(`/${item.key}`);
-    }
-
-    onMounted(() => {
-        let pathName = window.location.pathname.split('/')[1];
+    export default defineComponent({
+        name: "LeftNavbar",
+        props: {
+            limit: {
+                type: Boolean,
+                default: false
+            }
+        },
+        setup() {
+            const { push } = useRouter();
+            const state = reactive({
+                currentNav: "",
+                navList: [
+                    { key: 'home', name: '首页', icon: 'icon-home' },
+                    { key: 'library', name: '图书馆', icon: 'icon-notebook' },
+                    { key: 'bookcase', name: '个人书柜', icon: 'icon-book' },
+                    { key: 'history', name: '观看历史', icon: 'icon-history' },
+                ],
+            });
         
-        if (!pathName || !['home', 'library', 'bookcase', 'history'].includes(pathName)) pathName = state.navList[0].key;
-        state.currentNav = pathName;
-    })
+            function toHome() {
+                push("/home");
+            }
+        
+            function changeNav(item) {
+                state.currentNav = item.key;
+                push(`/${item.key}`);
+            }
+        
+            onMounted(() => {
+                let pathName = window.location.pathname.split("/")[1];
+
+                if (!pathName || !["home", "library", "bookcase", "history"].includes(pathName)) pathName = state.navList[0].key;
+                state.currentNav = pathName;
+            });
+
+            return {
+                state,
+                toHome,
+                changeNav,
+            }
+        }
+    });
 </script>
 
 <style lang="scss" scoped>

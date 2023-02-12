@@ -54,21 +54,21 @@
 
     const state = reactive({
         bookList: [
-            { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '星汉灿烂', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '我和我的祖国', author: '小猪佩奇', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' },
-            { name: '阳光下的一粒坚强的尘埃', author: '无名', desc: '这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字' }
+            { name: "星汉灿烂", author: "小猪佩奇", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" },
+            { name: "星汉灿烂", author: "小猪佩奇", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" },
+            { name: "我和我的祖国", author: "小猪佩奇", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" },
+            { name: "我和我的祖国", author: "小猪佩奇", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" },
+            { name: "阳光下的一粒坚强的尘埃", author: "无名", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" },
+            { name: "阳光下的一粒坚强的尘埃", author: "无名", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" },
+            { name: "阳光下的一粒坚强的尘埃", author: "无名", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" },
+            { name: "阳光下的一粒坚强的尘埃", author: "无名", desc: "这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字这是一段介绍文字", cover: "https://img0.baidu.com/it/u=1277693020,971471139&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500" }
         ],
         navList: [
-            { id: 2, name: '推荐', number: '3', createDate: '2022/04/23' },
-            { id: 4, name: '文学相关', number: '4', createDate: '2022/04/23' },
-            { id: 6, name: '学习相关', number: '5', createDate: '2022/04/23' },
-            { id: 7, name: '科普读物', number: '6', createDate: '2022/02/28' },
-            { id: 11, name: '诗歌', number: '7', createDate: '2021/05/07' }
+            { id: 2, name: "推荐", number: "3", createDate: "2022/04/23" },
+            { id: 4, name: "文学相关", number: "4", createDate: "2022/04/23" },
+            { id: 6, name: "学习相关", number: "5", createDate: "2022/04/23" },
+            { id: 7, name: "科普读物", number: "6", createDate: "2022/02/28" },
+            { id: 11, name: "诗歌", number: "7", createDate: "2021/05/07" }
         ],
         showBookDetail: false,
     });

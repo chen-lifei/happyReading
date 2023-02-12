@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     ElRow: typeof import('element-plus/es')['ElRow']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     LeftNavbar: typeof import('./components/Navbar/LeftNavbar.vue')['default']
+    MessagePanel: typeof import('./components/MessagePanel.vue')['default']
     Pagination: typeof import('./components/Pagination.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

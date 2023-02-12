@@ -1,8 +1,20 @@
 <template>
     <div class="top-navbar-wrapper flex-end">
-        <div class="message-wrapper">
-            <i class="iconfont icon-message"></i>
-        </div>
+        <el-dropdown trigger="click" :teleported="false" popper-class="message-wrapper">
+            <div class="message-icon">
+                <i class="iconfont icon-message"></i>
+            </div>
+            <template #dropdown>
+                <div class="message-dropdown">
+                    <div class="top flex-between">
+                        <span class="name">回复消息</span>
+                        <span class="all">查看全部</span>
+                    </div>
+                    <MessagePanel></MessagePanel>
+                </div>
+            </template>
+        </el-dropdown>
+
         <div class="user-wrapper flex">
             <img :src="userInfo.avatar" alt="">
             <div class="name">{{ userInfo.name }}</div>
@@ -11,20 +23,30 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
     import { validURL } from "@/utils/validate";
-
-    import { ref, onMounted } from 'vue';
     import { useUserStore } from '@/stores/user';
+    import { ref, onMounted, defineComponent } from 'vue';
 
-    const user = useUserStore();
+    import MessagePanel from "@/components/MessagePanel.vue";
 
-    let userInfo = ref({} as any);
+    export default defineComponent({
+        name: "TopNavBar",
+        setup() {
+            const user = useUserStore();
+    
+            let userInfo = ref({} as any);
+    
+            onMounted(() => {
+                let info = user.getInfo();
+                info.avatar = validURL(info.avatar) ? info.avatar : `http://127.0.0.1:3000${info.avatar}`;
+                userInfo.value = info;
+            });
 
-    onMounted(() => {
-        let info = user.getInfo();
-        info.avatar = validURL(info.avatar) ? info.avatar : `http://localhost:3000${info.avatar}`;
-        userInfo.value = info;
+            return {
+                userInfo,
+            }
+        }
     });
 </script>
 
@@ -34,7 +56,7 @@
         height: 72px;
         padding-right: 30px;
 
-        .message-wrapper {
+        .message-icon {
             width: 36px;
             height: 36px;
             line-height: 36px;
@@ -44,15 +66,45 @@
             text-align: center;
             cursor: pointer;
 
-            .icon-message {
+            .iconfont {
                 font-size: 18px;
             }
 
             &:hover {
                 background: var(--activeColor);
 
-                .icon-message {
+                .iconfont {
                     color: var(--whiteColor);
+                }
+            }
+        }
+
+        .message-wrapper {
+            border-radius: 6px;
+
+            .message-dropdown {
+                width: 380px;
+
+                .top {
+                    padding: 10px 15px;
+                    .name {
+                        font-size: 14px;
+                        color: var(--stressColor);
+                    }
+                    .all {
+                        color: var(--textColor);
+                        text-decoration: underline;
+                        cursor: pointer;
+                        &:hover {
+                            color: var(--mainColor);
+                        }
+                    }
+                }
+
+                :deep(.message) {
+                    &:last-child {
+                        border-radius: 0 0 6px 6px;
+                    }
                 }
             }
         }
@@ -71,7 +123,7 @@
 
             .name {
                 font-size: 12px;
-                max-width: 100px;
+                max-width: 80px;
                 margin: 0 8px;
                 white-space: nowrap;
                 text-overflow: ellipsis;

@@ -41,18 +41,18 @@
     import { reactive, ref, unref, watch, toRefs, defineComponent, onMounted } from 'vue';
 
     export default defineComponent({
-        name: 'SelectNavbar',
+        name: "SelectNavbar",
         props: {
             topNav: {
                 type: [Array, String] as any,
-                default: ''
+                default: ""
             },
             navList: {
                 type: Array<object>,
                 default: []
             }
         },
-        emits: ['selectItem'],
+        emits: ["selectItem"],
         setup(props, { emit }) {
             const state = reactive({
                 isNavList: false,
@@ -94,7 +94,7 @@
             function selectItem(item) {
                 state.currentItem = item;
                 
-                emit('selectItem', { category: state.selectTopNav && state.selectTopNav.id, type: item && item.id });
+                emit("selectItem", { category: state.selectTopNav && state.selectTopNav.id, type: item && item.id });
             }
 
             return {

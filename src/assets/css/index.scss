@@ -6,7 +6,7 @@
     --backColor: #EFF9F4;
     // --backColor: #E6F6E4;
     --activeColor: #CDE5CC;
-    --textColor: #666666;
+    --textColor: #9A9A9A;
     --stressColor: #474747;
     --dimColor: #E5E5E5;
     --borderColor: #DCE6DC;
@@ -32,7 +32,7 @@ body {
     display: flex;
     width: auto;
     height: 100vh;
-    /* min-width: 1080px; */
+    min-width: 780px;
     user-select: none;
     background: var(--backColor);
 }
@@ -63,6 +63,7 @@ body {
 }
 ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
