@@ -30,10 +30,18 @@
                 <div class="reader">
                     <div class="text">他们也在读</div>
                     <div class="user-list">
-                        <img class="user user1" src="@/assets/image/book/cover4.jpg" alt="">
-                        <img class="user user2" src="@/assets/image/book/cover4.jpg" alt="">
-                        <img class="user user3" src="@/assets/image/book/cover4.jpg" alt="">
-                        <div class="user user-more">+6</div>
+                        <el-tooltip content="Bruce" placement="top" effect="light">
+                            <img class="user user1" src="@/assets/image/book/cover4.jpg" alt="">
+                        </el-tooltip>
+                        <el-tooltip content="Ivan" placement="top" effect="light">
+                            <img class="user user2" src="@/assets/image/book/cover5.jpg" alt="">
+                        </el-tooltip>
+                        <el-tooltip content="Sivan" placement="top" effect="light">
+                            <img class="user user3" src="@/assets/image/book/cover6.jpg" alt="">
+                        </el-tooltip>
+                        <el-tooltip content="Haven" placement="top" effect="light">
+                            <img class="user user4" src="@/assets/image/book/cover7.jpg" alt="">
+                        </el-tooltip>
                     </div>
                 </div>
             </div>
@@ -378,8 +386,6 @@
                 }
 
                 .reader {
-                    width: 88px;
-
                     .text {
                         font-size: 12px;
                         margin-bottom: 8px;
@@ -391,28 +397,30 @@
                         .user {
                             position: absolute;
                             top: 0;
-                            width: 24px;
-                            height: 24px;
-                            font-size: 12px;
-                            color: var(--whiteColor);
-                            text-align: center;
-                            line-height: 24px;
+                            width: 30px;
+                            height: 30px;
                             border-radius: 50%;
                             border: 2px solid var(--whiteColor);
                             image-rendering: -webkit-optimize-contrast;
+                            cursor: pointer;
+
+                            &:hover {
+                                transform: translateY(-2px);
+                                transition: all .2s ease;
+                                z-index: 2;
+                            }
                         }
                         .user1 {
                             position: relative;
                         }
                         .user2 {
-                            left: 20px;
+                            left: 18px;
                         }
                         .user3 {
-                            left: 40px;
+                            left: 36px;
                         }
-                        .user-more {
-                            left: 60px;
-                            background: var(--mainColor);
+                        .user4 {
+                            left: 54px;
                         }
                     }
                 }
