@@ -2,23 +2,23 @@
     <div class="library-view">
         <SelectBar class="left-bar hidden-scrollbar" :topNav="state.topNav" @selectItem="selectItem"></SelectBar>
         <div class="right-content" v-if="!showBookDetail">
-            <div class="filter-bar flex">
-                <div class="button-wrapper flex">
+            <div class="filter-bar flex-center">
+                <div class="button-wrapper flex-center">
                     <el-tooltip content="阅读量" placement="top" effect="light">
                         <i class="iconfont icon-read"></i>
                     </el-tooltip>
                 </div>
-                <div class="button-wrapper flex selected">
+                <div class="button-wrapper flex-center selected">
                     <el-tooltip content="热度" placement="top" effect="light">
                         <i class="iconfont icon-hot"></i>
                     </el-tooltip>
                 </div>
-                <div class="button-wrapper flex">
+                <div class="button-wrapper flex-center">
                     <el-tooltip content="收藏量" placement="top" effect="light">
                         <i class="iconfont icon-like"></i>
                     </el-tooltip>
                 </div>
-                <div class="button-wrapper flex selected">
+                <div class="button-wrapper flex-center selected">
                     <el-tooltip content="升序" placement="top" effect="light">
                         <i class="iconfont icon-up"></i>
                     </el-tooltip>

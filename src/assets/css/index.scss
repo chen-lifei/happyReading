@@ -6,12 +6,17 @@
     --backColor: #EFF9F4;
     // --backColor: #E6F6E4;
     --activeColor: #CDE5CC;
-    --textColor: #9A9A9A;
+    --textColor: #929594;
     --stressColor: #474747;
-    --dimColor: #E5E5E5;
+    --dimColor: #D8E0DD;
     --borderColor: #DCE6DC;
+    --greyColor: #ECF0ED;
     --mainHoverColor: #98B59C;
     --whiteColor: #FFFFFF;
+    --successColor: #3D77FF;
+    --warningColor: #FFB049;
+    --dangerColor: #FF97AC;
+    --infoColor: #808A87;
 }
 
 * {
@@ -76,6 +81,10 @@ body {
   } */
 
 .flex {
+    display: flex;
+}
+
+.flex-center {
     display: flex;
     align-items: center;
     justify-content: center;

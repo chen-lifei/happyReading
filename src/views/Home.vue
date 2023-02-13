@@ -10,7 +10,7 @@
         <div class="recommend-wrapper">
             <div class="name-wrapper flex-between">
                 <div class="name">每日推荐</div>
-                <div class="change-page flex">
+                <div class="change-page flex-center">
                     <div class="left" @click="prePage()">
                         <i class="iconfont icon-arrowLeft"></i>
                     </div>
@@ -103,8 +103,9 @@
     .home-wrapper {
         width: 100%;
         height: 100%;
-        padding-right: 30px;
+        padding-right: 20px;
         overflow: auto;
+
         .top-wrapper {
             .sentence {
                 width: 70%;

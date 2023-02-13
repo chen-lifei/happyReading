@@ -3,7 +3,7 @@
         <div class="logo-wrapper">
             <img class="logo" src="@/assets/image/logo.svg" alt="logo" @click="toHome()">
             <div class="name">悦阅</div>
-            <div class="collapse-wrapper flex">
+            <div class="collapse-wrapper flex-center">
                 <i class="iconfont icon-arrowLeft"></i>
             </div>
         </div>

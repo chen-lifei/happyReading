@@ -82,7 +82,7 @@
                         </el-form-item>
                     </el-form>
                     <div class="tip-wrapper flex-between" v-if="state.isLogin">
-                        <div class="remember flex">
+                        <div class="remember flex-center">
                             <el-checkbox v-model="state.remember" label="记住我" />
                         </div>
                         <div class="forget" @click="resetData.show = true">忘记密码?</div>
@@ -94,7 +94,7 @@
                         <div class="text">或者</div>
                         <div class="line"></div>
                     </div>
-                    <div class="quick-method flex">
+                    <div class="quick-method flex-center">
                         <div class="icon-wrapper">
                             <i class="iconfont icon-qq"></i>
                         </div>

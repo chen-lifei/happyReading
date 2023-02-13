@@ -1,6 +1,6 @@
 <template>
     <div class="top-navbar-wrapper flex-end">
-        <el-dropdown trigger="click" :teleported="false" popper-class="message-wrapper">
+        <el-dropdown ref="messageDropdown" trigger="click" :teleported="false" popper-class="message-wrapper">
             <div class="message-icon">
                 <i class="iconfont icon-message"></i>
             </div>
@@ -8,14 +8,14 @@
                 <div class="message-dropdown">
                     <div class="top flex-between">
                         <span class="name">回复消息</span>
-                        <span class="all">查看全部</span>
+                        <span class="all" @click="toAllMessage">查看全部</span>
                     </div>
-                    <MessagePanel></MessagePanel>
+                    <MessagePanel :limit="true"></MessagePanel>
                 </div>
             </template>
         </el-dropdown>
 
-        <div class="user-wrapper flex">
+        <div class="user-wrapper flex-center">
             <img :src="userInfo.avatar" alt="">
             <div class="name">{{ userInfo.name }}</div>
             <i class="iconfont icon-arrowDown"></i>
@@ -27,6 +27,7 @@
     import { validURL } from "@/utils/validate";
     import { useUserStore } from '@/stores/user';
     import { ref, onMounted, defineComponent } from 'vue';
+    import { useRouter } from 'vue-router';
 
     import MessagePanel from "@/components/MessagePanel.vue";
 
@@ -34,8 +35,15 @@
         name: "TopNavBar",
         setup() {
             const user = useUserStore();
-    
+            const { push } = useRouter();
+
             let userInfo = ref({} as any);
+            let messageDropdown = ref<any | null>(null);
+
+            function toAllMessage() {
+                push("/message");
+                messageDropdown.value?.handleClose();
+            }
     
             onMounted(() => {
                 let info = user.getInfo();
@@ -45,6 +53,8 @@
 
             return {
                 userInfo,
+                messageDropdown,
+                toAllMessage,
             }
         }
     });

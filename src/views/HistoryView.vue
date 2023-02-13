@@ -51,7 +51,7 @@
     .history-view {
         width: 100%;
         height: 100%;
-        padding-right: 30px;
+        padding-right: 20px;
         overflow: hidden auto;
 
         .book-wrapper {

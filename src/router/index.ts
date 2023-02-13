@@ -36,6 +36,11 @@ const router = createRouter({
             name: "HistoryView",
             component: () => import("@/views/HistoryView.vue"),
         },
+        {
+            path: "/message",
+            name: "MessageView",
+            component: () => import("@/components/MessagePanel.vue"),
+        }
     ],
 });
 

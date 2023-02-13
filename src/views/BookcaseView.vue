@@ -7,29 +7,29 @@
                     <div class="button confirm"></div>
                     <div class="button cancel"></div>
                 </div>
-                <div class="filter-wrapper flex">
-                    <div class="button-wrapper flex">
+                <div class="filter-wrapper flex-center">
+                    <div class="button-wrapper flex-center">
                         <el-tooltip content="最近阅读" placement="top" effect="light">
                             <i class="iconfont icon-clock"></i>
                         </el-tooltip>
                     </div>
-                    <div class="button-wrapper flex selected">
+                    <div class="button-wrapper flex-center selected">
                         <el-tooltip content="热度" placement="top" effect="light">
                             <i class="iconfont icon-hot"></i>
                         </el-tooltip>
                     </div>
-                    <div class="button-wrapper flex">
+                    <div class="button-wrapper flex-center">
                         <el-tooltip content="收藏量" placement="top" effect="light">
                             <i class="iconfont icon-like"></i>
                         </el-tooltip>
                     </div>
-                    <div class="button-wrapper flex selected">
+                    <div class="button-wrapper flex-center selected">
                         <el-tooltip content="升序" placement="top" effect="light">
                             <i class="iconfont icon-up"></i>
                         </el-tooltip>
                     </div>
                 </div>
-                <div class="create-folder flex">
+                <div class="create-folder flex-center">
                     <span class="icon">+</span>
                     <span class="text">新建文件夹</span>
                 </div>
@@ -221,9 +221,9 @@
         }
 
         .book-detail {
-            margin: 0 30px 0 30px;
+            margin: 0 20px 0 20px;
             width: calc(100% - 250px);
-            height: calc(100% - 30px);
+            height: calc(100% - 20px);
         }
     }
 </style>
