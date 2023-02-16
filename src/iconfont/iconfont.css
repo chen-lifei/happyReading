@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3528419 */
-  src: url('iconfont.ttf?t=1675737414607') format('truetype');
+  src: url('iconfont.ttf?t=1676560858869') format('truetype');
 }
 
 .iconfont {
@@ -9,6 +9,30 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-moon:before {
+  content: "\e6dd";
+}
+
+.icon-callCenter:before {
+  content: "\e621";
+}
+
+.icon-remind:before {
+  content: "\e632";
+}
+
+.icon-like:before {
+  content: "\e633";
+}
+
+.icon-tip:before {
+  content: "\e634";
+}
+
+.icon-sun:before {
+  content: "\e635";
 }
 
 .icon-comment:before {
@@ -89,10 +113,6 @@
 
 .icon-arrowDown:before {
   content: "\e62f";
-}
-
-.icon-like:before {
-  content: "\e607";
 }
 
 .icon-down:before {

@@ -1,7 +1,7 @@
 <template>
     <div class="top-navbar-wrapper flex-end">
-        <el-dropdown ref="messageDropdown" trigger="click" :teleported="false" popper-class="message-wrapper">
-            <div class="message-icon">
+        <el-dropdown ref="messageDropdown" trigger="click" :teleported="false" popper-class="message-wrapper" @visible-change="toggleMessage">
+            <div class="icon-wrapper" :class="{ active: messageVisible }">
                 <i class="iconfont icon-message"></i>
             </div>
             <template #dropdown>
@@ -14,7 +14,9 @@
                 </div>
             </template>
         </el-dropdown>
-
+        <div class="icon-wrapper">
+            <i class="iconfont icon-sun"></i>
+        </div>
         <div class="user-wrapper flex-center">
             <img :src="userInfo.avatar" alt="">
             <div class="name">{{ userInfo.name }}</div>
@@ -38,11 +40,16 @@
             const { push } = useRouter();
 
             let userInfo = ref({} as any);
+            let messageVisible = ref(false);
             let messageDropdown = ref<any | null>(null);
 
             function toAllMessage() {
                 push("/message");
                 messageDropdown.value?.handleClose();
+            }
+
+            function toggleMessage(value) {
+                messageVisible.value = value;
             }
     
             onMounted(() => {
@@ -53,8 +60,10 @@
 
             return {
                 userInfo,
+                messageVisible,
                 messageDropdown,
                 toAllMessage,
+                toggleMessage,
             }
         }
     });
@@ -66,21 +75,25 @@
         height: 72px;
         padding-right: 30px;
 
-        .message-icon {
+        .icon-wrapper {
             width: 36px;
             height: 36px;
             line-height: 36px;
             border-radius: 10px;
-            margin-right: 20px;
+            margin-right: 10px;
             background: var(--whiteColor);
             text-align: center;
+            transition: all .2s ease;
             cursor: pointer;
 
             .iconfont {
                 font-size: 18px;
+                color: var(--stressColor);
+                transition: all .2s ease;
             }
 
-            &:hover {
+            &:hover,
+            &.active {
                 background: var(--activeColor);
 
                 .iconfont {
@@ -90,10 +103,12 @@
         }
 
         .message-wrapper {
+            max-height: 400px;
             border-radius: 6px;
+            overflow: auto;
 
             .message-dropdown {
-                width: 380px;
+                width: 360px;
 
                 .top {
                     padding: 10px 15px;
