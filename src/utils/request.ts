@@ -31,5 +31,5 @@ service.interceptors.response.use(
     }
 );
 
-export const requestUrl = "http://127.0.0.1:3000";
+export const requestUrl = "http://106.15.38.125";
 export default service;
