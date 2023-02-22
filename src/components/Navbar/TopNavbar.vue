@@ -1,7 +1,7 @@
 <template>
     <div class="top-navbar-wrapper flex-end">
         <el-dropdown ref="messageDropdown" trigger="click" :teleported="false" popper-class="message-wrapper" @visible-change="toggleMessage">
-            <div class="icon-wrapper" :class="{ active: messageVisible }">
+            <div class="icon-wrapper" :class="{ active: state.isShowMessage }">
                 <i class="iconfont icon-message"></i>
             </div>
             <template #dropdown>
@@ -18,8 +18,8 @@
             <i class="iconfont icon-sun"></i>
         </div>
         <div class="user-wrapper flex-center">
-            <img :src="userInfo.avatar" alt="">
-            <div class="name">{{ userInfo.name }}</div>
+            <img :src="state.userInfo.avatar" alt="">
+            <div class="name">{{ state.userInfo.name }}</div>
             <i class="iconfont icon-arrowDown"></i>
         </div>
     </div>
@@ -27,9 +27,11 @@
 
 <script lang="ts">
     import { validURL } from "@/utils/validate";
-    import { useUserStore } from '@/stores/user';
-    import { ref, onMounted, defineComponent } from 'vue';
+    import { requestUrl } from "@/utils/request";
+
     import { useRouter } from 'vue-router';
+    import { useUserStore } from '@/stores/user';
+    import { ref, reactive, onMounted, defineComponent } from 'vue';
 
     import MessagePanel from "@/components/MessagePanel.vue";
 
@@ -39,8 +41,10 @@
             const user = useUserStore();
             const { push } = useRouter();
 
-            let userInfo = ref({} as any);
-            let messageVisible = ref(false);
+            let state = reactive({
+                userInfo: {} as any,
+                isShowMessage: false,
+            });
             let messageDropdown = ref<any | null>(null);
 
             function toAllMessage() {
@@ -49,18 +53,17 @@
             }
 
             function toggleMessage(value) {
-                messageVisible.value = value;
+                state.isShowMessage = value;
             }
     
             onMounted(() => {
                 let info = user.getInfo();
-                info.avatar = validURL(info.avatar) ? info.avatar : `http://127.0.0.1:3000${info.avatar}`;
-                userInfo.value = info;
+                info.avatar = validURL(info.avatar) ? info.avatar : `${requestUrl}${info.avatar}`;
+                state.userInfo = info;
             });
 
             return {
-                userInfo,
-                messageVisible,
+                state,
                 messageDropdown,
                 toAllMessage,
                 toggleMessage,

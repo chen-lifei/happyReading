@@ -1,20 +1,20 @@
-import rAxios from '@/utils/axios';
+import request from '@/utils/request';
 
 enum Api {
-    GetUserInfo = "/books/bookInfo/:id",
-    GetBookCategory = "/books/category",
-    GetBookList = "/books/bookList",
+    GetUserInfo = "/api/books/bookInfo/:id",
+    GetBookCategory = "/api/books/category",
+    GetBookList = "/api/books/bookList",
 }
 
 export function fetchBookCategory() {
-    return rAxios({
+    return request({
         method: 'GET',
         url: Api.GetBookCategory
     });
 }
 
 export function fetchBookList(data) {
-    return rAxios({
+    return request({
         method: 'POST',
         url: Api.GetBookList,
         data

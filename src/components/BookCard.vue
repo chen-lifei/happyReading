@@ -5,7 +5,7 @@
             <div class="bottom">
                 <div class="author">作者：{{ bookInfo.writer }}</div>
                 <div class="name">{{ bookInfo.name }}</div>
-                <div class="desc">{{ bookInfo.introduction }}</div>
+                <div class="desc" v-html="bookInfo.introduction"></div>
             </div>
         </template>
         <template v-else>
@@ -13,7 +13,7 @@
             <div class="info-wrapper">
                 <div class="author">作者：{{ bookInfo.writer }}</div>
                 <div class="name">{{ bookInfo.name }}</div>
-                <div class="desc">{{ bookInfo.introduction }}</div>
+                <div class="desc" v-html="bookInfo.introduction"></div>
             </div>
             <div class="line"></div>
             <slot></slot>
@@ -23,6 +23,7 @@
 
 <script lang="ts">
     import { validURL } from '@/utils/validate';
+    import { requestUrl } from '@/utils/request';
 
     import { defineComponent, onMounted } from 'vue';
 
@@ -40,8 +41,10 @@
         },
         setup(props) {
             onMounted(() => {
+                console.log(props.bookInfo);
+
                 let cover = props.bookInfo && props.bookInfo.cover;
-                if (cover) props.bookInfo.cover = validURL(cover) ? cover : `http://127.0.0.1:3000${cover}`; 
+                if (cover) props.bookInfo.cover = validURL(cover) ? cover : `${requestUrl}${cover}`; 
             });
         }
     })

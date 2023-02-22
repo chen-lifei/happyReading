@@ -26,7 +26,7 @@
             </div>
             <div class="book-wrapper">
                 <el-row :gutter="20">
-                    <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
+                    <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="item.id" @click="toggleBookDetail(true)">
                         <BookCard :bookInfo="item"></BookCard>
                     </el-col>
                 </el-row>
@@ -51,7 +51,7 @@
         currentPage: 1,
         topNav: [],
         navList: [],
-        bookList: [],
+        bookList: [] as any,
         categoryData: [],
     });
     
@@ -63,9 +63,8 @@
 
     function getBookData() {
         fetchBookCategory().then(res => {
-            let { data } = res;
-            if (data.status == 1) {
-                let categoryData = data.result;
+            if (res.status == 1) {
+                let categoryData = res.result;
                 state.categoryData = categoryData;
                 state.topNav = categoryData;
                 state.navList = categoryData[0].list;
@@ -82,9 +81,8 @@
             page: 1,
             pageSize: 10
         }).then(res => {
-            let { data } = res;
-            if (data.status == 1) {
-                let { result } = data;
+            if (res.status == 1) {
+                let { result } = res;
                 state.bookList = result.list;
             }
         });

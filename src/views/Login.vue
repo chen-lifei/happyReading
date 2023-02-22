@@ -190,8 +190,7 @@
                 account: state.account,
                 password: state.password
             }).then(res => {
-                let { data } = res;
-                if (data.status == 1) {
+                if (res.status == 1) {
                     ElMessage.success("注册成功，请登录~");
                 } else {
                     ElMessage.success("注册失败，请稍后重试~");

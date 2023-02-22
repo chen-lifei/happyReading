@@ -1,18 +1,18 @@
-import rAxios from "@/utils/axios";
+import request from "@/utils/request";
 import type { LoginParams, RegisterParams } from "./model/userModel";
 
 enum Api {
-    Register = "/users/register",
-    Login = "/users/login",
-    Logout = "/users/logout",
-    GetUserInfo = "/users/:id",
+    Register = "/api/users/register",
+    Login = "/api/users/login",
+    Logout = "/api/users/logout",
+    GetUserInfo = "/api/users/:id",
 }
 
 /**
  * @description: user login api
  */
 export function loginApi(params: LoginParams) {
-    return rAxios({
+    return request({
         method: "POST",
         url: Api.Login,
         data: params,
@@ -23,7 +23,7 @@ export function loginApi(params: LoginParams) {
  * @description: user register api
  */
 export function registerApi(params: RegisterParams) {
-    return rAxios({
+    return request({
         method: "POST",
         url: Api.Register,
         data: params,
@@ -34,7 +34,7 @@ export function registerApi(params: RegisterParams) {
  * @description: getUserInfo
  */
 export function getUserInfo() {
-    return rAxios({
+    return request({
         method: "GET",
         url: Api.GetUserInfo,
     });

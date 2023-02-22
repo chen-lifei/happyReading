@@ -52,7 +52,7 @@
 <script lang="ts" setup>
     import { fetchBookList } from '@/api/book';
 
-    import {  ref, reactive, onMounted } from 'vue';
+    import { ref, reactive, onMounted } from 'vue';
 
     import BookCard from '@/components/BookCard.vue';
     import BookDetail from '@/components/BookDetail.vue';
@@ -83,9 +83,8 @@
             page: 1,
             pageSize: 30
         }).then(res => {
-            let { data } = res;
-            if (data.status == 1) {
-                let bookList = data.result.list;
+            if (res.status == 1) {
+                let bookList = res.result.list;
                 state.bookList = bookList;
                 state.currentBookList = bookList.slice(0, 4);
             }
