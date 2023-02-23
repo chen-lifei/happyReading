@@ -74,7 +74,6 @@
             });
 
             function handleReply(index) {
-                console.log(index);
                 state.messageList.forEach((item, iIndex) => {
                     item.isReply = index == iIndex;
                 });

@@ -41,8 +41,6 @@
         },
         setup(props) {
             onMounted(() => {
-                console.log(props.bookInfo);
-
                 let cover = props.bookInfo && props.bookInfo.cover;
                 if (cover) props.bookInfo.cover = validURL(cover) ? cover : `${requestUrl}${cover}`; 
             });
