@@ -400,5 +400,16 @@
                 }
             }
         }
+
+        @media screen and (max-width: 600px) {
+            .main-wrapper {
+                width: 100%;
+                padding: 0 20px;
+
+                .inner-wrapper {
+                    width: 100%;
+                }
+            }
+        }
     }
 </style>
