@@ -9,16 +9,18 @@
                 <div class="reset-wrapper" v-if="resetData.show">
                     <div class="tip1">重置密码</div>
                     <div class="tip2">请输入手机号或邮箱</div>
-                    <el-input v-model="resetData.account"></el-input>
-                    <div class="send-wrapper">
-                        <el-button type="primary">发送</el-button>
-                    </div>
-                    <div class="resend">
-                        未收到验证码?<span>重新发送</span>
+                    <div class="login-animation1">
+                        <el-input v-model="resetData.account"></el-input>
+                        <div class="send-wrapper">
+                            <el-button type="primary">发送</el-button>
+                        </div>
+                        <div class="resend">
+                            未收到验证码?<span>重新发送</span>
+                        </div>
                     </div>
                     <div class="code-wrapper">
                         <el-form label-position="top">
-                            <el-form-item label="验证码" class="code">
+                            <el-form-item label="验证码" class="code login-animation2">
                                 <el-row :gutter="20">
                                     <el-col :span="6">
                                         <el-input v-model="resetData.verifyCode" maxlength="1"></el-input>
@@ -34,13 +36,13 @@
                                     </el-col>
                                 </el-row>
                             </el-form-item>
-                            <el-form-item label="新的密码">
+                            <el-form-item label="新的密码" class="login-animation3">
                                 <el-input
                                     show-password
                                     v-model="resetData.password1"
                                     placeholder="请输入密码"></el-input>
                             </el-form-item>
-                            <el-form-item label="重新输入">
+                            <el-form-item label="重新输入" class="login-animation4">
                                 <el-input
                                     show-password
                                     v-model="resetData.password2"
@@ -54,15 +56,8 @@
                 <div class="sign-wrapper" v-else>
                     <div class="tip1">{{ state.isLogin ? "登录账号" : "注册账号" }}</div>
                     <div class="tip2">请输入{{ state.isLogin ? "账号&密码" : "用户名&账号&密码" }}</div>
-                    <el-form label-position="top">
-                        <el-form-item v-if="!state.isLogin" label="用户名">
-                            <el-input
-                                v-model="state.username"
-                                :class="{ 'error': state.username.length && !usernameCorrect }"
-                                placeholder="请输入用户名"
-                                @keyup.enter="handleEnter('account')"></el-input>
-                        </el-form-item>
-                        <el-form-item label="账号">
+                    <el-form label-position="top" v-if="state.isLogin">
+                        <el-form-item label="账号" class="login-animation1">
                             <el-input
                                 ref="accountInput"
                                 v-model="state.account"
@@ -71,7 +66,34 @@
                                 @blur="checkAccount"
                                 @keyup.enter="handleEnter('password')"></el-input>
                         </el-form-item>
-                        <el-form-item label="密码">
+                        <el-form-item label="密码" class="login-animation2">
+                            <el-input
+                                ref="passwordInput"
+                                show-password
+                                v-model="state.password"
+                                :class="{ 'error': !state.accountCorrect && state.account.length }"
+                                placeholder="请输入密码"
+                                @keyup.enter="clickSubmitBtn"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <el-form label-position="top" v-else>
+                        <el-form-item label="用户名" class="login-animation1">
+                            <el-input
+                                v-model="state.username"
+                                :class="{ 'error': state.username.length && !usernameCorrect }"
+                                placeholder="请输入用户名"
+                                @keyup.enter="handleEnter('account')"></el-input>
+                        </el-form-item>
+                        <el-form-item label="账号" class="login-animation2">
+                            <el-input
+                                ref="accountInput"
+                                v-model="state.account"
+                                :class="{ 'error': !state.accountCorrect && state.account.length }"
+                                placeholder="请输入手机号或邮箱"
+                                @blur="checkAccount"
+                                @keyup.enter="handleEnter('password')"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" class="login-animation3">
                             <el-input
                                 ref="passwordInput"
                                 show-password
@@ -245,6 +267,16 @@
             background-color: var(--whiteColor);
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
+            @for $i from 1 through 4 {
+                .login-animation#{$i} {
+                    opacity: 0;
+                    animation-name: fadeToTop;
+                    animation-duration: 0.5s;
+                    animation-fill-mode: forwards;
+                    animation-delay: calc($i/10) + s;
+                }
+            }
+
             .tip1 {
                 color: #2B2B2B;
                 font-size: 24px;
@@ -397,17 +429,6 @@
                             text-align: center;
                         }
                     }
-                }
-            }
-        }
-
-        @media screen and (max-width: 600px) {
-            .main-wrapper {
-                width: 100%;
-                padding: 0 20px;
-
-                .inner-wrapper {
-                    width: 100%;
                 }
             }
         }

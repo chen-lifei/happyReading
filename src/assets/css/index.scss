@@ -1,5 +1,7 @@
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
 
+@import "./media/media.scss";
+
 :root {
     --mainColor: #8CAB91;
     --hoverColor: #F3FAF1;
@@ -103,4 +105,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+/** 
+    transition 动画
+**/
+@keyframes fadeToTop {
+    0% {
+        transform: translateY(60px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

@@ -1,0 +1,39 @@
+@import './index.scss';
+
+/* 页面宽度小于1200px
+------------------------------- */
+@media screen and (max-width: $lg) and (min-width: $xs) {
+    #app {
+        .login-view {
+            .main-wrapper {
+                .inner-wrapper {
+                    width: 400px;
+                }
+            }
+        }
+    }
+}
+
+/* 页面宽度小于576px
+------------------------------- */
+@media screen and (max-width: $xs) {
+    #app {
+        .login-view {
+            display: inline-block;
+            background: white;
+
+            .main-wrapper {
+                .logo {
+                    display: none;
+                }
+    
+                .inner-wrapper {
+                    width: 100%;
+                    border-radius: 0;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+	
+}
