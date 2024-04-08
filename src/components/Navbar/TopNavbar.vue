@@ -25,55 +25,41 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts" name="TopNavBar">
     import { validURL } from "@/utils/validate";
     import { requestUrl } from "@/utils/request";
-
     import { useRouter } from 'vue-router';
     import { useUserStore } from '@/stores/user';
-    import { ref, reactive, onMounted, defineComponent } from 'vue';
-
+    import { ref, reactive, onMounted, watch } from 'vue';
     import MessagePanel from "@/components/MessagePanel.vue";
 
-    export default defineComponent({
-        name: "TopNavBar",
-        setup() {
-            const user = useUserStore();
-            const { push } = useRouter();
+    const user = useUserStore();
+    const { push } = useRouter();
+    const state = reactive({
+        userInfo: {} as any,
+        isShowMessage: false
+    });
+    const messageDropdown = ref<any | null>(null);
 
-            let state = reactive({
-                userInfo: {} as any,
-                isShowMessage: false,
-            });
-            let messageDropdown = ref<any | null>(null);
+    function toAllMessage() {
+        push("/message");
+        messageDropdown.value?.handleClose();
+    }
 
-            function toAllMessage() {
-                push("/message");
-                messageDropdown.value?.handleClose();
-            }
+    function toggleMessage(value) {
+        state.isShowMessage = value;
+    }
 
-            function toggleMessage(value) {
-                state.isShowMessage = value;
-            }
-    
-            onMounted(() => {
-                let info = user.getInfo();
-                info.avatar = validURL(info.avatar) ? info.avatar : `${requestUrl}${info.avatar}`;
-                state.userInfo = info;
-            });
-
-            return {
-                state,
-                messageDropdown,
-                toAllMessage,
-                toggleMessage,
-            }
-        }
+    onMounted(() => {
+        let info = user.getInfo();
+        info.avatar = validURL(info.avatar) ? info.avatar : `${requestUrl}${info.avatar}`;
+        state.userInfo = info;
     });
 </script>
 
 <style lang="scss" scoped>
     .top-navbar-wrapper {
+        position: relative;
         width: 100%;
         height: 72px;
         padding-right: 30px;

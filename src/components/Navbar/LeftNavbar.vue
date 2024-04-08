@@ -2,8 +2,8 @@
     <div class="navbar-wrapper" :class="{ 'navbar-collapse': data.isCollapse }">
         <div class="logo-wrapper">
             <img class="logo" src="@/assets/image/logo.svg" alt="logo" @click="toHome()">
-            <div class="name" v-show="!data.isCollapse">悦阅</div>
-            <div class="collapse-wrapper flex-center" @click="data.isCollapse = !data.isCollapse">
+            <div class="top-name" v-show="!data.isCollapse">悦阅</div>
+            <div class="collapse-wrapper flex-center" @click="toggleNavbar">
                 <i class="iconfont icon-arrowLeft" :class="{ 'to-right': data.isCollapse }"></i>
             </div>
         </div>
@@ -14,59 +14,103 @@
                 :class="{ 'selected': data.currentNav === item.key }"
                 @click="changeNav(item)">
                 <i class="iconfont" :class="item.icon"></i>
-                <div class="name" v-show="!data.isCollapse">{{ item.name }}</div>
+                <div class="nav-name" v-show="!data.isCollapse">{{ item.name }}</div>
             </div>
         </div>
+        <el-drawer
+            v-model="data.openNav"
+            direction="ltr"
+            size="180"
+            :with-header="false"
+            modal-class="nav-drawer"
+        >
+            <div class="nav-list">
+                <div class="nav-item flex-start"
+                    v-for="(item, index) in data.navList"
+                    :key="index"
+                    :class="{ 'selected': data.currentNav === item.key }"
+                    @click="changeNav(item)">
+                    <i class="iconfont" :class="item.icon"></i>
+                    <div class="nav-name">{{ item.name }}</div>
+                </div>
+            </div>
+        </el-drawer>
     </div>
 </template>
 
-<script lang="ts">
-    import { reactive, onMounted, defineComponent } from 'vue';
-    import { useRouter } from 'vue-router';
+<script setup lang="ts" name="LeftNavbar">
+    import { reactive, onBeforeMount, onMounted, onUnmounted } from "vue";
+    import { useRouter } from "vue-router";
+    import { throttle } from "@/utils/index";
+    import { storeToRefs } from "pinia";
+    import { useReadConfigStore } from "@/stores/readConfig";
 
-    export default defineComponent({
-        name: "LeftNavbar",
-        setup() {
-            const { push } = useRouter();
-            const data = reactive({
-                currentNav: "",
-                isCollapse: false,
-                navList: [
-                    { key: 'home', name: '首页', icon: 'icon-home' },
-                    { key: 'library', name: '图书馆', icon: 'icon-notebook' },
-                    { key: 'bookcase', name: '个人书柜', icon: 'icon-book' },
-                    { key: 'history', name: '观看历史', icon: 'icon-history' },
-                ],
-            });
-        
-            function toHome() {
-                push("/home");
-            }
-        
-            function changeNav(item) {
-                data.currentNav = item.key;
-                push(`/${item.key}`);
-            }
-        
-            onMounted(() => {
-                let pathName = window.location.pathname.split("/")[1];
+    // 变量
+    const { push } = useRouter();
+    const data = reactive({
+        currentNav: "",
+        isCollapse: false,
+        openNav: false,
+        navList: [
+            { key: 'home', name: '首页', icon: 'icon-home' },
+            { key: 'library', name: '图书馆', icon: 'icon-notebook' },
+            { key: 'bookcase', name: '个人书柜', icon: 'icon-book' },
+            { key: 'history', name: '观看历史', icon: 'icon-history' },
+        ],
+    });
+    const readConfigStore = useReadConfigStore();
+    const { readConfig } = storeToRefs(readConfigStore);
 
-                if (!pathName || !["home", "library", "bookcase", "history"].includes(pathName)) pathName = data.navList[0].key;
-                data.currentNav = pathName;
-            });
+    const toHome = () => {
+        push("/home").then(err => console.log("跳转路由错误", err));
+    }
 
-            return {
-                data,
-                toHome,
-                changeNav,
-            }
+    const changeNav = (item) => {
+        data.currentNav = item.key;
+        readConfig.value.menuText = item.name;
+        readConfig.value.menuSite = item.key;
+        push(`/${item.key}`).then(err => console.log("跳转路由错误", err));
+        if (data.openNav) data.openNav = false;
+    }
+
+    const onPageResize = () => {
+        const clientWidth = document.body.clientWidth;
+        if (clientWidth < 1000) {
+            data.isCollapse = true;
+            readConfig.value.openNavbar = false;
+        } else {
+            readConfig.value.openNavbar = true;
         }
+    }
+
+    const toggleNavbar = () => {
+        if (readConfig.value.openNavbar) {
+            data.isCollapse = !data.isCollapse;
+        } else {
+            data.openNav = true;
+        }
+    }
+
+    onBeforeMount(() => {
+        onPageResize();
+        window.addEventListener("resize", throttle(onPageResize, 300));
+    });
+
+    onMounted(() => {
+        let pathName = window.location.pathname.split("/")[1];
+
+        if (!pathName || !["home", "library", "bookcase", "history"].includes(pathName)) pathName = data.navList[0].key;
+        data.currentNav = pathName;
+    });
+
+    onUnmounted(() => {
+        window.removeEventListener("resize", onPageResize);
     });
 </script>
 
 <style lang="scss" scoped>
     .navbar-wrapper {
-        width: 240px;
+        width: 220px;
         background: var(--whiteColor);
         transition: all .4s ease;
 
@@ -85,7 +129,7 @@
                 cursor: pointer;
             }
 
-            .name {
+            .top-name {
                 font-size: 24px;
                 font-weight: bold;
                 color: var(--mainColor);
@@ -136,7 +180,7 @@
                     transition: all .4s ease;
                 }
 
-                .name {
+                .nav-name {
                     margin-left: 16px;
                     transition: all .4s ease;
                     word-break: keep-all;
@@ -150,7 +194,7 @@
                     background: var(--hoverColor);
 
                     .iconfont,
-                    .name {
+                    .nav-name {
                         color: var(--mainColor);
                     }
                 }
@@ -172,6 +216,17 @@
 
         &.navbar-collapse {
             width: 80px;
+        }
+
+        :deep(.nav-drawer) {
+            .el-drawer__body {
+                padding: 0;
+            }
+
+            .nav-list {
+                margin-top: 0;
+                padding-left: 0
+            }
         }
     }
 </style>

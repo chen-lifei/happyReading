@@ -197,7 +197,7 @@
         if (state.isLogin) {
             // 登录
             user.login(state.account, state.password).then(() => {
-                push('/');
+                push('/home');
             }).catch(err => {
                 ElMessage.error(err || "注册成功，请登录~");
             });
@@ -310,7 +310,7 @@
 
             :deep(.el-button) {
                 width: 100%;
-                margin: 20px 0;
+                margin: 5px 0 20px;
                 height: 42px;
                 border-radius: 8px;
                 font-weight: 600;
@@ -335,6 +335,7 @@
             }
 
             .tip-wrapper {
+                margin-bottom: 15px;
                 .remember {
                     color: #A8A6B0;
                     input {
@@ -400,10 +401,14 @@
         .reset-wrapper {
             .send-wrapper {
                 text-align: right;
-                margin: 20px 0;
+                margin: 10px 0;
                 button {
-                    width: 88px;
+                    width: auto;
+                    padding: 5px 20px;
                     margin: 0;
+                    height: 36px;
+                    border-radius: 8px;
+                    font-size: 14px;
                 }
             }
 

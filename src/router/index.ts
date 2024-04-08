@@ -40,7 +40,7 @@ const router = createRouter({
             path: "/message",
             name: "MessageView",
             component: () => import("@/components/MessagePanel.vue"),
-        }
+        },
     ],
 });
 

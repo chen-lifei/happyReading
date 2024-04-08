@@ -2,25 +2,19 @@ import { setToken, getToken } from "@/utils/auth";
 import { loginApi } from "@/api/user";
 import { defineStore, acceptHMRUpdate } from "pinia";
 
-interface userItem {
-    token: Number | string,
-    avatar: string,
-    name: string
-}
-
 export const useUserStore = defineStore({
     id: "user",
-    state: () => ({
+    state: (): UserInfoState => ({
         userInfo: {
             token: "",
             avatar: "",
-            name: "yanyan",
-        },
-        isAdmin: true,
+            name: "",
+            isAdmin: true
+        }
     }),
 
     actions: {
-        getInfo(): userItem {
+        getInfo(): UserInfo {
             let info = JSON.parse(getToken());
             this.$patch({
                 userInfo: info
@@ -34,8 +28,8 @@ export const useUserStore = defineStore({
                     token: "",
                     avatar: "",
                     name: "",
+                    isAdmin: false
                 },
-                isAdmin: false,
             });
         },
 
