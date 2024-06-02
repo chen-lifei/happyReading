@@ -4,10 +4,15 @@
 
 // 用户信息
 declare interface UserInfo<T = any> {
-	token: Number | string;
+	id: number | string;
+	token: number | string;
     avatar: string;
     name: string;
-	isAdmin: boolean
+	isAdmin: boolean;
+	email: string;
+	phone: string;
+	region: string;
+	role: string;
 }
 
 declare interface UserInfoState {

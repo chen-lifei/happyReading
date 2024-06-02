@@ -197,9 +197,9 @@
         if (state.isLogin) {
             // 登录
             user.login(state.account, state.password).then(() => {
-                push('/home');
+                push("/home");
             }).catch(err => {
-                ElMessage.error(err || "注册成功，请登录~");
+                ElMessage.error(err || "账号或密码错误~");
             });
         } else {
             if (!usernameCorrect) {

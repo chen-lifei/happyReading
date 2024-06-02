@@ -1,7 +1,7 @@
 <template>
     <div class="home-wrapper" v-if="!state.showBookDetail">
         <div class="top-wrapper flex-between">
-            <div class="sentence">Good Evening, yanyanhuahua! It is time to have a rest.</div>
+            <div class="sentence">{{ state.greetingInfo }}</div>
             <div class="calendar-wrapper">
                 <i class="iconfont icon-calendar"></i>
                 <span class="time">{{ state.date }}</span>
@@ -50,15 +50,15 @@
 </template>
 
 <script lang="ts" setup>
-    import { fetchBookList } from '@/api/book';
+    import { fetchBookList } from "@/api/book";
+    import { reactive, onMounted } from "vue";
 
-    import { ref, reactive, onMounted } from 'vue';
-
-    import BookCard from '@/components/BookCard.vue';
-    import BookDetail from '@/components/BookDetail.vue';
+    import BookCard from "@/components/BookCard.vue";
+    import BookDetail from "@/components/BookDetail.vue";
 
     const state = reactive({
-        date: '',
+        date: "",
+        greetingInfo: "",
         currentPage: 1,
         showBookDetail: false,
         currentBookList: [] as any,
@@ -92,9 +92,19 @@
     }
 
     onMounted(() => {
-        let currentDate:any = new Date();
+        let currentDate = new Date();
         state.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}:${currentDate.getMinutes()}`;
         getBookList();
+
+        // 显示问好文字
+        let infoList = [
+            "成长就是一遍遍的怀疑自己以前深信不疑的东西，然后推翻一个又一个阶段的自己，长出新的智慧和性情，带着无数的迷惘与不确定，坚定的走向下一个阶段的自己。",
+            "不惊扰别人的宁静，就是慈悲；不伤害别人的自尊，就是善良。人活着，发自己的光就好，不要吹灭别人的灯。",
+            "在这个世界上，你再优秀，也不可能万事无忧；你再聪明，也不可能事事都懂；你再豁达，也不可能没有烦愁；你活得再漂亮，也不可能没有凄凉。",
+            "成长就是一遍遍的怀疑自己以前深信不疑的东西，然后推翻一个又一个阶段的自己，长出新的智慧和性情，带着无数的迷惘与不确定，坚定的走向下一个阶段的自己。"
+        ];
+        let random = Math.floor(Math.random() * infoList.length);
+        state.greetingInfo = "今日语录：" + infoList[random];
     });
 </script>
 
@@ -108,6 +118,10 @@
         .top-wrapper {
             .sentence {
                 width: 70%;
+                line-height: 1.6;
+                font-size: 15px;
+                letter-spacing: 1px;
+                color: var(--infoColor);
             }
 
             .calendar-wrapper {

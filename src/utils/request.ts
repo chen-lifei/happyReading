@@ -4,6 +4,8 @@ import { ElMessage } from 'element-plus';
 const service = axios.create({
     timeout: 30000,
 });
+const host = window.location.hostname;
+
 
 service.interceptors.response.use(
     (response) => {
@@ -31,5 +33,5 @@ service.interceptors.response.use(
     }
 );
 
-export const requestUrl = "http://106.15.38.125:3000";
+export const requestUrl = `http://${host}:3000`;
 export default service;

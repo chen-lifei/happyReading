@@ -42,7 +42,7 @@
         setup(props) {
             onMounted(() => {
                 let cover = props.bookInfo && props.bookInfo.cover;
-                if (cover) props.bookInfo.cover = validURL(cover) ? cover : `${requestUrl}${cover}`; 
+                if (cover) props.bookInfo.cover = validURL(cover) ? cover : `${requestUrl}/api${cover}`; 
             });
         }
     })

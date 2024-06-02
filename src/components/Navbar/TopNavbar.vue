@@ -18,25 +18,25 @@
             <i class="iconfont icon-sun"></i>
         </div>
         <div class="user-wrapper flex-center">
-            <img :src="state.userInfo.avatar" alt="">
-            <div class="name">{{ state.userInfo.name }}</div>
+            <img :src="userInfo.avatar" alt="">
+            <div class="name">{{ userInfo.name }}</div>
             <i class="iconfont icon-arrowDown"></i>
         </div>
     </div>
 </template>
 
 <script setup lang="ts" name="TopNavBar">
-    import { validURL } from "@/utils/validate";
-    import { requestUrl } from "@/utils/request";
     import { useRouter } from 'vue-router';
     import { useUserStore } from '@/stores/user';
-    import { ref, reactive, onMounted, watch } from 'vue';
+    import { ref, reactive, onMounted } from 'vue';
+    import { storeToRefs } from "pinia";
     import MessagePanel from "@/components/MessagePanel.vue";
 
     const user = useUserStore();
+    const { userInfo } = storeToRefs(user);
+
     const { push } = useRouter();
     const state = reactive({
-        userInfo: {} as any,
         isShowMessage: false
     });
     const messageDropdown = ref<any | null>(null);
@@ -51,9 +51,6 @@
     }
 
     onMounted(() => {
-        let info = user.getInfo();
-        info.avatar = validURL(info.avatar) ? info.avatar : `${requestUrl}${info.avatar}`;
-        state.userInfo = info;
     });
 </script>
 
