@@ -19,8 +19,8 @@
                     </div>
                 </div>
             </div>
-            <el-row class="book-wrapper" :gutter="20">
-                <el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="6" v-for="(item, index) in state.currentBookList" :key="index" @click="toggleBookDetail(true)">
+            <el-row class="book-wrapper" :gutter="10">
+                <el-col :xs="8" :sm="8" :md="6" :lg="4" :xl="4" v-for="(item, index) in state.currentBookList" :key="item.id" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
                 </el-col>
             </el-row>
@@ -34,12 +34,12 @@
                 </div>
             </div>
             <el-row class="book-wrapper" :gutter="20">
-                <el-col class="book-item" :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
+                <el-col class="book-item" :xs="12" :sm="12" :md="8" :lg="8" :xl="8" v-for="(item, index) in state.hotBookList" :key="item.id" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item" displayType="list">
                         <div class="data-wrapper">
                             <div class="name">作品数据</div>
-                            <div class="data">阅读数: 66</div>
-                            <div class="data">收藏数: 88</div>
+                            <div class="data">阅读量: {{ item.read_time }}</div>
+                            <div class="data">收藏量: {{ item.collections }}</div>
                         </div>
                     </BookCard>
                 </el-col>
@@ -50,8 +50,9 @@
 </template>
 
 <script lang="ts" setup>
-    import { fetchBookList } from "@/api/book";
-    import { reactive, onMounted } from "vue";
+    import { fetchBookList, fetchHotBookList } from "@/api/book";
+    import { reactive, onMounted, onBeforeMount, onUnmounted, watch } from "vue";
+    import { throttle } from "@/utils/index";
 
     import BookCard from "@/components/BookCard.vue";
     import BookDetail from "@/components/BookDetail.vue";
@@ -62,16 +63,22 @@
         currentPage: 1,
         showBookDetail: false,
         currentBookList: [] as any,
-        bookList: []
+        bookList: [],
+        hotBookList: [] as any,
+        pageOfBook: 6,      // 轮播显示的书本数：6：≥1200px  4：992~1200  3：0~992
     });
 
     function prePage() {
+        let page = state.currentPage;
+        if (page == 1) return;
+        state.currentPage--;
+        state.currentBookList = state.bookList.slice((page - 2) * state.pageOfBook, (page - 2) * state.pageOfBook + state.pageOfBook);
     }
     
     function nextPage() {
         let page = state.currentPage;
         state.currentPage++;
-        state.currentBookList = state.bookList.slice(page * 4, page * 4 + 4);
+        state.currentBookList = state.bookList.slice(page * state.pageOfBook, page * state.pageOfBook + state.pageOfBook);
     }
 
     function toggleBookDetail(isShow) {
@@ -86,15 +93,51 @@
             if (res.status == 1) {
                 let bookList = res.result.list;
                 state.bookList = bookList;
-                state.currentBookList = bookList.slice(0, 4);
+                state.currentBookList = bookList.slice(0, state.pageOfBook);
             }
         })
     }
+
+    function getHotBookList() {
+        fetchHotBookList({
+            page: 1,
+            pageSize: 9
+        }).then(res => {
+            if (res.status == 1) {
+                state.hotBookList = res.result.list;
+            }
+        })
+    }
+
+    const onPageResize = () => {
+        const clientWidth = document.body.clientWidth;
+        if (clientWidth < 992) {
+            state.pageOfBook = 3;
+        } else if (clientWidth >= 1200) {
+            state.pageOfBook = 6;
+        } else {
+            state.pageOfBook = 4;
+        }
+    }
+
+    watch(
+        () => state.pageOfBook,
+        () => {
+            let page = state.currentPage - 1;
+            state.currentBookList = state.bookList.slice(page * state.pageOfBook, page * state.pageOfBook + state.pageOfBook);
+        }
+    );
+
+    onBeforeMount(() => {
+        onPageResize();
+        window.addEventListener("resize", throttle(onPageResize, 300));
+    });
 
     onMounted(() => {
         let currentDate = new Date();
         state.date = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}  ${currentDate.getHours()}:${currentDate.getMinutes()}`;
         getBookList();
+        getHotBookList();
 
         // 显示问好文字
         let infoList = [
@@ -105,6 +148,10 @@
         ];
         let random = Math.floor(Math.random() * infoList.length);
         state.greetingInfo = "今日语录：" + infoList[random];
+    });
+
+    onUnmounted(() => {
+        window.removeEventListener("resize", onPageResize);
     });
 </script>
 

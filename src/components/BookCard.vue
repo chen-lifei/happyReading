@@ -40,9 +40,13 @@
             }
         },
         setup(props) {
-            onMounted(() => {
+            function getCover() {
                 let cover = props.bookInfo && props.bookInfo.cover;
-                if (cover) props.bookInfo.cover = validURL(cover) ? cover : `${requestUrl}/api${cover}`; 
+                if (cover) props.bookInfo.cover = validURL(cover) ? cover : `${requestUrl}/api${cover}`;
+            }
+
+            onMounted(() => {
+                getCover();
             });
         }
     })

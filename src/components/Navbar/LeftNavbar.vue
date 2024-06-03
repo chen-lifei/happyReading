@@ -13,7 +13,9 @@
                 :key="index"
                 :class="{ 'selected': data.currentNav === item.key }"
                 @click="changeNav(item)">
-                <i class="iconfont" :class="item.icon"></i>
+                <el-tooltip :content="item.name" placement="right" effect="customized" :offset="2" :disabled="!data.isCollapse">
+                    <i class="iconfont" :class="item.icon"></i>
+                </el-tooltip>
                 <div class="nav-name" v-show="!data.isCollapse">{{ item.name }}</div>
             </div>
         </div>
@@ -49,7 +51,7 @@
     const { push } = useRouter();
     const data = reactive({
         currentNav: "",
-        isCollapse: false,
+        isCollapse: true,
         openNav: false,
         navList: [
             { key: 'home', name: '首页', icon: 'icon-home' },
@@ -110,14 +112,15 @@
 
 <style lang="scss" scoped>
     .navbar-wrapper {
-        width: 220px;
+        width: 150px;
         background: var(--whiteColor);
         transition: all .4s ease;
 
         .logo-wrapper {
             position: relative;
             display: flex;
-            padding: 20px;
+            justify-content: center;
+            padding: 20px 10px;
             background: var(--whiteColor);
             box-shadow: -8px 0 20px rgba(89, 122, 97, 0.1);
 
@@ -133,7 +136,7 @@
                 font-size: 24px;
                 font-weight: bold;
                 color: var(--mainColor);
-                margin-left: 20px;
+                margin-left: 15px;
                 letter-spacing: 4px;
                 word-break: keep-all;
             }
@@ -161,7 +164,7 @@
 
         .nav-list {
             height: calc(100% - 76px);
-            padding: 10px 15px;
+            padding: 10px;
             margin-top: 8px;
             overflow: auto;
 
@@ -181,7 +184,7 @@
                 }
 
                 .nav-name {
-                    margin-left: 16px;
+                    margin-left: 10px;
                     transition: all .4s ease;
                     word-break: keep-all;
                 }
@@ -204,7 +207,7 @@
                         content: '';
                         position: absolute;
                         top: 0;
-                        right: -15px;
+                        right: -10px;
                         height: 100%;
                         width: 4px;
                         border-radius: 6px 0 0 6px;
@@ -216,6 +219,18 @@
 
         &.navbar-collapse {
             width: 80px;
+            .nav-list {
+                .nav-item {
+                    justify-content: center;
+                    padding: 0;
+                }
+
+                .iconfont {
+                    padding: 10px;
+                    font-size: 20px;
+                    transition: all .4s ease;
+                }
+            }
         }
 
         :deep(.nav-drawer) {
