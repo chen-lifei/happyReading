@@ -9,22 +9,22 @@
                 </div>
                 <div class="filter-wrapper flex-center">
                     <div class="button-wrapper flex-center">
-                        <el-tooltip content="最近阅读" placement="top" effect="light">
+                        <el-tooltip content="最近阅读" placement="top" effect="customized-top">
                             <i class="iconfont icon-clock"></i>
                         </el-tooltip>
                     </div>
                     <div class="button-wrapper flex-center selected">
-                        <el-tooltip content="热度" placement="top" effect="light">
+                        <el-tooltip content="热度" placement="top" effect="customized-top">
                             <i class="iconfont icon-hot"></i>
                         </el-tooltip>
                     </div>
                     <div class="button-wrapper flex-center">
-                        <el-tooltip content="收藏量" placement="top" effect="light">
+                        <el-tooltip content="收藏量" placement="top" effect="customized-top">
                             <i class="iconfont icon-like"></i>
                         </el-tooltip>
                     </div>
                     <div class="button-wrapper flex-center selected">
-                        <el-tooltip content="升序" placement="top" effect="light">
+                        <el-tooltip content="升序" placement="top" effect="customized-top">
                             <i class="iconfont icon-up"></i>
                         </el-tooltip>
                     </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="book-wrapper">
                 <el-row :gutter="20">
-                    <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
+                    <el-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6" v-for="(item, index) in state.bookList" :key="index" @click="toggleBookDetail(true)">
                         <BookCard :bookInfo="item"></BookCard>
                     </el-col>
                 </el-row>

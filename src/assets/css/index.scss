@@ -134,11 +134,21 @@ body {
 .el-popper.is-customized {
     color: #929594;
     padding: 6px 12px;
-    // background: linear-gradient(90deg, #9fe597, #cce581);
     background: linear-gradient(90deg, #b3e5b1, #f2f4e0);
 }
 
 .el-popper.is-customized .el-popper__arrow::before {
+    background: linear-gradient(45deg, #b3e5b1, #b3e5b1);
+    right: 0;
+}
+
+.el-popper.is-customized-top {
+    color: #929594;
+    padding: 6px 12px;
+    background: linear-gradient(0deg, #b3e5b1, #f2f4e0);
+}
+
+.el-popper.is-customized-top .el-popper__arrow::before {
     background: linear-gradient(45deg, #b3e5b1, #b3e5b1);
     right: 0;
 }

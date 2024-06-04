@@ -30,16 +30,16 @@
                 <div class="reader">
                     <div class="text">他们也在读</div>
                     <div class="user-list">
-                        <el-tooltip content="Bruce" placement="top" effect="light">
+                        <el-tooltip content="Bruce" placement="top" effect="customized-top">
                             <img class="user user1" src="@/assets/image/book/cover4.jpg" alt="">
                         </el-tooltip>
-                        <el-tooltip content="Ivan" placement="top" effect="light">
+                        <el-tooltip content="Ivan" placement="top" effect="customized-top">
                             <img class="user user2" src="@/assets/image/book/cover5.jpg" alt="">
                         </el-tooltip>
-                        <el-tooltip content="Sivan" placement="top" effect="light">
+                        <el-tooltip content="Sivan" placement="top" effect="customized-top">
                             <img class="user user3" src="@/assets/image/book/cover6.jpg" alt="">
                         </el-tooltip>
-                        <el-tooltip content="Haven" placement="top" effect="light">
+                        <el-tooltip content="Haven" placement="top" effect="customized-top">
                             <img class="user user4" src="@/assets/image/book/cover7.jpg" alt="">
                         </el-tooltip>
                     </div>

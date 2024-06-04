@@ -4,29 +4,29 @@
         <div class="right-content" v-if="!showBookDetail">
             <div class="filter-bar flex-center">
                 <div class="button-wrapper flex-center">
-                    <el-tooltip content="阅读量" placement="top" effect="light">
+                    <el-tooltip content="阅读量" placement="top" effect="customized-top">
                         <i class="iconfont icon-read"></i>
                     </el-tooltip>
                 </div>
                 <div class="button-wrapper flex-center selected">
-                    <el-tooltip content="热度" placement="top" effect="light">
+                    <el-tooltip content="热度" placement="top" effect="customized-top">
                         <i class="iconfont icon-hot"></i>
                     </el-tooltip>
                 </div>
                 <div class="button-wrapper flex-center">
-                    <el-tooltip content="收藏量" placement="top" effect="light">
+                    <el-tooltip content="收藏量" placement="top" effect="customized-top">
                         <i class="iconfont icon-like"></i>
                     </el-tooltip>
                 </div>
                 <div class="button-wrapper flex-center selected">
-                    <el-tooltip content="升序" placement="top" effect="light">
+                    <el-tooltip content="升序" placement="top" effect="customized-top">
                         <i class="iconfont icon-up"></i>
                     </el-tooltip>
                 </div>
             </div>
             <div class="book-wrapper">
                 <el-row :gutter="20">
-                    <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item, index) in state.bookList" :key="item.id" @click="toggleBookDetail(true)">
+                    <el-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6" v-for="(item, index) in state.bookList" :key="item.id" @click="toggleBookDetail(true)">
                         <BookCard :bookInfo="item"></BookCard>
                     </el-col>
                 </el-row>
@@ -40,10 +40,9 @@
     import BookCard from '@/components/BookCard.vue';
     import SelectBar from '@/components/Navbar/SelectNavbar.vue';
     import BookDetail from '@/components/BookDetail.vue';
-    import { ElMessage } from 'element-plus';
     
     import { ref, reactive, onMounted } from 'vue';
-    import { fetchBookCategory, fetchBookList } from '@/api/book';
+    import { fetchBookCategory, fetchBookType, fetchBookList } from '@/api/book';
 
     const state = reactive({
         total: 30,
@@ -61,17 +60,19 @@
         showBookDetail.value = isShow;
     }
 
-    function getBookData() {
-        fetchBookCategory().then(res => {
-            if (res.status == 1) {
-                let categoryData = res.result;
-                state.categoryData = categoryData;
-                state.topNav = categoryData;
-                state.navList = categoryData[0].list;
-            } else {
-                ElMessage.error("获取书籍分类失败~");
-            }
+    async function getBookData() {
+        const promise1 = fetchBookCategory();
+        const promise2 = fetchBookType();
+        let [categoryData, typeData] = await Promise.all([promise1, promise2]);
+        categoryData = categoryData.result;
+        typeData = typeData.result;
+        categoryData.forEach(cItem => {
+            let list = typeData.filter(tItem => tItem.category_id == cItem.id);
+            cItem["list"] = list;
         });
+        state.categoryData = categoryData;
+        state.topNav = categoryData;
+        state.navList = categoryData[0].list;
     }
 
     function getList(data) {

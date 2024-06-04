@@ -114,7 +114,7 @@
     .navbar-wrapper {
         width: 150px;
         background: var(--whiteColor);
-        transition: all .4s ease;
+        transition: width .4s ease;
 
         .logo-wrapper {
             position: relative;
