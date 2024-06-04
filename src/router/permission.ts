@@ -16,7 +16,7 @@ router.beforeEach(async (to, from, next) => {
         if (to.path === "/login") {
             next({ path: "/" });
         } else {
-            let useInfo = user.getInfo();
+            user.getInfo();
             next();
         }
     } else {

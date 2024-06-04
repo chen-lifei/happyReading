@@ -110,6 +110,15 @@ body {
 /** 
     transition 动画
 **/
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 @keyframes fadeToTop {
     0% {
         transform: translateY(60px);
@@ -121,6 +130,7 @@ body {
     }
 }
 
+// 文字提示自定义样式
 .el-popper.is-customized {
     color: #929594;
     padding: 6px 12px;

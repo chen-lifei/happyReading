@@ -11,15 +11,15 @@
             <div class="name-wrapper flex-between">
                 <div class="name">每日推荐</div>
                 <div class="change-page flex-center">
-                    <div class="left" @click="prePage()">
+                    <div class="left" @click="prePage()" :class="{ 'disabled': state.isFirstPage }">
                         <i class="iconfont icon-arrowLeft"></i>
                     </div>
-                    <div class="right" @click="nextPage()">
+                    <div class="right" @click="nextPage()" :class="{ 'disabled': state.isLastPage }">
                         <i class="iconfont icon-arrowRight"></i>
                     </div>
                 </div>
             </div>
-            <el-row class="book-wrapper" :gutter="10">
+            <el-row :class="{ 'fade-card': state.showFade }" class="book-wrapper" :gutter="10">
                 <el-col :xs="8" :sm="8" :md="6" :lg="4" :xl="4" v-for="(item, index) in state.currentBookList" :key="item.id" @click="toggleBookDetail(true)">
                     <BookCard :bookInfo="item"></BookCard>
                 </el-col>
@@ -65,18 +65,23 @@
         currentBookList: [] as any,
         bookList: [],
         hotBookList: [] as any,
-        pageOfBook: 6,      // 轮播显示的书本数：6：≥1200px  4：992~1200  3：0~992
+        pageOfBook: 6,              // 轮播显示的书本数：6：≥1200px  4：992~1200  3：0~992
+        showFade: false,
+        isFirstPage: true,          // 轮播是否为第一页
+        isLastPage: false,          // 轮播是否为最后一页
     });
 
     function prePage() {
         let page = state.currentPage;
-        if (page == 1) return;
+        if (state.isFirstPage) return;
         state.currentPage--;
         state.currentBookList = state.bookList.slice((page - 2) * state.pageOfBook, (page - 2) * state.pageOfBook + state.pageOfBook);
     }
     
     function nextPage() {
+        state.showFade = true;
         let page = state.currentPage;
+        if (state.isLastPage) return;
         state.currentPage++;
         state.currentBookList = state.bookList.slice(page * state.pageOfBook, page * state.pageOfBook + state.pageOfBook);
     }
@@ -125,6 +130,14 @@
         () => {
             let page = state.currentPage - 1;
             state.currentBookList = state.bookList.slice(page * state.pageOfBook, page * state.pageOfBook + state.pageOfBook);
+        }
+    );
+
+    watch(
+        () => state.currentPage,
+        (page) => {
+            state.isFirstPage = page == 1;
+            state.isLastPage = page == Math.ceil(state.bookList.length / state.pageOfBook);
         }
     );
 
@@ -221,13 +234,24 @@
                     .left {
                         margin-right: 8px;
                     }
+
+                    .disabled {
+                        cursor: no-drop;
+                        background: var(--greyColor);
+                    }
                 }
             }
 
             .book-wrapper {
                 display: flex;
                 flex-wrap: nowrap;
-                overflow: hidden;
+                overflow: hidden;                
+            }
+            .fade-card {
+                .book-card {
+                    opacity: 0;
+                    animation: .8s linear fade forwards;
+                }
             }
         }
 

@@ -145,8 +145,10 @@
         isLogin: true,
         remember: false,
         username: "",
-        account: "",
-        password: "",
+        // account: "",
+        // password: "",
+        account: "a@a.cn",
+        password: "666666",
         nameCorrect: false,
         accountCorrect: false,
         passwordCorrect: false,
@@ -187,6 +189,7 @@
     }
 
     function clickSubmitBtn() {
+        checkAccount();
         if (!state.accountCorrect) {
             return ElMessage.error("请输入正确的账号~");
         }
@@ -197,6 +200,11 @@
         if (state.isLogin) {
             // 登录
             user.login(state.account, state.password).then(() => {
+                ElMessage({
+                    message: "登录成功~",
+                    type: "success",
+                    duration: 1500
+                });
                 push("/home");
             }).catch(err => {
                 ElMessage.error(err || "账号或密码错误~");
@@ -215,7 +223,7 @@
                 if (res.status == 1) {
                     ElMessage.success("注册成功，请登录~");
                 } else {
-                    ElMessage.success("注册失败，请稍后重试~");
+                    ElMessage.error("注册失败，请稍后重试~");
                 }
             });
         }
