@@ -24,7 +24,7 @@
             <div class="nav-item"
                 v-for="(item, index) in state.currentNavList"
                 :key="index"
-                :class="{ 'selected': item.type_id === state.currentItem.type_id }"
+                :class="{ 'selected': item.id === state.currentItem.id }"
                 @click="selectItem(item)">
                 <div class="name">{{ item.type_name || item.name }}</div>
                 <div class="desc">
@@ -90,13 +90,12 @@
     function selectItem(item) {
         state.currentItem = item;
         
-        emit("selectItem", { category: state.selectTopNav && state.selectTopNav.id, type: item && item.type_id });
+        emit("selectItem", { category: state.selectTopNav && state.selectTopNav.id, type: item && item.id });
     }
 
     onMounted(() => {
     });
 </script>
-
 
 <style lang="scss" scoped>
     .select-bar {

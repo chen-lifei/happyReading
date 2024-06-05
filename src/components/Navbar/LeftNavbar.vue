@@ -48,7 +48,7 @@
     import { useReadConfigStore } from "@/stores/readConfig";
 
     // 变量
-    const { push } = useRouter();
+    const router = useRouter()
     const data = reactive({
         currentNav: "",
         isCollapse: true,
@@ -64,14 +64,14 @@
     const { readConfig } = storeToRefs(readConfigStore);
 
     const toHome = () => {
-        push("/home").then(err => console.log("跳转路由错误", err));
+        router.push("/home");
     }
 
     const changeNav = (item) => {
         data.currentNav = item.key;
         readConfig.value.menuText = item.name;
         readConfig.value.menuSite = item.key;
-        push(`/${item.key}`).then(err => console.log("跳转路由错误", err));
+        router.push(`/${item.key}`);
         if (data.openNav) data.openNav = false;
     }
 

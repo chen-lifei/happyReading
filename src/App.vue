@@ -8,9 +8,8 @@
 
     let hiddenNav = ref(true);
 
-    router.beforeEach(async (to, from, next) => {
+    router.afterEach(async (to) => {
         hiddenNav.value = !!to.meta.hiddenNav as boolean;
-        next();
     });
 </script>
 

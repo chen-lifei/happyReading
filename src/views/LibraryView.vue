@@ -24,12 +24,16 @@
                     </el-tooltip>
                 </div>
             </div>
-            <div class="book-wrapper">
+            <div class="book-wrapper" v-if="state.bookList.length">
                 <el-row :gutter="20">
                     <el-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6" v-for="(item, index) in state.bookList" :key="item.id" @click="toggleBookDetail(true)">
                         <BookCard :bookInfo="item"></BookCard>
                     </el-col>
                 </el-row>
+            </div>
+            <div class="empty-wrapper" v-else>
+                <img src="@/assets/image/book/empty.svg" alt="">
+                <p>还没有该分类的书籍，请等待书籍上新~</p>
             </div>
         </div>
         <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
@@ -67,7 +71,10 @@
         categoryData = categoryData.result;
         typeData = typeData.result;
         categoryData.forEach(cItem => {
-            let list = typeData.filter(tItem => tItem.category_id == cItem.id);
+            let list = typeData.filter(tItem => {
+                tItem["id"] = tItem["type_id"];
+                return tItem.category_id == cItem.id;
+            });
             cItem["list"] = list;
         });
         state.categoryData = categoryData;
@@ -155,6 +162,17 @@
 
                 .book-card {
                     margin-bottom: 20px;
+                }
+            }
+
+            .empty-wrapper {
+                text-align: center;
+                img {
+                    width: 250px;
+                    margin: 120px 0 20px;
+                }
+                p {
+                    color: var(--stressColor);
                 }
             }
         }
