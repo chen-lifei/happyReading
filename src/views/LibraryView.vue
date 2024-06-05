@@ -1,7 +1,7 @@
 <template>
     <div class="library-view">
         <SelectBar class="left-bar hidden-scrollbar" :topNav="state.topNav" @selectItem="selectItem"></SelectBar>
-        <div class="right-content" v-if="!showBookDetail">
+        <div class="right-content" v-if="!state.showBookDetail">
             <div class="filter-bar flex-center">
                 <div class="button-wrapper flex-center">
                     <el-tooltip content="阅读量" placement="top" effect="customized-top">
@@ -26,7 +26,7 @@
             </div>
             <div class="book-wrapper" v-if="state.bookList.length">
                 <el-row :gutter="20">
-                    <el-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6" v-for="(item, index) in state.bookList" :key="item.id" @click="toggleBookDetail(true)">
+                    <el-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6" v-for="(item, index) in state.bookList" :key="item.id" @click="toggleBookDetail(item.id)">
                         <BookCard :bookInfo="item"></BookCard>
                     </el-col>
                 </el-row>
@@ -36,17 +36,17 @@
                 <p>还没有该分类的书籍，请等待书籍上新~</p>
             </div>
         </div>
-        <BookDetail class="book-detail" @back="toggleBookDetail(false)" v-else></BookDetail>
+        <BookDetail class="book-detail" :id="state.bookId" @back="toggleBookDetail(false)" v-else></BookDetail>
     </div>
 </template>
 
-<script lang="ts" setup>
-    import BookCard from '@/components/BookCard.vue';
-    import SelectBar from '@/components/Navbar/SelectNavbar.vue';
-    import BookDetail from '@/components/BookDetail.vue';
+<script setup lang="ts" name="LibraryView">
+    import BookCard from "@/components/BookCard.vue";
+    import SelectBar from "@/components/Navbar/SelectNavbar.vue";
+    import BookDetail from "@/components/BookDetail.vue";
     
-    import { ref, reactive, onMounted } from 'vue';
-    import { fetchBookCategory, fetchBookType, fetchBookList } from '@/api/book';
+    import { reactive, onMounted } from "vue";
+    import { fetchBookCategory, fetchBookType, fetchBookList } from "@/api/book";
 
     const state = reactive({
         total: 30,
@@ -56,12 +56,13 @@
         navList: [],
         bookList: [] as any,
         categoryData: [],
+        showBookDetail: false,
+        bookId: ""
     });
-    
-    let showBookDetail =  ref(false);
 
     function toggleBookDetail(isShow) {
-        showBookDetail.value = isShow;
+        state.showBookDetail = !!isShow;
+        if (isShow) state.bookId = isShow;
     }
 
     async function getBookData() {

@@ -1,11 +1,19 @@
 import request from '@/utils/request';
 
 enum Api {
-    GetUserInfo = "/api/books/bookInfo/:id",
+    GetBookInfo = "/api/books/bookInfo/",
     GetBookCategory = "/api/books/category",
     GetBookType = "/api/books/type",
     GetBookList = "/api/books/bookList",
     GetHotBookList = "/api/books/hotBookList"
+}
+
+export function fetchBookInfo(data) {
+    return request({
+        method: "POST",
+        url: Api.GetBookInfo,
+        data
+    });
 }
 
 export function fetchBookCategory() {

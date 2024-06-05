@@ -1,7 +1,7 @@
 <template>
     <div class="select-bar">
         <div class="top-nav">
-            <span class="name">分类：</span>
+            <span class="name" v-if="state.isNavList">分类：</span>
             <span class="select-name">{{ state.isNavList ? (state.selectTopNav.cname || state.selectTopNav.name) : topNav }}</span>
             <el-dropdown  v-if="state.isNavList" trigger="click" class="dropdown-wrapper" @command="selectNav" :teleported="false">
                 <i class="iconfont icon-arrowDown" v-if="state.isNavList"></i>
@@ -28,9 +28,9 @@
                 @click="selectItem(item)">
                 <div class="name">{{ item.type_name || item.name }}</div>
                 <div class="desc">
-                    <span class="number" v-if="item.type_count || 1">数量：{{ item.type_count || 0 }}本</span>
-                    <span class="click-number" v-if="item.clickNumber">点击量：{{ item.clickNumber }}</span>
-                    <span class="create-date" v-if="item.createDate">创建时间：{{ item.createDate }}</span>
+                    <p class="number">数量：{{ item.type_count || item.number || 0 }}本</p>
+                    <p class="click-number" v-if="item.clickNumber">点击量：{{ item.clickNumber }}</p>
+                    <p class="create-date" v-if="item.createDate">创建时间：{{ item.createDate }}</p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts" name="SelectNavbar">
-    import { reactive, ref, unref, watch, toRefs, defineComponent, onMounted } from 'vue';
+    import { reactive, watch, onMounted } from 'vue';
 
     const props = defineProps({
         topNav: {
@@ -61,7 +61,7 @@
     });
 
     watch(
-        () => unref(props.topNav),
+        () => (props.topNav),
         (topNav) => {
             state.isNavList = Array.isArray(topNav);
         
@@ -166,6 +166,10 @@
 
                     .number {
                         margin-right: 6px;
+                    }
+
+                    p {
+                        line-height: 1.5;
                     }
                 }
 

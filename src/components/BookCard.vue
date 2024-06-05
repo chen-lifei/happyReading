@@ -22,10 +22,10 @@
 </template>
 
 <script lang="ts">
-    import { validURL } from '@/utils/validate';
-    import { requestUrl } from '@/utils/request';
+    import { validURL } from "@/utils/validate";
+    import { requestUrl } from "@/utils/request";
 
-    import { defineComponent, onMounted } from 'vue';
+    import { defineComponent, onMounted } from "vue";
 
     export default defineComponent({
         name: 'BookCard',

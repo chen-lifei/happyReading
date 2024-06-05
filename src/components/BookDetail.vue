@@ -7,18 +7,18 @@
         <div class="book-detail">
             <div class="book-info flex-between">
                 <div class="left-wrapper flex-start">
-                    <img class="book-cover" src="@/assets/image/book/cover3.jpg" alt="">
+                    <img class="book-cover" :src="state.bookInfo.cover" alt="">
                     <div class="center-wrapper">
                         <div class="info-wrapper">
-                            <div class="name">{{ bookInfo.name }}</div>
+                            <div class="name">{{ state.bookInfo.name }}</div>
                             <div class="info flex-between">
-                                <span>作者：{{ bookInfo.author }}</span>
-                                <span>创作于{{ bookInfo.createDate }}</span>
+                                <span>作者：{{ state.bookInfo.writer }}</span>
+                                <span>创作于{{ state.bookInfo.finish_time }}</span>
                             </div>
                             <div class="info flex-between">
-                                <span>阅读量：{{ bookInfo.readNum }}</span>
-                                <span>收藏量：{{ bookInfo.collectNum }}</span>
-                                <span>评分：{{ bookInfo.rate }}</span>
+                                <span>阅读量：{{ state.bookInfo.read_time }}</span>
+                                <span>收藏量：{{ state.bookInfo.collections }}</span>
+                                <!-- <span>评分：{{ state.bookInfo.rate }}</span> -->
                             </div>
                         </div>
                         <div class="button-wrapper">
@@ -47,15 +47,15 @@
             </div>
             <div class="book-desc">
                 简介：<br />
-                {{ bookInfo.desc }}
+                {{ state.bookInfo.introduction }}
             </div>
             <div class="tab-wrapper">
-                <div class="tab catalog" :class="{ 'select': selectTab === 'catalog' }" @click="selectTab = 'catalog'">章节目录</div>
-                <div class="tab comment" :class="{ 'select': selectTab === 'comment' }" @click="selectTab = 'comment'">评论</div>
+                <div class="tab catalog" :class="{ 'select': state.selectTab === 'catalog' }" @click="state.selectTab = 'catalog'">章节目录</div>
+                <div class="tab comment" :class="{ 'select': state.selectTab === 'comment' }" @click="state.selectTab = 'comment'">评论</div>
             </div>
             <!-- 章节目录列表 -->
-            <div class="catalog-list" v-if="selectTab === 'catalog'">
-                <div class="catalog-wrapper" v-for="(item, index) in chapterList" :key="index">
+            <div class="catalog-list" v-if="state.selectTab === 'catalog'">
+                <div class="catalog-wrapper" v-for="(item, index) in state.chapterList" :key="index">
                     <div class="catalog">
                         <div class="chapter">第 {{ index + 1 }} 章</div>
                         <div class="name">{{ item.name }}</div>
@@ -69,9 +69,10 @@
                     <textarea class="input" maxlength="300" placeholder="请输入评论内容" @input="commentInput" @blur="commentBlur()" :style="{ height: `${inputHeight}px` }"></textarea>
                     <span class="submit">发布</span>
                 </div>
-                <div class="comment-list">
+                <div class="comment-name">评论列表：</div>
+                <div class="comment-list" v-if="state.commentList.length">
                     <div class="comment-item">
-                        <div class="top-comment flex-start" v-for="(item, index) in commentList" :key="index">
+                        <div class="top-comment flex-start" v-for="(item, index) in state.commentList" :key="index">
                             <img class="user-avatar" src="@/assets/image/book/cover5.jpg" alt="">
                             <div class="comment-info">
                                 <div class="user-info flex-between">
@@ -88,9 +89,9 @@
                                     <span class="add-comment">评论</span>
                                     <span>点赞 {{ item.likeNum }}</span>
                                 </div>
-                                <div class="more-comment" v-if="item.innerComment.length && !openComment[Number(item.id)]" @click="openComment[Number(item.id)] = true">查看{{ item.innerComment.length }}条回复></div>
-                                <template v-if="item.innerComment.length && openComment[Number(item.id)]">
-                                    <div class="inner-comment comment-item flex-start" v-for="(item, index) in commentList" :key="index">
+                                <div class="more-comment" v-if="item.innerComment.length && !state.openComment[Number(item.id)]" @click="state.openComment[Number(item.id)] = true">查看{{ item.innerComment.length }}条回复></div>
+                                <template v-if="item.innerComment.length && state.openComment[Number(item.id)]">
+                                    <div class="inner-comment comment-item flex-start" v-for="(item, index) in state.commentList" :key="index">
                                         <img class="user-avatar" src="@/assets/image/book/cover6.jpg" alt="">
                                         <div class="comment-info">
                                             <div class="user-info flex-between">
@@ -108,195 +109,164 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="more-comment" @click="openComment[Number(item.id)] = false">收起评论></div>
+                                    <div class="more-comment" @click="state.openComment[Number(item.id)] = false">收起评论></div>
                                 </template>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="comment-empty" v-else>
+                    <p>暂未有评论内容~</p>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script lang="ts">
-    import { ref, reactive, toRefs, defineComponent, onMounted, type Ref } from 'vue';
+<script setup lang="ts" name="BookDetail">
+    import { ref, reactive, onMounted, type Ref } from "vue";
+    import { validURL } from "@/utils/validate";
+    import { requestUrl } from "@/utils/request";
 
-    interface chapterItem {
-        id: Number | String,
-        name: String,
-        status: String
-    }
-    interface bookItem {
-        id: Number | String,
-        name: String,
-        author: String,
-        createDate: String,
-        readNum: Number,
-        collectNum: Number,
-        rate: Number,
-        desc: String,
-    }
-    interface commentItem {
-        id: Number | String,
-        content: String,
-        userName: String,
-        date: String,
-        from: String,
-        innerComment: commentItem[] | [],
-        likeNum: Number,
-    }
+    import { fetchBookInfo } from "@/api/book";
 
-    export default defineComponent({
-        name: 'BookDetail',
-        props: {
-            id: {
-                type: [String, Number],
-                default: ''
-            }
-        },
-        setup() {
-            const HIDDEN_STYLE = `height:0 !important;visibility:hidden !important;overflow:hidden !important;z-index:-999 !important;`;
-            const CONTEXT_STYLE = [
-                'letter-spacing',
-                'line-height',
-                'padding-top',
-                'padding-bottom',
-                'font-family',
-                'font-weight',
-                'font-size',
-                'text-rendering',
-                'text-transform',
-                'width',
-                'text-indent',
-                'padding-left',
-                'padding-right',
-                'border-width',
-                'box-sizing',
-            ];
-            const bookInfo = ref({} as bookItem);
-            const chapterList = ref([] as chapterItem[]);
-            const commentList = ref([] as commentItem[]);
-            const state = reactive({
-                selectTab: '',              // catalog or comment
-                openComment: {}
-            });
-
-            let hiddenTextarea: any;
-            let inputHeight: Ref<Number> = ref(90);   
-
-            function commentInput(e) {
-                let target = e.target;
-                if (!hiddenTextarea) {
-                    hiddenTextarea = document.createElement('textarea');
-                    document.body.appendChild(hiddenTextarea);
-                }
-                const { borderSize, paddingSize, contextStyle } = calculateNodeStyling(e.target);
-                hiddenTextarea.setAttribute('id', 'hidden-textarea');
-                hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`)
-                hiddenTextarea.value = target.value || target.placeholder || '';
-
-                let height = Math.max(90, hiddenTextarea.scrollHeight + borderSize);
-                inputHeight.value = Math.ceil(height);
-            }
-
-            function commentBlur() {
-                hiddenTextarea = null;
-                let hiddenTextareaEle = document.querySelector('#hidden-textarea');
-                if (hiddenTextareaEle) document.body.removeChild(hiddenTextareaEle);
-            }
-
-            function calculateNodeStyling(targetElement) {
-                const style = window.getComputedStyle(targetElement)
-                const boxSizing = style.getPropertyValue('box-sizing')
-                const paddingSize =
-                    Number.parseFloat(style.getPropertyValue('padding-bottom')) +
-                    Number.parseFloat(style.getPropertyValue('padding-top'))
-                const borderSize =
-                    Number.parseFloat(style.getPropertyValue('border-bottom-width')) +
-                    Number.parseFloat(style.getPropertyValue('border-top-width'))
-                const contextStyle = CONTEXT_STYLE.map(
-                    (name) => `${name}:${style.getPropertyValue(name)}`
-                ).join(';')
-                return { contextStyle, paddingSize, borderSize, boxSizing }
-            }
-
-            onMounted(() => {
-                bookInfo.value = {
-                    id: 1,
-                    name: '一只猫咪的故事',
-                    author: 'fei',
-                    createDate: '2022.02.22',
-                    readNum: 6,
-                    collectNum: 6,
-                    rate: 5.0,
-                    desc: '下面我们会从不同维度分析一下这个APP的社交分享功能设计，看看这里面有哪些值得探讨的地方。用户分享内容到社交媒体或好友，不应该是一种粗暴的强制行为，我们应该在保证产品本身内容有吸引力的核心前提下，仔细揣摩用户心理，结合产品本身的特色，在不同情境下提供给用户最合适的分享内容。',
-                }
-                chapterList.value = [
-                    { id: 1, name: '你是谁？', status: 'reading' },
-                    { id: 2, name: '我不知道我是谁', status: 'unread' },
-                    { id: 3, name: '那你从何而来？', status: 'unread' },
-                    { id: 4, name: '我也不知道我从哪里来，请问这里是哪里呀？！', status: 'read' },
-                    { id: 5, name: '呦呵，你这人好生奇怪', status: 'reading' },
-                    { id: 6, name: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵', status: 'read' }
-                ];
-                let currentCommentList =  [
-                    {
-                        id: 1,
-                        content: '尤其是刚上线的产品，很难通过产品的内部体系来实现快速的用户增长，所以会更加依赖于分享来达到广泛的传播，获取目标用户。',
-                        userName: '香菜和榴莲真好吃',
-                        date: '6月4日 12:34',
-                        from: '海南',
-                        innerComment: [],
-                        likeNum: 66,
-                    },
-                    {
-                        id: 2,
-                        content: '所以监听用户的截图操作，提示用户进行分享，既缩短了以前分享截图的操作路径，避免了在之前长路径中的行为流失（比如截图完成后忘记分享或觉得麻烦放弃分享等等），也让用户觉得更加贴心。',
-                        userName: '为你明灯三千',
-                        date: '6月8日 09:10',
-                        from: '黑龙江',
-                        innerComment: [
-                            {
-                                id: 1,
-                                content: '尤其是刚上线的产品，很难通过产品的内部体系来实现快速的用户增长',
-                                userName: '香菜和榴莲真好吃',
-                                date: '6月4日 12:34',
-                                from: '海南',
-                                innerComment: [],
-                                likeNum: 66,
-                            },
-                            {
-                                id: 32,
-                                content: '所以会更加依赖于分享来达到广泛的传播，获取目标用户。',
-                                userName: '香菜和榴莲真好吃',
-                                date: '6月4日 12:34',
-                                from: '海南',
-                                innerComment: [],
-                                likeNum: 66,
-                            }
-                        ],
-                        likeNum: 666,
-                    }
-                ];
-                commentList.value = currentCommentList;
-                currentCommentList.forEach(comment => {
-                    state.openComment[Number(comment.id)] = false;
-                });
-                state.selectTab = 'catalog';
-            });
-
-            return {
-                bookInfo,
-                chapterList,
-                commentList,
-                inputHeight,
-                commentInput,
-                commentBlur,
-                ...toRefs(state),
-            }
+    const props = defineProps({
+        id: {
+            type: [String, Number],
+            default: ""
         }
-    })
+    });
+    const HIDDEN_STYLE = `height:0 !important;visibility:hidden !important;overflow:hidden !important;z-index:-999 !important;`;
+    const CONTEXT_STYLE = [
+        'letter-spacing',
+        'line-height',
+        'padding-top',
+        'padding-bottom',
+        'font-family',
+        'font-weight',
+        'font-size',
+        'text-rendering',
+        'text-transform',
+        'width',
+        'text-indent',
+        'padding-left',
+        'padding-right',
+        'border-width',
+        'box-sizing',
+    ];
+    const state = reactive({
+        selectTab: '',              // catalog or comment
+        openComment: {},
+        bookInfo: {} as bookItem,
+        chapterList: [] as chapterItem[],
+        commentList: [] as commentItem[]
+    });
+
+    let hiddenTextarea: any;
+    let inputHeight: Ref<Number> = ref(90);   
+
+    function commentInput(e) {
+        let target = e.target;
+        if (!hiddenTextarea) {
+            hiddenTextarea = document.createElement('textarea');
+            document.body.appendChild(hiddenTextarea);
+        }
+        const { borderSize, contextStyle } = calculateNodeStyling(e.target);
+        hiddenTextarea.setAttribute('id', 'hidden-textarea');
+        hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`)
+        hiddenTextarea.value = target.value || target.placeholder || '';
+
+        let height = Math.max(90, hiddenTextarea.scrollHeight + borderSize);
+        inputHeight.value = Math.ceil(height);
+    }
+
+    function commentBlur() {
+        hiddenTextarea = null;
+        let hiddenTextareaEle = document.querySelector('#hidden-textarea');
+        if (hiddenTextareaEle) document.body.removeChild(hiddenTextareaEle);
+    }
+
+    function calculateNodeStyling(targetElement) {
+        const style = window.getComputedStyle(targetElement)
+        const boxSizing = style.getPropertyValue('box-sizing')
+        const paddingSize =
+            Number.parseFloat(style.getPropertyValue('padding-bottom')) +
+            Number.parseFloat(style.getPropertyValue('padding-top'))
+        const borderSize =
+            Number.parseFloat(style.getPropertyValue('border-bottom-width')) +
+            Number.parseFloat(style.getPropertyValue('border-top-width'))
+        const contextStyle = CONTEXT_STYLE.map(
+            (name) => `${name}:${style.getPropertyValue(name)}`
+        ).join(';')
+        return { contextStyle, paddingSize, borderSize, boxSizing }
+    }
+
+    function getBookData() {
+        if (!props.id) return;
+        fetchBookInfo({
+            id: props.id
+        }).then(res => {
+            state.bookInfo = res.result;
+            state.bookInfo.cover = validURL(state.bookInfo.cover) ? state.bookInfo.cover : `${requestUrl}/api${state.bookInfo.cover}`;
+        });
+        state.chapterList = [
+            { id: 1, name: '你是谁？', status: 'reading' },
+            { id: 2, name: '我不知道我是谁', status: 'unread' },
+            { id: 3, name: '那你从何而来？', status: 'unread' },
+            { id: 4, name: '我也不知道我从哪里来，请问这里是哪里呀？！', status: 'read' },
+            { id: 5, name: '呦呵，你这人好生奇怪', status: 'reading' },
+            { id: 6, name: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵', status: 'read' }
+        ];
+        // let currentCommentList =  [
+        //     {
+        //         id: 1,
+        //         content: '尤其是刚上线的产品，很难通过产品的内部体系来实现快速的用户增长，所以会更加依赖于分享来达到广泛的传播，获取目标用户。',
+        //         userName: '香菜和榴莲真好吃',
+        //         date: '6月4日 12:34',
+        //         from: '海南',
+        //         innerComment: [],
+        //         likeNum: 66,
+        //     },
+        //     {
+        //         id: 2,
+        //         content: '所以监听用户的截图操作，提示用户进行分享，既缩短了以前分享截图的操作路径，避免了在之前长路径中的行为流失（比如截图完成后忘记分享或觉得麻烦放弃分享等等），也让用户觉得更加贴心。',
+        //         userName: '为你明灯三千',
+        //         date: '6月8日 09:10',
+        //         from: '黑龙江',
+        //         innerComment: [
+        //             {
+        //                 id: 1,
+        //                 content: '尤其是刚上线的产品，很难通过产品的内部体系来实现快速的用户增长',
+        //                 userName: '香菜和榴莲真好吃',
+        //                 date: '6月4日 12:34',
+        //                 from: '海南',
+        //                 innerComment: [],
+        //                 likeNum: 66,
+        //             },
+        //             {
+        //                 id: 32,
+        //                 content: '所以会更加依赖于分享来达到广泛的传播，获取目标用户。',
+        //                 userName: '香菜和榴莲真好吃',
+        //                 date: '6月4日 12:34',
+        //                 from: '海南',
+        //                 innerComment: [],
+        //                 likeNum: 66,
+        //             }
+        //         ],
+        //         likeNum: 666,
+        //     }
+        // ];
+        // state.commentList = currentCommentList;
+        // currentCommentList.forEach(comment => {
+        //     state.openComment[Number(comment.id)] = false;
+        // });
+        state.selectTab = 'catalog';
+    }
+
+    onMounted(() => {
+        getBookData();
+        
+    });
 </script>
 
 <style lang="scss" scoped>
@@ -369,17 +339,22 @@
                     .button-wrapper {
                         .button {
                             display: inline-block;
-                            width: 100px;
-                            height: 40px;
-                            line-height: 40px;
+                            width: 88px;
+                            height: 36px;
+                            line-height: 36px;
                             text-align: center;
-                            color: var(--whiteColor);
-                            border-radius: 10px;
-                            background: var(--mainColor);
+                            color: var(--mainColor);
+                            border-radius: 6px;
+                            transition: all .2s ease;
+                            background: var(--backColor);
                             box-shadow: 0 4px 10px 0 rgba(140, 171, 145, .5);
                             cursor: pointer;
                             &.start {
-                                margin-right: 20px;
+                                margin-right: 24px;
+                            }
+                            &:hover {
+                                color: var(--whiteColor);
+                                background: var(--mainColor);
                             }
                         }
                     }
@@ -434,15 +409,16 @@
                 margin: 20px 0;
                 .tab {
                     display: inline-block;
-                    height: 40px;
-                    line-height: 40px;
+                    height: 36px;
+                    line-height: 36px;
                     padding: 0 15px;
                     color: var(--mainColor);
-                    border-radius: 8px;
+                    border-radius: 6px;
                     background: var(--backColor);
+                    box-shadow: 0 4px 10px 0 rgba(140, 171, 145, .5);
                     cursor: pointer;
                     &.catalog {
-                        margin-right: 10px;
+                        margin-right: 20px;
                     }
                     &:hover,
                     &.select {
@@ -550,6 +526,11 @@
                         }
                     }
                 }
+                
+                .comment-name {
+                    margin: 20px 0;
+                    color: var(--stressColor);
+                }
 
                 .comment-list {
                     .comment-item {
@@ -612,6 +593,11 @@
                             border-bottom: 1px solid rgba(125, 133, 146, 0.1);
                         }
                     }
+                }
+
+                .comment-empty {
+                    text-align: center;
+                    color: var(--infoColor);
                 }
             }
         }
