@@ -23,7 +23,7 @@
                         </div>
                         <div class="button-wrapper">
                             <div class="button start">开始阅读</div>
-                            <div class="button">加入书架</div>
+                            <div class="button">加入书柜</div>
                         </div>
                     </div>
                 </div>
@@ -55,11 +55,11 @@
             </div>
             <!-- 章节目录列表 -->
             <div class="catalog-list" v-if="state.selectTab === 'catalog'">
-                <div class="catalog-wrapper" v-for="(item, index) in state.chapterList" :key="index">
+                <div class="catalog-wrapper" @click="toReadChapter(item.id)" v-for="(item, index) in state.chapterList" :key="index">
                     <div class="catalog">
                         <div class="chapter">第 {{ index + 1 }} 章</div>
                         <div class="name">{{ item.name }}</div>
-                        <div class="tag" :class="item.status">{{ item.status === 'read' ? '已读' : item.status === 'reading' ? '正在读' : '未读' }}</div>
+                        <div class="tag" :class="item.status">{{ item.status === "read" ? "已读" : item.status === "reading" ? "正在读" : "未读" }}</div>
                     </div>
                 </div>
             </div>
@@ -127,6 +127,7 @@
     import { ref, reactive, onMounted, type Ref } from "vue";
     import { validURL } from "@/utils/validate";
     import { requestUrl } from "@/utils/request";
+    import { useRouter } from "vue-router";
 
     import { fetchBookInfo } from "@/api/book";
 
@@ -136,6 +137,7 @@
             default: ""
         }
     });
+    const router = useRouter()
     const HIDDEN_STYLE = `height:0 !important;visibility:hidden !important;overflow:hidden !important;z-index:-999 !important;`;
     const CONTEXT_STYLE = [
         'letter-spacing',
@@ -210,12 +212,12 @@
             state.bookInfo.cover = validURL(state.bookInfo.cover) ? state.bookInfo.cover : `${requestUrl}/api${state.bookInfo.cover}`;
         });
         state.chapterList = [
-            { id: 1, name: '你是谁？', status: 'reading' },
-            { id: 2, name: '我不知道我是谁', status: 'unread' },
-            { id: 3, name: '那你从何而来？', status: 'unread' },
-            { id: 4, name: '我也不知道我从哪里来，请问这里是哪里呀？！', status: 'read' },
-            { id: 5, name: '呦呵，你这人好生奇怪', status: 'reading' },
-            { id: 6, name: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵', status: 'read' }
+            { id: 1, name: "第一章内容简介", status: "reading" },
+            { id: 2, name: "第二章内容简介", status: "unread" },
+            { id: 3, name: "第三章内容简介", status: "unread" },
+            { id: 4, name: "第四章内容简介", status: "read" },
+            { id: 5, name: "第五章内容简介", status: "reading" },
+            { id: 6, name: "第六章内容简介", status: "read" }
         ];
         // let currentCommentList =  [
         //     {
@@ -261,6 +263,10 @@
         //     state.openComment[Number(comment.id)] = false;
         // });
         state.selectTab = 'catalog';
+    }
+
+    function toReadChapter(cId) {
+        router.push({ name: "ChapterView", params: { bId: props.id, cId: cId } });
     }
 
     onMounted(() => {
@@ -417,6 +423,7 @@
                     background: var(--backColor);
                     box-shadow: 0 4px 10px 0 rgba(140, 171, 145, .5);
                     cursor: pointer;
+                    transition: all .2s ease;
                     &.catalog {
                         margin-right: 20px;
                     }

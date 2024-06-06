@@ -58,7 +58,7 @@
     .top-navbar-wrapper {
         position: relative;
         width: 100%;
-        height: 72px;
+        height: 60px;
         padding-right: 30px;
 
         .icon-wrapper {

@@ -169,11 +169,11 @@
             .empty-wrapper {
                 text-align: center;
                 img {
-                    width: 250px;
+                    width: 220px;
                     margin: 120px 0 20px;
                 }
                 p {
-                    color: var(--stressColor);
+                    color: var(--infoColor);
                 }
             }
         }

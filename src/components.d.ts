@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BookCard: typeof import('./components/BookCard.vue')['default']
-    BookChaper: typeof import('./components/BookChaper.vue')['default']
     BookDetail: typeof import('./components/BookDetail.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']

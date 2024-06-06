@@ -48,7 +48,7 @@
     import { useReadConfigStore } from "@/stores/readConfig";
 
     // 变量
-    const router = useRouter()
+    const router = useRouter();
     const data = reactive({
         currentNav: "",
         isCollapse: true,

@@ -306,7 +306,7 @@
     }
     .book-detail {
         width: 100%;
-        height: calc(100% - 30px);
+        height: calc(100% - 10px);
         padding-right: 30px;
     }
 </style>

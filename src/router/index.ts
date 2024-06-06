@@ -41,6 +41,12 @@ const router = createRouter({
             name: "MessageView",
             component: () => import("@/components/MessagePanel.vue"),
         },
+        {
+            path: "/chapter/:bId/:cId",
+            name: "ChapterView",
+            meta: { hiddenNav: true, ignoreAuth: true },
+            component: () => import("@/views/BookChapterView.vue"),
+        }
     ],
 });
 
