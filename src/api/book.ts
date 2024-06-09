@@ -5,7 +5,8 @@ enum Api {
     GetBookCategory = "/api/books/category",
     GetBookType = "/api/books/type",
     GetBookList = "/api/books/bookList",
-    GetHotBookList = "/api/books/hotBookList"
+    GetHotBookList = "/api/books/hotBookList",
+    GetBookChapter = "/api/books/chapter"
 }
 
 export function fetchBookInfo(data) {
@@ -18,21 +19,21 @@ export function fetchBookInfo(data) {
 
 export function fetchBookCategory() {
     return request({
-        method: 'GET',
+        method: "GET",
         url: Api.GetBookCategory
     });
 }
 
 export function fetchBookType() {
     return request({
-        method: 'GET',
+        method: "GET",
         url: Api.GetBookType
     });
 }
 
 export function fetchBookList(data) {
     return request({
-        method: 'POST',
+        method: "POST",
         url: Api.GetBookList,
         data
     });
@@ -40,8 +41,16 @@ export function fetchBookList(data) {
 
 export function fetchHotBookList(data) {
     return request({
-        method: 'POST',
+        method: "POST",
         url: Api.GetHotBookList,
+        data
+    });
+}
+
+export function fetchBookChapter(data) {
+    return request({
+        method: "POST",
+        url: Api.GetBookChapter,
         data
     });
 }

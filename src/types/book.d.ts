@@ -28,3 +28,11 @@ interface commentItem {
     innerComment: commentItem[] | [],
     likeNum: Number,
 }
+
+interface chapterItem {
+    id: Number,
+    book_id: Number,
+    chapter_index: Number,
+    chapter_name: String,
+    content: String,
+}

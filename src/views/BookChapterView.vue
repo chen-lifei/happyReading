@@ -5,21 +5,9 @@
             <div class="main-wrapper">
                 <div class="name">
                     <div class="book-name">书籍名称</div>
-                    <div class="chapter-name">第一章：章节名称</div>
+                    <div class="chapter-name">{{ state.chapterData.chapter_name || "第一章：章节名称" }}</div>
                 </div>
-                <div class="main-chapter">
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容</p>
-                    <p>章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章节内容章</p>
+                <div class="main-chapter" v-html="state.chapterData.content">
                 </div>
                 <div class="bottom-page">
                     <div class="btn pre-page">上一页</div>
@@ -42,24 +30,25 @@
 <script setup lang="ts" name="BookChapter">
     import { reactive, onMounted,  } from "vue";
     import { useRoute, useRouter } from "vue-router";
+    import { fetchBookChapter } from "@/api/book";
 
     import TopNavbar from "@/components/Navbar/TopNavbar.vue";
 
     const route = useRoute();
     const router = useRouter();
     const state = reactive({
-        bookId: "" as string | string[],
-        chapterId: "" as string | string[],
+        bookId: "" as number | string,
+        id: "" as number | string,
         toolList: [
             { content: "首页", icon: "icon-home", name: "home" },
             { content: "评论", icon: "icon-message", name: "comment" },
             { content: "章节", icon: "icon-home", name: "chapter" },
             { content: "字体", icon: "icon-message", name: "text" },
-        ]
+        ],
+        chapterData: {} as chapterItem
     });
 
     function handleTool(tool) {
-        console.log(tool);
         switch(tool) {
             case "home": 
                 router.push("/home");
@@ -69,10 +58,20 @@
         }
     }
 
+    function getBookChapter() {
+        fetchBookChapter({ id: state.id }).then(res => {
+            console.log(res);
+            state.chapterData = res.result[0];
+            
+        });
+    }
+
     onMounted(() => {
-        if (!route.params || !route.params.bId || !route.params.cId) return;
-        state.bookId = route.params.bId;
-        state.chapterId = route.params.cId;
+        // if (!route.params || !route.params.bId || !route.params.cId) return;
+        // state.bookId = route.params.bId;
+        // state.chapterId = route.params.cId;
+        state.id = 1;
+        getBookChapter();
     });
 </script>
 
