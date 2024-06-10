@@ -58,7 +58,7 @@
                 <div class="catalog-wrapper" @click="toReadChapter(item.id)" v-for="(item, index) in state.chapterList" :key="index">
                     <div class="catalog">
                         <div class="chapter">第 {{ index + 1 }} 章</div>
-                        <div class="name">{{ item.name }}</div>
+                        <div class="name">{{ item.chapter_name }}</div>
                         <div class="tag" :class="item.status">{{ item.status === "read" ? "已读" : item.status === "reading" ? "正在读" : "未读" }}</div>
                     </div>
                 </div>
@@ -212,12 +212,12 @@
             state.bookInfo.cover = validURL(state.bookInfo.cover) ? state.bookInfo.cover : `${requestUrl}/api${state.bookInfo.cover}`;
         });
         state.chapterList = [
-            { id: 1, name: "第一章内容简介", status: "reading" },
-            { id: 2, name: "第二章内容简介", status: "unread" },
-            { id: 3, name: "第三章内容简介", status: "unread" },
-            { id: 4, name: "第四章内容简介", status: "read" },
-            { id: 5, name: "第五章内容简介", status: "reading" },
-            { id: 6, name: "第六章内容简介", status: "read" }
+            { id: 1, chapter_name: "第一章内容简介", book_id: 1, chapter_index: 1, content: "", status: "reading" },
+            { id: 2, chapter_name: "第二章内容简介", book_id: 1, chapter_index: 1, content: "", status: "unread" },
+            { id: 3, chapter_name: "第三章内容简介", book_id: 1, chapter_index: 1, content: "", status: "unread" },
+            { id: 4, chapter_name: "第四章内容简介", book_id: 1, chapter_index: 1, content: "", status: "read" },
+            { id: 5, chapter_name: "第五章内容简介", book_id: 1, chapter_index: 1, content: "", status: "reading" },
+            { id: 6, chapter_name: "第六章内容简介", book_id: 1, chapter_index: 1, content: "", status: "read" }
         ];
         // let currentCommentList =  [
         //     {

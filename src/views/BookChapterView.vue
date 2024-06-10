@@ -7,11 +7,14 @@
                     <div class="book-name">书籍名称</div>
                     <div class="chapter-name">{{ state.chapterData.chapter_name || "第一章：章节名称" }}</div>
                 </div>
-                <div class="main-chapter" v-html="state.chapterData.content">
+                <!-- <div class="main-chapter" v-html="state.chapterData.content"> -->
+                <div class="main-chapter">
+                    <div class="chapter-item left"></div>
+                    <div class="chapter-item right"></div>
                 </div>
                 <div class="bottom-page">
-                    <div class="btn pre-page">上一页</div>
-                    <div class="btn next-page">下一页</div>
+                    <div class="btn pre-page" @click="changePage('pre')">上一页</div>
+                    <div class="btn next-page" @click="changePage('next')">下一页</div>
                 </div>
             </div>
         </div>
@@ -45,7 +48,9 @@
             { content: "章节", icon: "icon-home", name: "chapter" },
             { content: "字体", icon: "icon-message", name: "text" },
         ],
-        chapterData: {} as chapterItem
+        chapterData: {} as chapterItem,
+        chapterContent: [] as any,
+        chapterIndex: 0
     });
 
     function handleTool(tool) {
@@ -60,10 +65,48 @@
 
     function getBookChapter() {
         fetchBookChapter({ id: state.id }).then(res => {
-            console.log(res);
             state.chapterData = res.result[0];
-            
+            getChapterContent();
         });
+    }
+
+    function getChapterContent() {
+        let content = state.chapterData.content;
+        let i = content.replace(/\<p\>(\s)*/g, "");
+        content = i.replace(/\<\/p\>/g, "</br>");
+        let chapterEl: any = document.querySelector(".main-chapter .chapter-item");
+        let width = Math.floor(chapterEl.offsetWidth);
+        let height = Math.floor(chapterEl.offsetHeight);
+        let textNumber = Math.floor((width * height) / 300);
+
+        let iterator = Math.ceil(content.length / (textNumber * 2));
+        for(let i = 0; i < iterator; i++) {
+            let currentContent = content.substring(i * textNumber * 2, i * textNumber * 2 + textNumber * 2);
+            state.chapterContent.push({
+                left: currentContent.substring(0, currentContent.length / 2),
+                right: currentContent.substring(currentContent.length / 2, currentContent.length)
+            });
+        }
+
+        showChapterContent();
+    }
+
+    function showChapterContent() {
+        let leftItem: any = document.querySelector(".main-chapter .left");
+        let rightItem: any = document.querySelector(".main-chapter .right");
+        leftItem.innerHTML = state.chapterContent[state.chapterIndex]["left"];
+        rightItem.innerHTML = state.chapterContent[state.chapterIndex]["right"];
+    }
+
+    function changePage(type) {
+        if (type == "pre") {
+            if (state.chapterIndex == 0) return;
+            state.chapterIndex--;
+        } else {
+            if (state.chapterIndex == state.chapterContent.length - 1) return;
+            state.chapterIndex++;
+        }
+        showChapterContent();
     }
 
     onMounted(() => {
@@ -105,17 +148,23 @@
 
             .main-chapter {
                 display: flex;
-                flex-direction: column;
-                flex-wrap: wrap;
-                align-items: center;
+                justify-content: space-between;
                 height: calc(100% - 90px);
                 margin: 20px 0;
 
-                p {
-                    width: 45%;
-                    line-height: 1.6;
-                    margin-bottom: 10px;
+                // p {
+                //     width: 45%;
+                //     line-height: 1.6;
+                //     margin-bottom: 10px;
+                //     color: var(--textColor);
+                // }
+
+                .chapter-item {
+                    width: 48%;
+                    height: 100%;
                     color: var(--textColor);
+                    letter-spacing: 1px;
+                    line-height: 1.4;
                 }
             }
 

@@ -1,8 +1,3 @@
-interface chapterItem {
-    id: Number | String,
-    name: String,
-    status: String
-}
 interface bookItem {
     id: Number | String,
     name: String,
@@ -35,4 +30,5 @@ interface chapterItem {
     chapter_index: Number,
     chapter_name: String,
     content: String,
+    status: String
 }
