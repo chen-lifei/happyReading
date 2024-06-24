@@ -6,7 +6,9 @@ enum Api {
     GetBookType = "/api/books/type",
     GetBookList = "/api/books/bookList",
     GetHotBookList = "/api/books/hotBookList",
-    GetBookChapter = "/api/books/chapter"
+    GetBookChapter = "/api/books/chapter",
+    GetBookComment = "/api/books/comment",
+    AddBookComment = "/api/books/addComment"
 }
 
 export function fetchBookInfo(data) {
@@ -51,6 +53,22 @@ export function fetchBookChapter(data) {
     return request({
         method: "POST",
         url: Api.GetBookChapter,
+        data
+    });
+}
+
+export function fetchBookComment(data) {
+    return request({
+        method: "POST",
+        url: Api.GetBookComment,
+        data
+    });
+}
+
+export function addBookComment(data) {
+    return request({
+        method: "POST",
+        url: Api.AddBookComment,
         data
     });
 }

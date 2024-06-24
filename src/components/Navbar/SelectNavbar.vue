@@ -61,7 +61,7 @@
     });
 
     watch(
-        () => (props.topNav),
+        () => props.topNav,
         (topNav) => {
             state.isNavList = Array.isArray(topNav);
         
@@ -100,7 +100,6 @@
 <style lang="scss" scoped>
     .select-bar {
         width: 220px;
-        min-width: 220px;
         border-radius: 20px;
         padding: 20px 10px;
         background: var(--whiteColor);
@@ -198,6 +197,18 @@
                     }
                 }
             }
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .select-bar {
+            width: 180px;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        .select-bar {
+            width: 160px;
         }
     }
 </style>

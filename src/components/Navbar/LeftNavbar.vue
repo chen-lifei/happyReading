@@ -8,9 +8,9 @@
             </div>
         </div>
         <div class="nav-list">
-            <div class="nav-item flex-start"
-                v-for="(item, index) in data.navList"
-                :key="index"
+            <div class="nav-item"
+                v-for="item in data.navList"
+                :key="item.key"
                 :class="{ 'selected': data.currentNav === item.key }"
                 @click="changeNav(item)">
                 <el-tooltip :content="item.name" placement="right" effect="customized" :offset="2" :disabled="!data.isCollapse">
@@ -22,14 +22,14 @@
         <el-drawer
             v-model="data.openNav"
             direction="ltr"
-            size="180"
+            size="150"
             :with-header="false"
             modal-class="nav-drawer"
         >
             <div class="nav-list">
-                <div class="nav-item flex-start"
-                    v-for="(item, index) in data.navList"
-                    :key="index"
+                <div class="nav-item"
+                    v-for="item in data.navList"
+                    :key="item.key"
                     :class="{ 'selected': data.currentNav === item.key }"
                     @click="changeNav(item)">
                     <i class="iconfont" :class="item.icon"></i>
@@ -170,6 +170,9 @@
 
             .nav-item {
                 position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
                 width: 100%;
                 padding: 10px 0 10px 15px;
                 margin-bottom: 10px;
@@ -240,7 +243,9 @@
 
             .nav-list {
                 margin-top: 0;
-                padding-left: 0
+                .nav-item {
+                    justify-content: flex-start;
+                }
             }
         }
     }

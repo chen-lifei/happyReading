@@ -66,46 +66,46 @@
             <!-- 评论 -->
             <div class="comment-wrapper" v-else>
                 <div class="input-wrapper">
-                    <textarea class="input" maxlength="300" placeholder="请输入评论内容" @input="commentInput" @blur="commentBlur()" :style="{ height: `${inputHeight}px` }"></textarea>
-                    <span class="submit">发布</span>
+                    <textarea class="input" v-model="state.commentContent" maxlength="300" placeholder="请输入评论内容" @input="commentInput" @blur="commentBlur()" :style="{ height: `${inputHeight}px` }"></textarea>
+                    <span class="submit" @click="handleSubmitComment">发布</span>
                 </div>
                 <div class="comment-name">评论列表：</div>
                 <div class="comment-list" v-if="state.commentList.length">
                     <div class="comment-item">
-                        <div class="top-comment flex-start" v-for="(item, index) in state.commentList" :key="index">
-                            <img class="user-avatar" src="@/assets/image/book/cover5.jpg" alt="">
+                        <div class="top-comment flex-start" v-for="item in state.commentList" :key="item.id">
+                            <img class="user-avatar" :src="formatAvatar(item.avatar)" alt="">
                             <div class="comment-info">
                                 <div class="user-info flex-between">
-                                    <div class="name">{{ item.userName }}</div>
+                                    <div class="name">{{ item.name }}</div>
                                     <div class="right">
-                                        <span class="comment-date">{{ item.date }}</span>
-                                        <span>来自海{{ item.from }}</span>
+                                        <span class="comment-date">{{ formatDate(item.comment_date) }}</span>
+                                        <span>来自{{ item.from_region }}</span>
                                     </div>
                                 </div>
                                 <div class="comment">
                                     {{ item.content }}
                                 </div>
                                 <div class="operation flex-end">
-                                    <span class="add-comment">评论</span>
-                                    <span>点赞 {{ item.likeNum }}</span>
+                                    <!-- <span class="add-comment">评论</span> -->
+                                    <span>点赞 {{ 9 }}</span>
                                 </div>
-                                <div class="more-comment" v-if="item.innerComment.length && !state.openComment[Number(item.id)]" @click="state.openComment[Number(item.id)] = true">查看{{ item.innerComment.length }}条回复></div>
-                                <template v-if="item.innerComment.length && state.openComment[Number(item.id)]">
-                                    <div class="inner-comment comment-item flex-start" v-for="(item, index) in state.commentList" :key="index">
-                                        <img class="user-avatar" src="@/assets/image/book/cover6.jpg" alt="">
+                                <div class="more-comment" v-if="item.childComment.length && !state.openComment[Number(item.id)]" @click="state.openComment[Number(item.id)] = true">查看{{ item.childComment.length }}条回复></div>
+                                <template v-if="item.childComment.length && state.openComment[Number(item.id)]">
+                                    <div class="inner-comment comment-item flex-start" v-for="cItem in item.childComment" :key="cItem.id">
+                                        <img class="user-avatar" :src="formatAvatar(cItem.avatar)" alt="">
                                         <div class="comment-info">
                                             <div class="user-info flex-between">
-                                                <div class="name">{{ item.userName }}</div>
+                                                <div class="name">{{ cItem.name }}</div>
                                                 <div class="right">
-                                                    <span class="comment-date">{{ item.date }}</span>
-                                                    <span>来自海{{ item.from }}</span>
+                                                    <span class="comment-date">{{ formatDate(cItem.comment_date) }}</span>
+                                                    <span>来自{{ cItem.from_region }}</span>
                                                 </div>
                                             </div>
                                             <div class="comment">
-                                                {{ item.content }}
+                                                {{ cItem.content }}
                                             </div>
                                             <div class="operation flex-end">
-                                                <span>点赞 {{ item.likeNum }}</span>
+                                                <span>点赞 {{ 6 }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -128,8 +128,10 @@
     import { validURL } from "@/utils/validate";
     import { requestUrl } from "@/utils/request";
     import { useRouter } from "vue-router";
+    import { useUserStore } from "@/stores/user";
+    import { ElMessage } from 'element-plus';
 
-    import { fetchBookInfo } from "@/api/book";
+    import { fetchBookInfo, fetchBookComment, addBookComment } from "@/api/book";
 
     const props = defineProps({
         id: {
@@ -137,7 +139,9 @@
             default: ""
         }
     });
-    const router = useRouter()
+    const router = useRouter();
+    const user = useUserStore();
+
     const HIDDEN_STYLE = `height:0 !important;visibility:hidden !important;overflow:hidden !important;z-index:-999 !important;`;
     const CONTEXT_STYLE = [
         'letter-spacing',
@@ -156,8 +160,10 @@
         'border-width',
         'box-sizing',
     ];
+
     const state = reactive({
-        selectTab: '',              // catalog or comment
+        selectTab: "",              // catalog or comment
+        commentContent: "",
         openComment: {},
         bookInfo: {} as bookItem,
         chapterList: [] as chapterItem[],
@@ -219,49 +225,7 @@
             { id: 5, chapter_name: "第五章内容简介", book_id: 1, chapter_index: 1, content: "", status: "reading" },
             { id: 6, chapter_name: "第六章内容简介", book_id: 1, chapter_index: 1, content: "", status: "read" }
         ];
-        // let currentCommentList =  [
-        //     {
-        //         id: 1,
-        //         content: '尤其是刚上线的产品，很难通过产品的内部体系来实现快速的用户增长，所以会更加依赖于分享来达到广泛的传播，获取目标用户。',
-        //         userName: '香菜和榴莲真好吃',
-        //         date: '6月4日 12:34',
-        //         from: '海南',
-        //         innerComment: [],
-        //         likeNum: 66,
-        //     },
-        //     {
-        //         id: 2,
-        //         content: '所以监听用户的截图操作，提示用户进行分享，既缩短了以前分享截图的操作路径，避免了在之前长路径中的行为流失（比如截图完成后忘记分享或觉得麻烦放弃分享等等），也让用户觉得更加贴心。',
-        //         userName: '为你明灯三千',
-        //         date: '6月8日 09:10',
-        //         from: '黑龙江',
-        //         innerComment: [
-        //             {
-        //                 id: 1,
-        //                 content: '尤其是刚上线的产品，很难通过产品的内部体系来实现快速的用户增长',
-        //                 userName: '香菜和榴莲真好吃',
-        //                 date: '6月4日 12:34',
-        //                 from: '海南',
-        //                 innerComment: [],
-        //                 likeNum: 66,
-        //             },
-        //             {
-        //                 id: 32,
-        //                 content: '所以会更加依赖于分享来达到广泛的传播，获取目标用户。',
-        //                 userName: '香菜和榴莲真好吃',
-        //                 date: '6月4日 12:34',
-        //                 from: '海南',
-        //                 innerComment: [],
-        //                 likeNum: 66,
-        //             }
-        //         ],
-        //         likeNum: 666,
-        //     }
-        // ];
-        // state.commentList = currentCommentList;
-        // currentCommentList.forEach(comment => {
-        //     state.openComment[Number(comment.id)] = false;
-        // });
+        
         state.selectTab = 'catalog';
     }
 
@@ -269,9 +233,65 @@
         router.push({ name: "ChapterView", params: { bId: props.id, cId: cId } });
     }
 
+    function getBookComment() {
+        if (!props.id) return;
+        fetchBookComment({
+            id: props.id
+        }).then(res => {
+            if (res.result && res.result.length) {
+                state.commentList = res.result;
+                state.commentList.forEach(comment => {
+                    state.openComment[Number(comment.id)] = false;
+                });
+            }
+        });
+    }
+
+    function formatAvatar(avatar) {
+        if (avatar) {
+            avatar = validURL(avatar) ? avatar : `${requestUrl}/api${avatar}`;
+        } else {
+            avatar = "https://img1.baidu.com/it/u=2741160338,2445069712&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500";
+        }
+        return avatar;
+    }
+
+    function formatDate(data) {
+        let date = new Date(data);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const day = (date.getDate()).toString().padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+
+    function handleSubmitComment() {
+        if (!state.commentContent) return ElMessage.error("评论内容不能为空~");
+        if (state.commentContent.length > 500) return ElMessage.error("评论字数不能超出500~");
+        if (!props.id) return;
+        let date = formatDate(new Date().getTime());
+
+        addBookComment({
+            bookId: props.id, content: state.commentContent, uId: user.userInfo.id, date, toCommentId: null, region: "广东", 
+        }).then(res => {
+            if (res.status == 1) {
+                ElMessage.success("评论成功~");
+                state.commentList.unshift({
+                    id: res.result,
+                    childComment: [],
+                    content: state.commentContent,
+                    name: user.userInfo.name,
+                    avatar: user.userInfo.avatar,
+                    comment_date: date,
+                    from_region: "广东"
+                });
+                state.commentContent = "";
+            }
+        });
+    }
+
     onMounted(() => {
         getBookData();
-        
+        getBookComment();
     });
 </script>
 
@@ -559,10 +579,11 @@
                                 .right {
                                     font-size: 12px;
                                     span {
-                                        color: var(--dimColor);
+                                        color: var(--infoColor);
+                                        opacity: .8;
                                     }
                                     .comment-date {
-                                        margin-right: 6px;
+                                        margin-right: 10px;
                                     }
                                 }
                             }
@@ -571,7 +592,8 @@
                                 font-size: 14px;
                                 margin: 4px 0;
                                 span {
-                                    color: var(--dimColor);
+                                    color: var(--infoColor);
+                                    opacity: .8;
                                     cursor: pointer;
                                 }
                                 .add-comment {
@@ -588,7 +610,7 @@
                                 align-items: flex-start;
                                 margin-top: 20px;
                                 padding-top: 20px;
-                                border-top: 1px solid rgba(125, 133, 146, 0.1);
+                                border-top: 1px solid var(--borderColor);
                             }
                         }
 
@@ -597,7 +619,7 @@
                             width: 100%;
                             margin-top: 20px;
                             padding-bottom: 20px;
-                            border-bottom: 1px solid rgba(125, 133, 146, 0.1);
+                            border-bottom: 1px solid var(--borderColor);
                         }
                     }
                 }

@@ -64,7 +64,7 @@ export const useUserStore = defineStore({
                     if (res.status == 1) {
                         let avatar = res.result.avatar;
                         if (avatar) {
-                            avatar = validURL(avatar) ? avatar : `${requestUrl}${avatar}`;
+                            avatar = validURL(avatar) ? avatar : `${requestUrl}/api${avatar}`;
                         } else {
                             avatar = "https://img1.baidu.com/it/u=2741160338,2445069712&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500";
                         }

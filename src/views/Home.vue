@@ -20,7 +20,7 @@
                 </div>
             </div>
             <el-row :class="{ 'fade-card': state.showFade }" class="book-wrapper" :gutter="10">
-                <el-col :xs="8" :sm="8" :md="6" :lg="4" :xl="4" v-for="(item, index) in state.currentBookList" :key="item.id" @click="toggleBookDetail(item.id)">
+                <el-col :xs="8" :sm="8" :md="6" :lg="4" :xl="4" v-for="item in state.currentBookList" :key="item.id" @click="toggleBookDetail(item.id)">
                     <BookCard :bookInfo="item"></BookCard>
                 </el-col>
             </el-row>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <el-row class="book-wrapper" :gutter="20">
-                <el-col class="book-item" :xs="12" :sm="12" :md="8" :lg="8" :xl="8" v-for="(item, index) in state.hotBookList" :key="item.id" @click="toggleBookDetail(item.id)">
+                <el-col class="book-item" :xs="12" :sm="12" :md="8" :lg="8" :xl="8" v-for="item in state.hotBookList" :key="item.id" @click="toggleBookDetail(item.id)">
                     <BookCard :bookInfo="item" displayType="list">
                         <div class="data-wrapper">
                             <div class="name">作品数据</div>
@@ -62,10 +62,10 @@
         greetingInfo: "",
         currentPage: 1,
         showBookDetail: false,
-        currentBookList: [] as any,
+        currentBookList: [] as bookItem[],
         bookList: [],
         bookId: "",
-        hotBookList: [] as any,
+        hotBookList: [] as bookItem[],
         pageOfBook: 6,              // 轮播显示的书本数：6：≥1200px  4：992~1200  3：0~992
         showFade: false,
         isFirstPage: true,          // 轮播是否为第一页

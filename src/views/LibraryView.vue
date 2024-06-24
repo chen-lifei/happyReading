@@ -26,7 +26,7 @@
             </div>
             <div class="book-wrapper" v-if="state.bookList.length">
                 <el-row :gutter="20">
-                    <el-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6" v-for="(item, index) in state.bookList" :key="item.id" @click="toggleBookDetail(item.id)">
+                    <el-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6" v-for="item in state.bookList" :key="item.id" @click="toggleBookDetail(item.id)">
                         <BookCard :bookInfo="item"></BookCard>
                     </el-col>
                 </el-row>
@@ -54,7 +54,7 @@
         currentPage: 1,
         topNav: [],
         navList: [],
-        bookList: [] as any,
+        bookList: [] as bookItem[],
         categoryData: [],
         showBookDetail: false,
         bookId: ""
@@ -118,7 +118,7 @@
         
         .right-content {
             margin-left: 20px;
-            width: calc(100% - 250px);
+            flex: 1;
 
             .filter-bar {
                 margin-bottom: 20px;

@@ -59,7 +59,7 @@
     import BookDetail from '@/components/BookDetail.vue';
 
     const state = reactive({
-        bookList: [] as any,
+        bookList: [] as bookItem[],
         navList: [
             { id: 2, name: "推荐", number: 6, createDate: "2022/04/23" },
             { id: 4, name: "文学相关", number: 0, createDate: "2023/05/02" },
@@ -179,8 +179,8 @@
     }
 
     function selectFolder({ type }) {
-        let data: any = state.folderData.find(item => item.id == type);
-        state.bookList = data["list"];
+        let data = state.folderData.find(item => item.id == type);
+        state.bookList = data ? data["list"] : [];
     }
 
     onMounted(() => {
@@ -200,7 +200,7 @@
         
         .right-content {
             margin-left: 20px;
-            width: calc(100% - 250px);
+            flex: 1;
 
             .top-wrapper {
                 position: relative;
